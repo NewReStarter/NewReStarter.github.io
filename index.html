@@ -232,6 +232,175 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="NewReStarter.github.io/2019/07/04/RAII/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ReStartercc">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Restartercc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/04/RAII/" itemprop="url">A Brief Summary of C++ RAII</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-04T15:11:09+08:00">
+                2019-07-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>RAII</strong> stands for resource acquisition is initialization. This makes no sense literally when it stands alone. It is de facto saying resource allocation(acquisition) is done when it is initialized, by the constructor, and the resource deallocation is done when the object is destructed, by the destructor. It is used to describe the resource change along object lifetime. This is used to make sure there is no resource leaks.</p>
+<p><strong>Resource leak</strong>, often refers to the resources acquired by the program is not released after its lifetime. Typical resource leak comes up my mind is memory leak, while wiki indicates handle leak is more common. Threads, sockets and etc. are also included.  Note that RAII is not suitable for resources that cannot be acquired before using, including CPU time, bandwidth, stack memory and etc.</p>
+<h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;mutex&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">std</span>::mutex mtx;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">nake_bad</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  mtx.lock();</span><br><span class="line">  f();</span><br><span class="line">  <span class="keyword">if</span>(!everything_ok()) <span class="keyword">return</span>;</span><br><span class="line">  mtx.unlock();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// though there might be some logical error</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">nake_good</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  mtx.lock();</span><br><span class="line">  f();</span><br><span class="line">  mtx.unlock();</span><br><span class="line">  <span class="keyword">if</span>(!everything_ok()) <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">good</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; lck(mtx);</span><br><span class="line">  f();</span><br><span class="line">  <span class="keyword">if</span>(!everything_ok()) <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Clearly when the program exit the scope of the good() function, the mutex is released again. This eliminated the risk of resource leak and guarantee exception safety. In a word, life time of RAII objects end when the scope exits.</p>
+<h2 id="Feature"><a href="#Feature" class="headerlink" title="Feature"></a>Feature</h2><ul>
+<li><p>encapsulate each resource into a class where</p>
+<ul>
+<li>the constructor acquire the resource and establishes all class invariants or throws an exception if that cannot be done</li>
+<li>the destructor releases the resource and never throw exception.  </li>
+</ul>
+</li>
+<li><p>always use the resource via an instance of a RAII-class that either</p>
+<ul>
+<li>has automatic storage duartion or temporary lifetime itself or,</li>
+<li>has lifetime that bounded by the lifetime of an automatic or temporary object.</li>
+</ul>
+</li>
+</ul>
+<p>Classes with open()/close(), lock()/unlock() or init()/copyFrom()/destroy() member functions are non-RAII function.</p>
+<ul>
+<li>To manage dynamically-allocated memory, when you need to manage a specifc resource and the semantic requirements include pointer, use <strong>std::unique_ptr</strong> and <strong>std::shared_ptr</strong></li>
+<li>To manage mutexes, use <strong>std::lock_guard</strong>,<strong>std::unique_lock</strong> and <strong>std::shared_lock</strong></li>
+</ul>
+<h2 id="Future-work"><a href="#Future-work" class="headerlink" title="Future work"></a>Future work</h2><p>Limitation, usage and other memory management and their pros and cons are not covered in the passage due to the time constraint today. Later this month I will write a deeper blog on three way of memory management of programming language and the implementation details.</p>
+<h2 id="Referemce"><a href="#Referemce" class="headerlink" title="Referemce"></a>Referemce</h2><p>[1] Wiki RAII <a href="https://en.wikipedia.org/wiki/Resource_acquisition_is_initialization" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Resource_acquisition_is_initialization</a></p>
+<p>[2] CPP Reference <a href="https://en.cppreference.com/w/cpp/language/raii" target="_blank" rel="noopener">https://en.cppreference.com/w/cpp/language/raii</a></p>
+<p>[3] <em>The C++ Programming Language 4th Edition</em> Chapter 5 Concurrency</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="NewReStarter.github.io/2019/06/18/Python-DAG-Visualization/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -412,7 +581,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -423,7 +592,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -434,7 +603,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Tech,Note,Python Tips,Visualization,Data,Network,Graph,">
+  <meta name="keywords" content="tech,C++,C++11,summary,memory,">
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="IntroRecently I encountered serveral situations where data visualzation of network or  directed graph is required. This bothered me so much that I finally decided to write this blog to aviod repeated">
-<meta name="keywords" content="Tech,Note,Python Tips,Visualization,Data,Network,Graph">
+<meta name="description" content="RAII stands for resource acquisition is initialization. This makes no sense literally when it stands alone. It is de facto saying resource allocation(acquisition) is done when it is initialized, by th">
+<meta name="keywords" content="tech,C++,C++11,summary,memory">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python Network Visualization">
-<meta property="og:url" content="NewReStarter.github.io/2019/06/18/Python-DAG-Visualization/index.html">
+<meta property="og:title" content="A Brief Summary of C++ RAII">
+<meta property="og:url" content="NewReStarter.github.io/2019/07/04/RAII/index.html">
 <meta property="og:site_name" content="Restartercc">
-<meta property="og:description" content="IntroRecently I encountered serveral situations where data visualzation of network or  directed graph is required. This bothered me so much that I finally decided to write this blog to aviod repeated">
+<meta property="og:description" content="RAII stands for resource acquisition is initialization. This makes no sense literally when it stands alone. It is de facto saying resource allocation(acquisition) is done when it is initialized, by th">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-06-19T08:51:09.711Z">
+<meta property="og:updated_time" content="2019-07-04T10:18:15.629Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python Network Visualization">
-<meta name="twitter:description" content="IntroRecently I encountered serveral situations where data visualzation of network or  directed graph is required. This bothered me so much that I finally decided to write this blog to aviod repeated">
+<meta name="twitter:title" content="A Brief Summary of C++ RAII">
+<meta name="twitter:description" content="RAII stands for resource acquisition is initialization. This makes no sense literally when it stands alone. It is de facto saying resource allocation(acquisition) is done when it is initialized, by th">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="NewReStarter.github.io/2019/06/18/Python-DAG-Visualization/">
+  <link rel="canonical" href="NewReStarter.github.io/2019/07/04/RAII/">
 
 
 
 
 
-  <title>Python Network Visualization | Restartercc</title>
+  <title>A Brief Summary of C++ RAII | Restartercc</title>
   
 
 
@@ -233,7 +233,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="NewReStarter.github.io/2019/06/18/Python-DAG-Visualization/">
+    <link itemprop="mainEntityOfPage" href="NewReStarter.github.io/2019/07/04/RAII/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ReStartercc">
@@ -250,7 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Python Network Visualization</h1>
+          <h1 class="post-title" itemprop="name headline">A Brief Summary of C++ RAII</h1>
         
 
         <div class="post-meta">
@@ -262,8 +262,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-18T20:15:57+08:00">
-                2019-06-18
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-04T15:11:09+08:00">
+                2019-07-04
               </time>
             
 
@@ -285,8 +285,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
                   </a>
                 </span>
 
@@ -322,12 +322,34 @@
       
 
       
-        <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>Recently I encountered serveral situations where data visualzation of network or  directed graph is required. This bothered me so much that I finally decided to write this blog to aviod repeated googling every time I need to use this. I guess it can also server as a study reference for those who is not familiar with this topic.</p>
-<h2 id="Demo-notebook"><a href="#Demo-notebook" class="headerlink" title="Demo notebook"></a>Demo notebook</h2><iframe src="https://nbviewer.jupyter.org/github/NewReStarter/Training/blob/master/jupyter-demo/Network_Visualization.ipynb" width="700" height="500"></iframe>
+        <p><strong>RAII</strong> stands for resource acquisition is initialization. This makes no sense literally when it stands alone. It is de facto saying resource allocation(acquisition) is done when it is initialized, by the constructor, and the resource deallocation is done when the object is destructed, by the destructor. It is used to describe the resource change along object lifetime. This is used to make sure there is no resource leaks.</p>
+<p><strong>Resource leak</strong>, often refers to the resources acquired by the program is not released after its lifetime. Typical resource leak comes up my mind is memory leak, while wiki indicates handle leak is more common. Threads, sockets and etc. are also included.  Note that RAII is not suitable for resources that cannot be acquired before using, including CPU time, bandwidth, stack memory and etc.</p>
+<h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;mutex&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">std</span>::mutex mtx;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">nake_bad</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  mtx.lock();</span><br><span class="line">  f();</span><br><span class="line">  <span class="keyword">if</span>(!everything_ok()) <span class="keyword">return</span>;</span><br><span class="line">  mtx.unlock();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// though there might be some logical error</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">nake_good</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  mtx.lock();</span><br><span class="line">  f();</span><br><span class="line">  mtx.unlock();</span><br><span class="line">  <span class="keyword">if</span>(!everything_ok()) <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">good</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; lck(mtx);</span><br><span class="line">  f();</span><br><span class="line">  <span class="keyword">if</span>(!everything_ok()) <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-
-
-<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>The documentation of networkx seems to be a bit confusing since my original idea is that inter-change of object can be down between these two library but in the end I find the object cast can only be done via additional scripts handling these. Yet at the end the tranformation is feasible. Networkx is an ideal python library for graph operation is for sure. Maybe next blog will be about networkx in depth.</p>
+<p>Clearly when the program exit the scope of the good() function, the mutex is released again. This eliminated the risk of resource leak and guarantee exception safety. In a word, life time of RAII objects end when the scope exits.</p>
+<h2 id="Feature"><a href="#Feature" class="headerlink" title="Feature"></a>Feature</h2><ul>
+<li><p>encapsulate each resource into a class where</p>
+<ul>
+<li>the constructor acquire the resource and establishes all class invariants or throws an exception if that cannot be done</li>
+<li>the destructor releases the resource and never throw exception.  </li>
+</ul>
+</li>
+<li><p>always use the resource via an instance of a RAII-class that either</p>
+<ul>
+<li>has automatic storage duartion or temporary lifetime itself or,</li>
+<li>has lifetime that bounded by the lifetime of an automatic or temporary object.</li>
+</ul>
+</li>
+</ul>
+<p>Classes with open()/close(), lock()/unlock() or init()/copyFrom()/destroy() member functions are non-RAII function.</p>
+<ul>
+<li>To manage dynamically-allocated memory, when you need to manage a specifc resource and the semantic requirements include pointer, use <strong>std::unique_ptr</strong> and <strong>std::shared_ptr</strong></li>
+<li>To manage mutexes, use <strong>std::lock_guard</strong>,<strong>std::unique_lock</strong> and <strong>std::shared_lock</strong></li>
+</ul>
+<h2 id="Future-work"><a href="#Future-work" class="headerlink" title="Future work"></a>Future work</h2><p>Limitation, usage and other memory management and their pros and cons are not covered in the passage due to the time constraint today. Later this month I will write a deeper blog on three way of memory management of programming language and the implementation details.</p>
+<h2 id="Referemce"><a href="#Referemce" class="headerlink" title="Referemce"></a>Referemce</h2><p>[1] Wiki RAII <a href="https://en.wikipedia.org/wiki/Resource_acquisition_is_initialization" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Resource_acquisition_is_initialization</a></p>
+<p>[2] CPP Reference <a href="https://en.cppreference.com/w/cpp/language/raii" target="_blank" rel="noopener">https://en.cppreference.com/w/cpp/language/raii</a></p>
+<p>[3] <em>The C++ Programming Language 4th Edition</em> Chapter 5 Concurrency</p>
 
       
     </div>
@@ -345,19 +367,15 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Tech/" rel="tag"># Tech</a>
+            <a href="/tags/tech/" rel="tag"># tech</a>
           
-            <a href="/tags/Note/" rel="tag"># Note</a>
+            <a href="/tags/C/" rel="tag"># C++</a>
           
-            <a href="/tags/Python-Tips/" rel="tag"># Python Tips</a>
+            <a href="/tags/C-11/" rel="tag"># C++11</a>
           
-            <a href="/tags/Visualization/" rel="tag"># Visualization</a>
+            <a href="/tags/summary/" rel="tag"># summary</a>
           
-            <a href="/tags/Data/" rel="tag"># Data</a>
-          
-            <a href="/tags/Network/" rel="tag"># Network</a>
-          
-            <a href="/tags/Graph/" rel="tag"># Graph</a>
+            <a href="/tags/memory/" rel="tag"># memory</a>
           
         </div>
       
@@ -370,15 +388,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/06/18/Python-DAG-Visualization/" rel="next" title="Python Network Visualization">
+                <i class="fa fa-chevron-left"></i> Python Network Visualization
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/07/04/RAII/" rel="prev" title="A Brief Summary of C++ RAII">
-                A Brief Summary of C++ RAII <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -510,7 +528,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Intro"><span class="nav-number">1.</span> <span class="nav-text">Intro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo-notebook"><span class="nav-number">2.</span> <span class="nav-text">Demo notebook</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary"><span class="nav-number">3.</span> <span class="nav-text">Summary</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Example"><span class="nav-number">1.</span> <span class="nav-text">Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Feature"><span class="nav-number">2.</span> <span class="nav-text">Feature</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Future-work"><span class="nav-number">3.</span> <span class="nav-text">Future work</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Referemce"><span class="nav-number">4.</span> <span class="nav-text">Referemce</span></a></li></ol></div>
             
 
           </div>
