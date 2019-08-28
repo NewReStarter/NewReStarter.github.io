@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Restartercc">
 <meta property="og:description" content="过去半年做了三个geopandas相关的project，因此留用最近的一个进行分享。最近的一个project涉及到使用geopandas（一个加载GIS数据变成DataFrame的python库）求不同区域间交集面积和对求出的交集面积做heatmap的任务。其中交集面积使用geopandas内置的intersection和area求得。GeoPandas加载的GIS数据本质上是一个Polygon类">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-28T05:19:48.589Z">
+<meta property="og:updated_time" content="2019-08-28T05:24:05.720Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="How to plot a map via GeoPandas">
 <meta name="twitter:description" content="过去半年做了三个geopandas相关的project，因此留用最近的一个进行分享。最近的一个project涉及到使用geopandas（一个加载GIS数据变成DataFrame的python库）求不同区域间交集面积和对求出的交集面积做heatmap的任务。其中交集面积使用geopandas内置的intersection和area求得。GeoPandas加载的GIS数据本质上是一个Polygon类">
@@ -323,7 +323,7 @@
 
       
         <p>过去半年做了三个geopandas相关的project，因此留用最近的一个进行分享。最近的一个project涉及到使用geopandas（一个加载GIS数据变成DataFrame的python库）求不同区域间交集面积和对求出的交集面积做heatmap的任务。其中交集面积使用geopandas内置的intersection和area求得。GeoPandas加载的GIS数据本质上是一个Polygon类，也就是各个多边形顶点的坐标，按顺序排列，存储在geometry列里，同时有两个或多个geometry列的df无法plot。对于熟悉pandas的人来说，基本不存在学习曲线。GIS数据来自.shp文件，但要注意的是，要加载’.shp’文件，同一文件夹内需包含GIS数据解压后的.prj, .qbj, .shx等文件才能完成加载。但反向将geodataframe输出为csv后再重新加载则不存在文件依赖。另一点值得一提的是当点坐标过大的时候matplotlib不支持子图形式输出（subfigure(1,1)这样可以加入colorbar的形式），界限为x,y均不大于2^16，因此只能使用dataframe内的plot来输出heatmap。stackoverflow上似乎也未提供坐标过大相应的解决办法，具体修改子图大小的方法将在近段时间研究出后更新在博客上。</p>
-<iframe src="https://nbviewer.jupyter.org/github/NewReStarter/Training/blob/master/jupyter-demo/green.ipynb" width="570" height="2000"></iframe>
+<iframe src="https://nbviewer.jupyter.org/github/NewReStarter/Training/blob/master/jupyter-demo/green.ipynb" width="830" height="2000"></iframe>
       
     </div>
     
