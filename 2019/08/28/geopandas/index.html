@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Tech,Note,Visualization,GIS,">
 
 
 
@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="Contact restartercc@gmail.com">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Restartercc">
-<meta property="og:url" content="NewReStarter.github.io/tags/Graph/index.html">
+<meta name="description" content="过去半年做了三个geopandas相关的project，因此留用最近的一个进行分享。最近的一个project涉及到使用geopandas（一个加载GIS数据变成DataFrame的python库）求不同区域间交集面积和对求出的交集面积做heatmap的任务。其中交集面积使用geopandas内置的intersection和area求得。GeoPandas加载的GIS数据本质上是一个Polygon类">
+<meta name="keywords" content="Tech,Note,Visualization,GIS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to plot a map via GeoPandas">
+<meta property="og:url" content="NewReStarter.github.io/2019/08/28/geopandas/index.html">
 <meta property="og:site_name" content="Restartercc">
-<meta property="og:description" content="Contact restartercc@gmail.com">
+<meta property="og:description" content="过去半年做了三个geopandas相关的project，因此留用最近的一个进行分享。最近的一个project涉及到使用geopandas（一个加载GIS数据变成DataFrame的python库）求不同区域间交集面积和对求出的交集面积做heatmap的任务。其中交集面积使用geopandas内置的intersection和area求得。GeoPandas加载的GIS数据本质上是一个Polygon类">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-08-28T05:19:48.589Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Restartercc">
-<meta name="twitter:description" content="Contact restartercc@gmail.com">
+<meta name="twitter:title" content="How to plot a map via GeoPandas">
+<meta name="twitter:description" content="过去半年做了三个geopandas相关的project，因此留用最近的一个进行分享。最近的一个project涉及到使用geopandas（一个加载GIS数据变成DataFrame的python库）求不同区域间交集面积和对求出的交集面积做heatmap的任务。其中交集面积使用geopandas内置的intersection和area求得。GeoPandas加载的GIS数据本质上是一个Polygon类">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="NewReStarter.github.io/tags/Graph/">
+  <link rel="canonical" href="NewReStarter.github.io/2019/08/28/geopandas/">
 
 
 
 
 
-  <title>Tag: Graph | Restartercc</title>
+  <title>How to plot a map via GeoPandas | Restartercc</title>
   
 
 
@@ -143,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -217,52 +219,175 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>Graph<small>Tag</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="NewReStarter.github.io/2019/08/28/geopandas/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ReStartercc">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Restartercc">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/06/18/Python-DAG-Visualization/" itemprop="url">
-              
-                <span itemprop="name">Python Network Visualization</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">How to plot a map via GeoPandas</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-18T20:15:57+08:00" content="2019-06-18">
-          06-18
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-28T12:57:23+08:00">
+                2019-08-28
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    </div>
+      
 
+      
+        <p>过去半年做了三个geopandas相关的project，因此留用最近的一个进行分享。最近的一个project涉及到使用geopandas（一个加载GIS数据变成DataFrame的python库）求不同区域间交集面积和对求出的交集面积做heatmap的任务。其中交集面积使用geopandas内置的intersection和area求得。GeoPandas加载的GIS数据本质上是一个Polygon类，也就是各个多边形顶点的坐标，按顺序排列，存储在geometry列里，同时有两个或多个geometry列的df无法plot。对于熟悉pandas的人来说，基本不存在学习曲线。GIS数据来自.shp文件，但要注意的是，要加载’.shp’文件，同一文件夹内需包含GIS数据解压后的.prj, .qbj, .shx等文件才能完成加载。但反向将geodataframe输出为csv后再重新加载则不存在文件依赖。另一点值得一提的是当点坐标过大的时候matplotlib不支持子图形式输出（subfigure(1,1)这样可以加入colorbar的形式），界限为x,y均不大于2^16，因此只能使用dataframe内的plot来输出heatmap。stackoverflow上似乎也未提供坐标过大相应的解决办法，具体修改子图大小的方法将在近段时间研究出后更新在博客上。</p>
+<iframe src="https://nbviewer.jupyter.org/github/NewReStarter/Training/blob/master/jupyter-demo/green.ipynb" width="570" height="2000"></iframe>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Tech/" rel="tag"># Tech</a>
+          
+            <a href="/tags/Note/" rel="tag"># Note</a>
+          
+            <a href="/tags/Visualization/" rel="tag"># Visualization</a>
+          
+            <a href="/tags/GIS/" rel="tag"># GIS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/27/RAII2/" rel="next" title="A Deeper Study of RAII">
+                <i class="fa fa-chevron-left"></i> A Deeper Study of RAII
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -270,6 +395,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -484,6 +613,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

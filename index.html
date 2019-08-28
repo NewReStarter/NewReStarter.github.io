@@ -232,6 +232,148 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="NewReStarter.github.io/2019/08/28/geopandas/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ReStartercc">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Restartercc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/28/geopandas/" itemprop="url">How to plot a map via GeoPandas</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-28T12:57:23+08:00">
+                2019-08-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>过去半年做了三个geopandas相关的project，因此留用最近的一个进行分享。最近的一个project涉及到使用geopandas（一个加载GIS数据变成DataFrame的python库）求不同区域间交集面积和对求出的交集面积做heatmap的任务。其中交集面积使用geopandas内置的intersection和area求得。GeoPandas加载的GIS数据本质上是一个Polygon类，也就是各个多边形顶点的坐标，按顺序排列，存储在geometry列里，同时有两个或多个geometry列的df无法plot。对于熟悉pandas的人来说，基本不存在学习曲线。GIS数据来自.shp文件，但要注意的是，要加载’.shp’文件，同一文件夹内需包含GIS数据解压后的.prj, .qbj, .shx等文件才能完成加载。但反向将geodataframe输出为csv后再重新加载则不存在文件依赖。另一点值得一提的是当点坐标过大的时候matplotlib不支持子图形式输出（subfigure(1,1)这样可以加入colorbar的形式），界限为x,y均不大于2^16，因此只能使用dataframe内的plot来输出heatmap。stackoverflow上似乎也未提供坐标过大相应的解决办法，具体修改子图大小的方法将在近段时间研究出后更新在博客上。</p>
+<iframe src="https://nbviewer.jupyter.org/github/NewReStarter/Training/blob/master/jupyter-demo/green.ipynb" width="570" height="2000"></iframe>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="NewReStarter.github.io/2019/08/27/RAII2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -891,7 +1033,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -913,7 +1055,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
