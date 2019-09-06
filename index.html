@@ -232,6 +232,164 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="NewReStarter.github.io/2019/09/07/string/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ReStartercc">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Restartercc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/07/string/" itemprop="url">string</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-07T00:05:06+08:00">
+                2019-09-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/fundamental-of-computer-science/" itemprop="url" rel="index">
+                    <span itemprop="name">fundamental of computer science</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>I started the idea of writing this passage when I was googling the improvement of KMP while waiting for my kernel to complete and I was impressed that there exists a improvement for real, BM and Sunday. Therefore I decided that I have to study them in the near future for my STL reimplementation project. Also I guess it is great time for me to review KMP after a year. After all, string class is an important part of STL and its design has long been criticised in the c++ community.</p>
+<p>Now, let’s get started. This passage is going to be developed as how the history of string matching developed. From brutal force to KMP, then to Boyer-Moore, and finally Sunday.</p>
+<h2 id="Brutal-Force"><a href="#Brutal-Force" class="headerlink" title="Brutal Force"></a>Brutal Force</h2><p>The idea of brutal force is simple. It is similar to the idea of Bubble Sort: if the s[i] != p[i], then go back to where this matching started then increase the index by 1 and start again. Below is the code.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bf</span><span class="params">(<span class="keyword">char</span>[] s, <span class="keyword">char</span>[] p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  lenS = <span class="built_in">strlen</span>(s);</span><br><span class="line">  lenP = <span class="built_in">strlen</span>(p);</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= lenS-lenP; ++i)			<span class="comment">// pruning search so that the impossible part of s is not compared.</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; lenP; ++j)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span>(s[i+j] != p[j])</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">if</span>(j == lenP<span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">return</span> i+j;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">-1</span>;				<span class="comment">// does not find the pattern in the string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Given S of length M and P of length N, the time complexity of brutal force is <strong>O((M-N)N)​</strong>, still square level complexity.</p>
+<h2 id="Knuth-Morris-Pratt-KMP"><a href="#Knuth-Morris-Pratt-KMP" class="headerlink" title="Knuth-Morris-Pratt(KMP)"></a>Knuth-Morris-Pratt(KMP)</h2><p>Then we try to develop a better algorithm, which does not require us to go back to the starting index every time the comparison failed. It is intuitive to formulate a better situation, where main string does not go back when there is a mismatch and the pattern string goes back with a smaller step. Either case the complexity becomes lower. In this way, we have the idea of Knuth-Morris-Pratt algorithm. </p>
+<p>The idea of KMP is to do partial matching, i.e. we don’t have to go back to the beginning of matching every time we do re-match. By doing this we need to have a prefix table: next.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span>* <span class="title">calculateNext</span><span class="params">(<span class="keyword">char</span>* p, <span class="keyword">int</span>* next)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  next[<span class="number">0</span>] = <span class="number">-1</span>;</span><br><span class="line">  <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">int</span> j = <span class="number">-1</span>;</span><br><span class="line">  <span class="keyword">int</span> len = <span class="built_in">strlen</span>(p);</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">while</span>(i &lt; len)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span>(j == <span class="number">-1</span> || p[i] == p[j])</span><br><span class="line">    &#123;</span><br><span class="line">      ++i;</span><br><span class="line">      ++j;</span><br><span class="line">      next[i] = j;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      j = next[j]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> kmp(<span class="keyword">char</span>[] s, <span class="keyword">char</span>[] p)</span><br><span class="line">&#123;</span><br><span class="line">  lenS = <span class="built_in">strlen</span>(s);</span><br><span class="line">  lenP = <span class="built_in">strlen</span>(p);</span><br><span class="line">  <span class="keyword">int</span> i,j;</span><br><span class="line">  i = j = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">while</span>(i &lt; lenS &amp;&amp; j &lt; lenP)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span>(j == <span class="number">-1</span> || s[i] == p[j])</span><br><span class="line">    &#123;</span><br><span class="line">      ++i;</span><br><span class="line">      ++j;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      j = next[j];</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (j == lenP)</span><br><span class="line">    <span class="keyword">return</span> i - j;		<span class="comment">// the beginning index</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>In summary, we can be sure that the following statement is valid:</p>
+<ol>
+<li>When there is a mismatch, pattern can always go back to some index, where the going-back of main string is unnecessary.</li>
+<li>When doing string comparison, the more information pattern string gives, the easier computation goes. This can refer to trie tree. The idea is very similar.</li>
+<li>The time complexity of KMP algorithm is <em>O(M+N)​</em></li>
+</ol>
+<h2 id="Boyer-Moore-BM"><a href="#Boyer-Moore-BM" class="headerlink" title="Boyer-Moore(BM)"></a>Boyer-Moore(BM)</h2><p>Too late tonight, to be continue within two days.</p>
+<h2 id="Sunday"><a href="#Sunday" class="headerlink" title="Sunday"></a>Sunday</h2><h2 id="Result-Analysis"><a href="#Result-Analysis" class="headerlink" title="Result Analysis"></a>Result Analysis</h2>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="NewReStarter.github.io/2019/08/28/geopandas/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1032,7 +1190,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1043,7 +1201,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -1054,7 +1212,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
