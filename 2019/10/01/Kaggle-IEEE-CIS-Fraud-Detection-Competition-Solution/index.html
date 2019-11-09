@@ -82,14 +82,14 @@
 <meta name="description" content="PrefaceAlthough I knew quite a few about kaggle competition before this competition, it is my first attempt to join one of these competition on my own. It turns out that doing it myself is very differ">
 <meta name="keywords" content="python,boosting">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Kaggle IEEE-CIS Fraud Detection Competition Solution">
+<meta property="og:title" content="【如何当一名合格的调参侠】Kaggle IEEE-CIS Fraud Detection Competition Solution">
 <meta property="og:url" content="NewReStarter.github.io/2019/10/01/Kaggle-IEEE-CIS-Fraud-Detection-Competition-Solution/index.html">
 <meta property="og:site_name" content="Restartercc">
 <meta property="og:description" content="PrefaceAlthough I knew quite a few about kaggle competition before this competition, it is my first attempt to join one of these competition on my own. It turns out that doing it myself is very differ">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-11-09T11:34:59.261Z">
+<meta property="og:updated_time" content="2019-11-09T12:38:04.800Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Kaggle IEEE-CIS Fraud Detection Competition Solution">
+<meta name="twitter:title" content="【如何当一名合格的调参侠】Kaggle IEEE-CIS Fraud Detection Competition Solution">
 <meta name="twitter:description" content="PrefaceAlthough I knew quite a few about kaggle competition before this competition, it is my first attempt to join one of these competition on my own. It turns out that doing it myself is very differ">
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <title>Kaggle IEEE-CIS Fraud Detection Competition Solution | Restartercc</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>【如何当一名合格的调参侠】Kaggle IEEE-CIS Fraud Detection Competition Solution | Restartercc</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -250,7 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Kaggle IEEE-CIS Fraud Detection Competition Solution</h1>
+          <h1 class="post-title" itemprop="name headline">【如何当一名合格的调参侠】Kaggle IEEE-CIS Fraud Detection Competition Solution</h1>
         
 
         <div class="post-meta">
@@ -323,23 +323,6 @@
 
       
         <h2 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h2><p>Although I knew quite a few about kaggle competition before this competition, it is my first attempt to join one of these competition on my own. It turns out that doing it myself is very different from following others comptetition trace and code. This blog is therefore mean to demonstrate the ideas and the procedures of how to achieve a high rank, but also what it is feels like to take part in a data science competition and some tips for beginners like I used to be. <strong>Here beginners means beginner to the competition but not beginners to ML, cuz doing it is really different from knowing how to do it.</strong> </p>
-<h2 id="Catalog"><a href="#Catalog" class="headerlink" title="Catalog"></a>Catalog</h2><ul>
-<li><p><a href="#background">Background</a></p>
-<pre><code>   * [Target](#target)
-   * [Dataset](#dataset)
-   * [Evaluation](#evaluation)
-
-* [EDA](#eda)
-   * [EDA Referred to](#eda-referred-to)
-   * [EDA of my own](#eda-of-my-own)
-   * [Some Conclusions](#some-conclusions)
-* [Feature Engineering](#feature-engineering)
-   * [Summary](#summary)
-   * [A Few Things to Note](#a-few-things-to-note)
-* [Paramter Tuning](#paramter-tuning)
-* [Ensemble](#ensemble)
-* [GitHub Repository](#github-repository)</code></pre></li>
-</ul>
 <h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><h3 id="Target"><a href="#Target" class="headerlink" title="Target"></a>Target</h3><p>The target of the competition is to predict the probability that one transaction is fraud. The training data appear to be binary classification, but since we are asked to give probability, it is more reasonable to identify it as a regression problem at last.</p>
 <h3 id="Dataset"><a href="#Dataset" class="headerlink" title="Dataset"></a>Dataset</h3><ul>
 <li>Identity - User Info<ul>
@@ -442,8 +425,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/07/string/" rel="next" title="string">
-                <i class="fa fa-chevron-left"></i> string
+              <a href="/2019/09/07/string/" rel="next" title="Three different way of implementng where() in string">
+                <i class="fa fa-chevron-left"></i> Three different way of implementng where() in string
               </a>
             
           </div>
@@ -582,7 +565,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Preface"><span class="nav-number">1.</span> <span class="nav-text">Preface</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Catalog"><span class="nav-number">2.</span> <span class="nav-text">Catalog</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Background"><span class="nav-number">3.</span> <span class="nav-text">Background</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Target"><span class="nav-number">3.1.</span> <span class="nav-text">Target</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dataset"><span class="nav-number">3.2.</span> <span class="nav-text">Dataset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Evaluation"><span class="nav-number">3.3.</span> <span class="nav-text">Evaluation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EDA"><span class="nav-number">4.</span> <span class="nav-text">EDA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#EDA-Referred-to"><span class="nav-number">4.1.</span> <span class="nav-text">EDA Referred to</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EDA-of-my-own"><span class="nav-number">4.2.</span> <span class="nav-text">EDA of my own</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Some-Conclusions"><span class="nav-number">4.3.</span> <span class="nav-text">Some Conclusions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Feature-Engineering"><span class="nav-number">5.</span> <span class="nav-text">Feature Engineering</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Summary"><span class="nav-number">5.1.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-Few-Things-to-Note"><span class="nav-number">5.2.</span> <span class="nav-text">A Few Things to Note</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Paramter-Tuning"><span class="nav-number">6.</span> <span class="nav-text">Paramter Tuning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ensemble"><span class="nav-number">7.</span> <span class="nav-text">Ensemble</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GitHub-Repository"><span class="nav-number">8.</span> <span class="nav-text">GitHub Repository</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Preface"><span class="nav-number">1.</span> <span class="nav-text">Preface</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Background"><span class="nav-number">2.</span> <span class="nav-text">Background</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Target"><span class="nav-number">2.1.</span> <span class="nav-text">Target</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dataset"><span class="nav-number">2.2.</span> <span class="nav-text">Dataset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Evaluation"><span class="nav-number">2.3.</span> <span class="nav-text">Evaluation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EDA"><span class="nav-number">3.</span> <span class="nav-text">EDA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#EDA-Referred-to"><span class="nav-number">3.1.</span> <span class="nav-text">EDA Referred to</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EDA-of-my-own"><span class="nav-number">3.2.</span> <span class="nav-text">EDA of my own</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Some-Conclusions"><span class="nav-number">3.3.</span> <span class="nav-text">Some Conclusions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Feature-Engineering"><span class="nav-number">4.</span> <span class="nav-text">Feature Engineering</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Summary"><span class="nav-number">4.1.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-Few-Things-to-Note"><span class="nav-number">4.2.</span> <span class="nav-text">A Few Things to Note</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Paramter-Tuning"><span class="nav-number">5.</span> <span class="nav-text">Paramter Tuning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ensemble"><span class="nav-number">6.</span> <span class="nav-text">Ensemble</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GitHub-Repository"><span class="nav-number">7.</span> <span class="nav-text">GitHub Repository</span></a></li></ol></div>
             
 
           </div>
