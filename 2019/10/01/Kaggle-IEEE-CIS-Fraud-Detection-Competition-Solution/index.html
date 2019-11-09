@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Due to the extension given by Kaggle official, I may have to work two more days on this project. Very disappointed by this amature decision.">
+<meta name="description" content="PrefaceAlthough I knew quite a few about kaggle competition before this competition, it is my first attempt to join one of these competition on my own. It turns out that doing it myself is very differ">
 <meta name="keywords" content="python,boosting">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kaggle IEEE-CIS Fraud Detection Competition Solution">
 <meta property="og:url" content="NewReStarter.github.io/2019/10/01/Kaggle-IEEE-CIS-Fraud-Detection-Competition-Solution/index.html">
 <meta property="og:site_name" content="Restartercc">
-<meta property="og:description" content="Due to the extension given by Kaggle official, I may have to work two more days on this project. Very disappointed by this amature decision.">
+<meta property="og:description" content="PrefaceAlthough I knew quite a few about kaggle competition before this competition, it is my first attempt to join one of these competition on my own. It turns out that doing it myself is very differ">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-10-01T07:55:03.807Z">
+<meta property="og:updated_time" content="2019-11-09T11:34:59.261Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kaggle IEEE-CIS Fraud Detection Competition Solution">
-<meta name="twitter:description" content="Due to the extension given by Kaggle official, I may have to work two more days on this project. Very disappointed by this amature decision.">
+<meta name="twitter:description" content="PrefaceAlthough I knew quite a few about kaggle competition before this competition, it is my first attempt to join one of these competition on my own. It turns out that doing it myself is very differ">
 
 
 
@@ -322,7 +322,94 @@
       
 
       
-        <p>Due to the extension given by Kaggle official, I may have to work two more days on this project. Very disappointed by this amature decision.</p>
+        <h2 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h2><p>Although I knew quite a few about kaggle competition before this competition, it is my first attempt to join one of these competition on my own. It turns out that doing it myself is very different from following others comptetition trace and code. This blog is therefore mean to demonstrate the ideas and the procedures of how to achieve a high rank, but also what it is feels like to take part in a data science competition and some tips for beginners like I used to be. <strong>Here beginners means beginner to the competition but not beginners to ML, cuz doing it is really different from knowing how to do it.</strong> </p>
+<h2 id="Catalog"><a href="#Catalog" class="headerlink" title="Catalog"></a>Catalog</h2><ul>
+<li><p><a href="#background">Background</a></p>
+<pre><code>   * [Target](#target)
+   * [Dataset](#dataset)
+   * [Evaluation](#evaluation)
+
+* [EDA](#eda)
+   * [EDA Referred to](#eda-referred-to)
+   * [EDA of my own](#eda-of-my-own)
+   * [Some Conclusions](#some-conclusions)
+* [Feature Engineering](#feature-engineering)
+   * [Summary](#summary)
+   * [A Few Things to Note](#a-few-things-to-note)
+* [Paramter Tuning](#paramter-tuning)
+* [Ensemble](#ensemble)
+* [GitHub Repository](#github-repository)</code></pre></li>
+</ul>
+<h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><h3 id="Target"><a href="#Target" class="headerlink" title="Target"></a>Target</h3><p>The target of the competition is to predict the probability that one transaction is fraud. The training data appear to be binary classification, but since we are asked to give probability, it is more reasonable to identify it as a regression problem at last.</p>
+<h3 id="Dataset"><a href="#Dataset" class="headerlink" title="Dataset"></a>Dataset</h3><ul>
+<li>Identity - User Info<ul>
+<li>id01-id38 - where we can identity who the person is</li>
+<li>DeviceType - Andriod etc.</li>
+<li>DeviceInfo - </li>
+</ul>
+</li>
+<li>Transaction<ul>
+<li>TransactionID</li>
+<li>TransactionDT - timedelta from a given reference datetime (not an actual timestamp)</li>
+<li>TransactionAmt - transaction payment amount in USD</li>
+<li>ProductCD - product code, the product for each transaction</li>
+<li>card1-card6 - payment card information, such as card type, card category, issue bank, country, etc.</li>
+<li>add1-add2 - address</li>
+<li>dist1-dist2 - distance</li>
+<li>P/R_emaildomain - purchaser and recipient email domain</li>
+<li>C1-C14 - counting</li>
+<li>D1-D15 - timedelta</li>
+<li>M1-M9 - match</li>
+<li>V1-V339 - Vesta engineered rich features</li>
+</ul>
+</li>
+</ul>
+<p>It is highly important to read the data description thread provided by the competition organizers in the <strong>discussion section</strong> of each competition. It is impossible to do realiable feature engineering, or even effective exploratory data analysis unless you understand what the dataset is about. Above description is my own understanding. In order to follow my idea better, give a glimpse at the data description thread is critical.</p>
+<p>Reference: <a href="https://www.kaggle.com/c/ieee-fraud-detection/discussion/101203#latest-666569" target="_blank" rel="noopener">Data Description</a></p>
+<h3 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h3><p>AUC, which is very common in the case of binary classification. The submitted result should base on the local test evaluated by AUC as well.</p>
+<h2 id="EDA"><a href="#EDA" class="headerlink" title="EDA"></a>EDA</h2><p>EDA is short for <strong>exploratory data analysis</strong>, where we summarize main characteristics of the dataset and visualize them in order to observe the pattern of data better.</p>
+<p>At most of the cases, there will be Kaggle kernel and discussion users who would like to post their EDA result in the <strong>kernel section</strong> of each competition. Just pick one of them to start the competition will save you lots of time. Then the rest is just to adding some EDA of your own. Below is the notebook I pick and the notebook of my own.</p>
+<h3 id="EDA-Referred-to"><a href="#EDA-Referred-to" class="headerlink" title="EDA Referred to"></a>EDA Referred to</h3><iframe src="https://nbviewer.jupyter.org/github/NewReStarter/Kaggle-IEEE-CIS-Fraud-Detection-87th-Place-Solution/blob/master/EDA/EDA_referred_to.ipynb" width="830" height="600"></iframe>
+
+
+
+<h3 id="EDA-of-my-own"><a href="#EDA-of-my-own" class="headerlink" title="EDA of my own"></a>EDA of my own</h3><iframe src="https://nbviewer.jupyter.org/github/NewReStarter/Kaggle-IEEE-CIS-Fraud-Detection-87th-Place-Solution/blob/master/EDA/EDA_myself.ipynb" width="830" height="600"></iframe>
+
+
+
+<h3 id="Some-Conclusions"><a href="#Some-Conclusions" class="headerlink" title="Some Conclusions"></a>Some Conclusions</h3><ol>
+<li>It is a time-series dataset and we are asked to use the previous data to predict the future data.</li>
+<li>Fraud happens around 3.5% in the sample space</li>
+</ol>
+<p>Next we proceed to feature engineering, which is the most important part.</p>
+<h2 id="Feature-Engineering"><a href="#Feature-Engineering" class="headerlink" title="Feature Engineering"></a>Feature Engineering</h2><h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><ul>
+<li>Count: <em>categorical variable</em>, e.g. card, address</li>
+<li>Nunique: <em>categorical variable</em>, e.g. card, address</li>
+<li>Shift: concat card1-card6 to construct unqiue id(uid) and find where the uid appears last time, D series</li>
+<li>Shift delta time: find delta time between two uid</li>
+<li>decomposition: PCA</li>
+<li>Feature Crosses: concat high-weighted features in LGB in pairs</li>
+<li>NaN: Count Missing Value</li>
+<li>Datetime data: year, month, day, hour, weekday</li>
+<li>emaildomain</li>
+<li>categorical variable labelEncoder</li>
+</ul>
+<h3 id="A-Few-Things-to-Note"><a href="#A-Few-Things-to-Note" class="headerlink" title="A Few Things to Note"></a>A Few Things to Note</h3><p>There is an underlying fact in the competition, a person who has commited a fraud is very likely to commit a fraud again in the future. Therefore two kinds of shift features is actually very useful to identify Fraudulents.</p>
+<p>For categorial data, labelEncoder is also very useful. One-hot are more applicable to those which categories are limited to 3 or 4. For more categories, labelEncoder performs better more often. </p>
+<p>We use KFold to do local validation to test if our features work or not. Here, <strong>shuffle</strong> paramters should be False, since it is time-series. Although sometimes we can use some pervious collaries we have concluded based on our own experience, doing the tested of differnent method is necessary. For example, in most cases, PCA outperform SVD, but still experiment should be done in order to verify if the collaries are correct in this new scenario.</p>
+<p>During this competition, over 60 experiments have been done to verfiy the efficiency of new features. The experiment traces and results are recorded in the git repository, <strong><a href="https://github.com/NewReStarter/Kaggle-IEEE-CIS-Fraud-Detection-87th-Place-Solution/tree/master/feature_engineering" target="_blank" rel="noopener">feature engineering</a></strong> folder. After reading two log files, you can see the detail of doing FE and how I determine the training set at last.</p>
+<p>As mentioned above, I recorded all the experiment output of each test. If I was asked what is the one most important lesson that I have learnt in this competition, that must be <strong>“keep record of previous result in a organized way”</strong>. I have repeatedly doing something at the beginning because I thought I can remember what I have done by my brain. It turns out I might be able to do this, but I cannot summarize all of them by brain or  just one line or two comments in the files.</p>
+<h2 id="Paramter-Tuning"><a href="#Paramter-Tuning" class="headerlink" title="Paramter Tuning"></a>Paramter Tuning</h2><p>LightGBM is used in our model. In the section, we introduce the Bayesian optimization to do find hyperparamters. The motivation of Bayesian Optimization is that doing Grid Search and Random Search is impossible when the paramter range is large and the calculation time is long. We have to find a mechanism to inference the best parameters. </p>
+<p>The idea of Bayesian opimization follows Bayesian rule.<br>$$<br>P(A|B) = \frac{P(B|A)P(A)}{P(b)}<br>$$<br>It uses GPR(Gaussian Process Regressian) to calculate the posterior probability distribution of first n points to obtain the expectation and SD of each point for every hyperparamters. The mean value displays the weight while SD shows uncertainty. We would choose a point with high mean value and high SD. The detail theory and proof can refer to the reference.</p>
+<p>For those who is not interested in math, the code is given below.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">LGB_bayesian</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    #learning_rate,</span></span></span><br><span class="line"><span class="function"><span class="params">    num_leaves, bagging_fraction, feature_fraction, min_child_weight, min_data_in_leaf, max_depth,</span></span></span><br><span class="line"><span class="function"><span class="params">    reg_alpha, reg_lambda)</span>:</span></span><br><span class="line"></span><br><span class="line">    num_leaves = int(num_leaves)</span><br><span class="line">    min_data_in_leaf = int(min_data_in_leaf)</span><br><span class="line">    max_depth = int(max_depth)</span><br><span class="line">    <span class="keyword">assert</span> type(num_leaves) == int</span><br><span class="line">    <span class="keyword">assert</span> type(min_data_in_leaf) == int</span><br><span class="line">    <span class="keyword">assert</span> type(max_depth) == int</span><br><span class="line"></span><br><span class="line">    params = &#123;</span><br><span class="line">        <span class="string">'num_leaves'</span>: num_leaves,</span><br><span class="line">        <span class="string">'min_data_in_leaf'</span>: min_data_in_leaf,</span><br><span class="line">        <span class="string">'min_child_weight'</span>: min_child_weight,</span><br><span class="line">        <span class="string">'bagging_fraction'</span>: bagging_fraction,</span><br><span class="line">        <span class="string">'feature_fraction'</span>: feature_fraction,</span><br><span class="line">        <span class="comment"># 'learning_rate' : learning_rate,</span></span><br><span class="line">        <span class="string">'max_depth'</span>: max_depth,</span><br><span class="line">        <span class="string">'reg_alpha'</span>: reg_alpha,</span><br><span class="line">        <span class="string">'reg_lambda'</span>: reg_lambda,</span><br><span class="line">        <span class="string">'objective'</span>: <span class="string">'binary'</span>,</span><br><span class="line">        <span class="string">'save_binary'</span>: <span class="literal">True</span>,</span><br><span class="line">        <span class="string">'seed'</span>: <span class="number">1337</span>,</span><br><span class="line">        <span class="string">'feature_fraction_seed'</span>: <span class="number">1337</span>,</span><br><span class="line">        <span class="string">'bagging_seed'</span>: <span class="number">1337</span>,</span><br><span class="line">        <span class="string">'drop_seed'</span>: <span class="number">1337</span>,</span><br><span class="line">        <span class="string">'data_random_seed'</span>: <span class="number">1337</span>,</span><br><span class="line">        <span class="string">'boosting_type'</span>: <span class="string">'gbdt'</span>,</span><br><span class="line">        <span class="string">'verbose'</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="string">'is_unbalance'</span>: <span class="literal">False</span>,</span><br><span class="line">        <span class="string">'boost_from_average'</span>: <span class="literal">True</span>,</span><br><span class="line">        <span class="string">'metric'</span>: <span class="string">'auc'</span>&#125;</span><br><span class="line"></span><br><span class="line">    lgb_sub = sub.copy()</span><br><span class="line">    lgb_sub[<span class="string">'isFraud'</span>] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> fold_n, (train_index, valid_index) <span class="keyword">in</span> enumerate(folds.split(X)):</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> fold_n == <span class="number">4</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        start_time = time()</span><br><span class="line">        print(<span class="string">'Training on fold &#123;&#125;'</span>.format(fold_n + <span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">        trn_data = lgb.Dataset(X.iloc[train_index], label=y.iloc[train_index])</span><br><span class="line">        val_data = lgb.Dataset(X.iloc[valid_index], label=y.iloc[valid_index])</span><br><span class="line">        clf = lgb.train(params, trn_data, num_boost_round=<span class="number">10000</span>, valid_sets=[val_data], verbose_eval=<span class="number">-1</span>,</span><br><span class="line">                        early_stopping_rounds=<span class="number">500</span>)</span><br><span class="line"></span><br><span class="line">        pred = clf.predict(test_X)</span><br><span class="line"></span><br><span class="line">        lgb_sub[<span class="string">'isFraud'</span>] = lgb_sub[<span class="string">'isFraud'</span>] + pred / (n_fold - <span class="number">1</span>)</span><br><span class="line">        print(<span class="string">'Fold &#123;&#125; finished in &#123;&#125;'</span>.format(fold_n + <span class="number">1</span>, str(datetime.timedelta(seconds=time() - start_time))))</span><br><span class="line"></span><br><span class="line">    test = pd.read_csv(<span class="string">'../temp/test_label.csv'</span>, usecols=[<span class="string">"TransactionID"</span>, <span class="string">"isFraud"</span>], nrows=NROWS)</span><br><span class="line">    df1 = test.merge(lgb_sub, on=<span class="string">"TransactionID"</span>, how=<span class="string">"left"</span>)</span><br><span class="line">    score = roc_auc_score(df1[<span class="string">"isFraud_x"</span>], df1[<span class="string">"isFraud_y"</span>])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> score</span><br><span class="line"></span><br><span class="line">bounds_LGB = &#123;</span><br><span class="line">    <span class="string">'num_leaves'</span>: (<span class="number">27</span>, <span class="number">500</span>),</span><br><span class="line">    <span class="string">'min_data_in_leaf'</span>: (<span class="number">20</span>, <span class="number">200</span>),</span><br><span class="line">    <span class="string">'bagging_fraction'</span> : (<span class="number">0.1</span>, <span class="number">0.9</span>),</span><br><span class="line">    <span class="string">'feature_fraction'</span> : (<span class="number">0.1</span>, <span class="number">0.9</span>),</span><br><span class="line">    <span class="comment">#'learning_rate': (0.01, 0.3),</span></span><br><span class="line">    <span class="string">'min_child_weight'</span>: (<span class="number">0.00001</span>, <span class="number">0.01</span>),</span><br><span class="line">    <span class="string">'reg_alpha'</span>: (<span class="number">1</span>, <span class="number">2</span>),</span><br><span class="line">    <span class="string">'reg_lambda'</span>: (<span class="number">1</span>, <span class="number">2</span>),</span><br><span class="line">    <span class="string">'max_depth'</span>:(<span class="number">-1</span>,<span class="number">50</span>),</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">LGB_BO = BayesianOptimization(LGB_bayesian, bounds_LGB, random_state=<span class="number">42</span>)</span><br><span class="line">print(LGB_BO.space.keys)</span><br><span class="line">init_points = <span class="number">10</span></span><br><span class="line">n_iter = <span class="number">15</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> warnings.catch_warnings():</span><br><span class="line">    warnings.filterwarnings(<span class="string">'ignore'</span>)</span><br><span class="line">    LGB_BO.maximize(init_points=init_points, n_iter=n_iter, acq=<span class="string">'ucb'</span>, xi=<span class="number">0.0</span>, alpha=<span class="number">1e-6</span>)</span><br></pre></td></tr></table></figure>
+
+<p>Above code is applicable to xgboost, catboost and lightgbm. </p>
+<p>Ref:</p>
+<p><a href="https://arxiv.org/abs/1807.02811" target="_blank" rel="noopener">A tutorial on Bayesian Optimization</a></p>
+<p><a href="https://www.kaggle.com/fayzur/lgb-bayesian-parameters-finding-rank-average" target="_blank" rel="noopener">LGB + Bayesian parameters finding + Rank average</a></p>
+<h2 id="Ensemble"><a href="#Ensemble" class="headerlink" title="Ensemble"></a>Ensemble</h2><p>The reason we do ensembling is to avoid overfit. The ensemble strategy is simple this time, we ensemble the result of different random_state, this way we ensure we don’t overfit(in most cases).</p>
+<h2 id="GitHub-Repository"><a href="#GitHub-Repository" class="headerlink" title="GitHub Repository"></a>GitHub Repository</h2><p><a href="https://github.com/NewReStarter/Kaggle-IEEE-CIS-Fraud-Detection-87th-Place-Solution" target="_blank" rel="noopener">https://github.com/NewReStarter/Kaggle-IEEE-CIS-Fraud-Detection-87th-Place-Solution</a> </p>
 
       
     </div>
@@ -415,8 +502,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -476,6 +572,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Preface"><span class="nav-number">1.</span> <span class="nav-text">Preface</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Catalog"><span class="nav-number">2.</span> <span class="nav-text">Catalog</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Background"><span class="nav-number">3.</span> <span class="nav-text">Background</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Target"><span class="nav-number">3.1.</span> <span class="nav-text">Target</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dataset"><span class="nav-number">3.2.</span> <span class="nav-text">Dataset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Evaluation"><span class="nav-number">3.3.</span> <span class="nav-text">Evaluation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EDA"><span class="nav-number">4.</span> <span class="nav-text">EDA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#EDA-Referred-to"><span class="nav-number">4.1.</span> <span class="nav-text">EDA Referred to</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EDA-of-my-own"><span class="nav-number">4.2.</span> <span class="nav-text">EDA of my own</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Some-Conclusions"><span class="nav-number">4.3.</span> <span class="nav-text">Some Conclusions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Feature-Engineering"><span class="nav-number">5.</span> <span class="nav-text">Feature Engineering</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Summary"><span class="nav-number">5.1.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-Few-Things-to-Note"><span class="nav-number">5.2.</span> <span class="nav-text">A Few Things to Note</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Paramter-Tuning"><span class="nav-number">6.</span> <span class="nav-text">Paramter Tuning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ensemble"><span class="nav-number">7.</span> <span class="nav-text">Ensemble</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GitHub-Repository"><span class="nav-number">8.</span> <span class="nav-text">GitHub Repository</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
