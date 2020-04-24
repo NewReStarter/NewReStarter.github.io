@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="OS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="[toc] 内存/寻址要点1. 物理地址 逻辑地址 和 虚拟地址物理地址 指CPU外部地址总线上寻址物理内存的地址信号，是地址变换的最终结果。 逻辑地址 指由程序产生的段内偏移。有时候直接把逻辑地址当做虚拟地址。 虚拟地址 指由程序产生的由段选择符和段内偏移地址组成的地址。linux实现的是“虚拟内存系统”，对用户而言，所有内存都是虚拟的，也就是说程序并不是直接运行在物理内存上，而是运行在虚拟内存">
+<meta name="keywords" content="OS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【面试准备简明版】- 操作系统">
+<meta property="og:url" content="NewReStarter.github.io/2020/03/24/os-simple/index.html">
+<meta property="og:site_name" content="Restartercc">
+<meta property="og:description" content="[toc] 内存/寻址要点1. 物理地址 逻辑地址 和 虚拟地址物理地址 指CPU外部地址总线上寻址物理内存的地址信号，是地址变换的最终结果。 逻辑地址 指由程序产生的段内偏移。有时候直接把逻辑地址当做虚拟地址。 虚拟地址 指由程序产生的由段选择符和段内偏移地址组成的地址。linux实现的是“虚拟内存系统”，对用户而言，所有内存都是虚拟的，也就是说程序并不是直接运行在物理内存上，而是运行在虚拟内存">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWM0LnpoaW1nLmNvbS84MC92Mi0wOWYwMzc2MDhiMWIyZGU3MGI1MmQxMzEyZWYzYjMwN19oZC5qcGc?x-oss-process=image/format,png">
+<meta property="og:updated_time" content="2020-04-24T05:44:19.666Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【面试准备简明版】- 操作系统">
+<meta name="twitter:description" content="[toc] 内存/寻址要点1. 物理地址 逻辑地址 和 虚拟地址物理地址 指CPU外部地址总线上寻址物理内存的地址信号，是地址变换的最终结果。 逻辑地址 指由程序产生的段内偏移。有时候直接把逻辑地址当做虚拟地址。 虚拟地址 指由程序产生的由段选择符和段内偏移地址组成的地址。linux实现的是“虚拟内存系统”，对用户而言，所有内存都是虚拟的，也就是说程序并不是直接运行在物理内存上，而是运行在虚拟内存">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWM0LnpoaW1nLmNvbS84MC92Mi0wOWYwMzc2MDhiMWIyZGU3MGI1MmQxMzEyZWYzYjMwN19oZC5qcGc?x-oss-process=image/format,png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="NewReStarter.github.io/2020/03/24/os-simple/">
+
+
+
+
+
+  <title>【面试准备简明版】- 操作系统 | Restartercc</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Restartercc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">学习计算机科学和数学，尝试了解这个世界</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="NewReStarter.github.io/2020/03/24/os-simple/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ReStartercc">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Restartercc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【面试准备简明版】- 操作系统</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-24T13:41:36+08:00">
+                2020-03-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试准备/" itemprop="url" rel="index">
+                    <span itemprop="name">面试准备</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[toc]</p>
+<h1 id="内存-寻址要点"><a href="#内存-寻址要点" class="headerlink" title="内存/寻址要点"></a>内存/寻址要点</h1><h3 id="1-物理地址-逻辑地址-和-虚拟地址"><a href="#1-物理地址-逻辑地址-和-虚拟地址" class="headerlink" title="1. 物理地址 逻辑地址 和 虚拟地址"></a>1. 物理地址 逻辑地址 和 虚拟地址</h3><p>物理地址</p>
+<p>指CPU外部地址总线上寻址物理内存的地址信号，是地址变换的最终结果。</p>
+<p>逻辑地址</p>
+<p>指由程序产生的段内偏移。有时候直接把逻辑地址当做虚拟地址。</p>
+<p>虚拟地址</p>
+<p>指由程序产生的由段选择符和段内偏移地址组成的地址。linux实现的是“虚拟内存系统”，对用户而言，所有内存都是虚拟的，也就是说程序并不是直接运行在物理内存上，而是运行在虚拟内存上，然后由虚拟内存转换到物理内存。linux将所有的内存都以页为单位进行划分，通常每一页是4KB</p>
+<p>线性地址</p>
+<p>指虚拟地址到物理地址变换的中间层，是处理器可寻址的内存空间中的地址。程序代码会产生逻辑地址，也就是段中的偏移地址，加上相应的段基址就成了线性地址。如果开启了分页机制，那么线性地址需要再经过变换，转为为物理地址。如果无分页机制，那么线性地址就是物理地址。</p>
+<p>MMU通过查询段表，可以将逻辑地址转化为线性地址。无分页机制时，线性地址就是物理地址，有分页时，MMU还需要查询页表来将线性地址转化为物理地址：逻辑地址（段表）-&gt;线性地址（页表）-&gt;物理地址。</p>
+<h4 id="为什么需要虚拟内存"><a href="#为什么需要虚拟内存" class="headerlink" title="为什么需要虚拟内存"></a>为什么需要虚拟内存</h4><p> 之前的计算机系统，是使用物理地址来使用内存的，这样，CPU就根据某个寄存器中相应的值，直接到物理内存去取值了。</p>
+<p>   这样的好处就是非常直接，非常容易理解。</p>
+<p>  而缺点是，我们需要知道物理地址的值，每次程序开始执行，也就是执行程序从磁盘被load到物理内存中之后，我们必须告诉CPU，程序是从哪一个地址开始执行的(即PC寄存器的值)；还有一个致命的缺点是：程序使用的内存会被物理内存所限制，比如我们的机器上只有512M内存，那我们的程序就不能使用需占1G内存的程序了。这点或许是催生虚拟内存产生的最主要原因。</p>
+<h3 id="2-内存管理（分页与分段）"><a href="#2-内存管理（分页与分段）" class="headerlink" title="2. 内存管理（分页与分段）"></a>2. 内存管理（分页与分段）</h3><ol>
+<li>固定分区<ol>
+<li>主存被分为很多大小固定的分区，进程可以装载到大于等于自身大小的分区。</li>
+<li>1.有内部碎片，活动进程的数目是固定的</li>
+</ol>
+</li>
+<li>动态分区<ol>
+<li>分区是被动态创建的，进程可以装载到正好等于自身大小的分区</li>
+<li>没有内部碎片，内存使用更完全；有外部碎片，需要压缩外部碎片</li>
+<li>为了实现分区分配，系统中必须配置相应的数据结构，用来描述空闲分区和已分配分区的情况，为分配提供依据。常用的数据结构有以下两种形式：<ol>
+<li>空闲分区表：在系统中设置一张空闲分区表，用于记录每个空闲分区的情况。每个空闲分区占一个表目，表目中包括分区序号、分区始址及分区的大小等数据项。</li>
+<li>空闲分区链：为了实现对空闲分区的分配和链接，在每个分区的起始部分，设置一些用于控制分区分配的信息，以及用于链接各分区所用的前向指针；在分区尾部则设置一后向指针，通过前、后向链接指针，可将所有的空闲分区链接成一个双向链。</li>
+<li>First Fit / 循环首次适应算法 / 最佳适应算法 / 最坏适应算法 / 快速适应算法(对于每一类具有相同容量的所有空闲分区，单独设立一个空闲分区链表，这样，系统中存在多个空闲分区链表，同时在内存中设立一张管理索引表，该表的每一个表项对应了一种空闲分区类型，并记录了该类型空闲分区链表表头的指针。<br>  空闲分区的分类是根据进程常用的空间大小进行划分，如2 KB、4 KB、8 KB等，对于其它大小的分区，如7 KB这样的空闲区，既可以放在8 KB的链表中，也可以放在一个特殊的空闲区链表中。<br>  该算法的优点是查找效率高，仅需要根据进程的长度，寻找到能容纳它的最小空闲区链表，并取下第一块进行分配即可。另外该算法在进行空闲分区分配时，不会对任何分区产生分割，所以能保留大的分区，满足对大空间的需求，也不会产生内存碎片。<br>  该算法的缺点是在分区归还主存时算法复杂，系统开销较大。)</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>简单分页<ol>
+<li>主存被分为很多大小相同的帧，进程被分为很多与帧大小相同的页。要装入一个进程，需要将进程所有的页装入主存，可以是不连续的帧中。</li>
+<li>没有外部碎片， 有很少的内部碎片（仅出现在进程的最后一页）</li>
+</ol>
+</li>
+<li>简单分段<ol>
+<li>进程被分为很多的段，要装入一个进程，需要将进程所有的段装入主存中不一定连续的动态分区。</li>
+<li>没有内部碎片，比较与动态分区，内存利用率更高，开销小， 有外部碎片，需要压缩外部碎片</li>
+</ol>
+</li>
+<li>虚拟内存分页<ol>
+<li>与简单分页相比，不需要将进程的所有页装入主存</li>
+<li>没有外部碎片</li>
+<li>巨大的虚拟内存空间</li>
+<li>更高程度的多到程序设计</li>
+</ol>
+</li>
+<li>虚拟内存分段<ol>
+<li>与简单分段相比，不需要将进程所有的段都装入主存</li>
+<li>具有虚拟内存分页的三个优点，并且支持保护和共享</li>
+</ol>
+</li>
+</ol>
+<h3 id="3-Slab和伙伴算法"><a href="#3-Slab和伙伴算法" class="headerlink" title="3. Slab和伙伴算法"></a>3. Slab和伙伴算法</h3><h4 id="伙伴算法"><a href="#伙伴算法" class="headerlink" title="伙伴算法"></a>伙伴算法</h4><p>一种物理内存分配和回收的方法，物理内存所有空闲页都记录在BUDDY链表中。首选，系统建立一个链表，链表中的每个元素代表一类大小的物理内存，分别为2的0次方、1次方、2次方，个页大小，对应4K、8K、16K的内存，没一类大小的内存又有一个链表，表示目前可以分配的物理内存。例如现在仅存需要分配8K的物理内存，系统首先从8K那个链表中查询有无可分配的内存，若有直接分配；否则查找16K大小的链表，若有，首先将16K一分为二，将其中一个分配给进程，另一个插入8K的链表中，若无，继续查找32K，若有，首先把32K一分为二，其中一个16K大小的内存插入16K链表中，然后另一个16K继续一分为二，将其中一个插入8K的链表中，另一个分配给进程……..以此类推。当内存释放时，查看相邻内存有无空闲，若存在两个联系的8K的空闲内存，直接合并成一个16K的内存，插入16K链表中。（伙伴算法用于物理内存分配方案）</p>
+<h4 id="Linux的slab层-amp-VAM"><a href="#Linux的slab层-amp-VAM" class="headerlink" title="Linux的slab层 &amp; VAM"></a>Linux的slab层 &amp; VAM</h4><p>SLAB 算法是一种对伙伴算的一种补充，对于用户进程的内存分配，伙伴算法已经够好了，但对于内核进程，还需要存在一类很小的数据（字节大小，比如进程描述符、虚拟内存描述符等），若每次给几个字节的数据分配一个4KB的页，实在太浪费，于是就有了SLBA算法，SLAB算法其实就是把一个页用力劈成一小块一小块，然后再分配。</p>
+<h3 id="4-高端内存"><a href="#4-高端内存" class="headerlink" title="4. 高端内存"></a>4. 高端内存</h3><p> 高端内存HIGH_MEM对应的虚拟地址空间范围为0xF8000000 ~ 0xFFFFFFFF，那么内核是如何借助128MB的空间范围实现访问到所有物理内存呢？</p>
+<p> 当内核想访问高于896MB物理地址内存时，从0xF8000000 ~ 0xFFFFFFFF地址空间范围内找一段相应大小空闲的逻辑（虚拟）地址空间，借用这段逻辑地址空间，建立到想访问的那段物理内存（即填充内核PTE页面表）的映射，临时用一会，用完后归还。这样别人也可以借用这段地址空间访问其他物理内存，这就实现了使用有限的地址空间，访问所有所有物理内存。</p>
+<h1 id="进程-线程-协程要点"><a href="#进程-线程-协程要点" class="headerlink" title="进程/线程/协程要点"></a>进程/线程/协程要点</h1><h3 id="1-进程和线程的区别"><a href="#1-进程和线程的区别" class="headerlink" title="1. 进程和线程的区别"></a>1. 进程和线程的区别</h3><ol>
+<li>进程的划分尺度大于线程的划分尺度，<strong>一个程序至少有一个进程,一个进程至少有一个线程.</strong></li>
+<li>进程是资源分配的最小单位，线程是CPU调度的最小单位</li>
+<li>进程间不会相互影响，一个线程挂掉将导致整个进程挂掉</li>
+<li>进程有自己独立的地址空间（如c++的内存分布，分为栈，堆，BSS（未初始化的全局和静态变量，程序执行前自动清零），DATA（初始化的全局和静态变量），文字），线程只有自己的独立栈，没有自己的地址空间；线程不拥有系统资源，但可以访问隶属于进程的资源。</li>
+<li>不同进程间数据很难共享，同一进程下不同线程间数据很容易共享</li>
+</ol>
+<h3 id="2-进程切换的开销和线程切换的开销"><a href="#2-进程切换的开销和线程切换的开销" class="headerlink" title="2. 进程切换的开销和线程切换的开销"></a>2. 进程切换的开销和线程切换的开销</h3><p>进程切换：</p>
+<ol>
+<li><strong>切换页目录以使用新的地址空间</strong></li>
+<li><strong>切换内核栈和硬件上下文</strong></li>
+<li>刷新TLB（页表缓存）</li>
+<li>系统调度器的代码执行</li>
+</ol>
+<p>线程切换：</p>
+<ol>
+<li>上下文切换</li>
+<li>页表和TLB该换的也要换</li>
+<li>对于linux 的 CPU来讲多线程与多进程一样，都有不同的标识（一样的pid不一样的tpid）和不同的上下文，为了保证一致性，TLB刷新就省不了。</li>
+</ol>
+<h3 id="3-协程切换的开销为什么小"><a href="#3-协程切换的开销为什么小" class="headerlink" title="3. 协程切换的开销为什么小"></a>3. 协程切换的开销为什么小</h3><ol>
+<li>协程切换<strong>完全在用户空间进行</strong>，线程切换涉及<strong>特权模式切换，需要在内核空间完成</strong>；</li>
+<li>协程切换相比线程切换<strong>做的事情更少</strong>。</li>
+</ol>
+<p>协程切换只涉及基本的<strong>CPU上下文切换</strong>，所谓的 CPU 上下文，就是一堆寄存器，里面保存了 CPU运行任务所需要的信息：从哪里开始运行，协程切换非常简单，就是把<strong>当前协程的 CPU 寄存器状态保存起来，然后将需要切换进来的协程的 CPU 寄存器状态加载的 CPU 寄存器上</strong>就 ok 了。而且<strong>完全在用户态进行</strong>，一般来说一次协程上下文切换最多就是<strong>几十ns</strong> 这个量级。</p>
+<p>系统内核调度的对象是线程，因为线程是调度的基本单元，而<strong>线程的调度只有拥有最高权限的内核空间才可以完成</strong>，所以线程的切换涉及到<strong>用户空间和内核空间的切换</strong>，也就是特权模式切换，然后需要操作系统调度模块完成<strong>线程调度（task*</strong>struct），*而且除了和协程相同基本的 CPU 上下文，还有线程私有的栈和寄存器等，说白了就是上下文比协程多一些</p>
+<h3 id="4-进程和线程的通信"><a href="#4-进程和线程的通信" class="headerlink" title="4. 进程和线程的通信"></a>4. 进程和线程的通信</h3><h4 id="进程通信"><a href="#进程通信" class="headerlink" title="进程通信"></a>进程通信</h4><ul>
+<li><strong>管道( pipe )</strong>：管道是一种半双工的通信方式，数据只能单向流动，而且只能在具有亲缘关系的进程间使用。进程的亲缘关系通常是指父子进程关系。（半双工(Half Duplex)数据传输指数据可以在一个信号载体的两个方向上传输，但是不能同时传输。）</li>
+<li><strong>命名管道 (FIFO)</strong> ： 有名管道也是半双工的通信方式，但是它允许无亲缘关系进程间的通信。</li>
+<li><strong>消息队列( message queue )</strong> ： 消息队列是由消息的链表，存放在内核中并由消息队列标识符标识。消息队列克服了信号传递信息少、管道只能承载无格式字节流以及缓冲区大小受限等缺点。</li>
+<li>主要原因是由于在高并发环境下，由于来不及同步处理，请求往往会发生堵塞，比如说，大量的insert，update之类的请求同时到达MySQL，直接导致无数的行锁表锁，甚至最后请求会堆积过多，从而触发too many connections错误。通过使用消息队列，我们可以异步处理请求，从而缓解系统的压力。点对点、发布/订阅、PUSH/PULL</li>
+<li>共享内存( shared memory ) ：共享内存就是映射一段能被其他进程所访问的内存，这段共享内存由一个进程创建，但多个进程都可以访问。共享内存是最快的 IPC 方式，它是针对其他进程间通信方式运行效率低而专门设计的。它往往与其他通信机制，如信号量，配合使用，来实现进程间的同步和通信。(原理一定要清楚，常考)</li>
+<li><strong>信号量</strong>：信号量用于实现进程间的互斥与同步，而不是用于存储进程间通信数据，有XSI信号量和POSIX信号量，POSIX信号量更加完善。</li>
+<li><strong>信号 ( signal )</strong> ： 信号是一种比较复杂的通信方式，用于通知接收进程某个事件已经发生，常见的信号。</li>
+<li><strong>套接字( socket )</strong> ： 套解口也是一种进程间通信机制，与其他通信机制不同的是，它可用于不同及其间的进程通信。</li>
+<li><strong>共享文件映射mmap</strong><br>mmap建立进程空间到文件的映射，在建立的时候并不直接将文件拷贝到物理内存，同样采用缺页终端。mmap映射一个具体的文件可以实现任意进程间共享内存，映射一个匿名文件，可以实现父子进程间共享内存。</li>
+<li>mmap系统调用使得进程之间通过映射同一个普通文件实现共享内存。普通文件被映射到进程地址空间后，进程可以像访问普通内存一样对文件进行访问，不必再调用read()，write（）等操作。mmap并不分配空间, 只是将文件映射到调用进程的地址空间里（但是会占掉你的 virutal memory）, 然后你就可以用memcpy等操作写文件, 而不用write()了.写完后，内存中的内容并不会立即更新到文件中，而是有一段时间的延迟，你可以调用msync()来显式同步一下, 这样你所写的内容就能立即保存到文件里了.这点应该和驱动相关。<br>mmap()会返回一个指针ptr，它指向进程逻辑地址空间中的一个地址，这样以后，进程无需再调用read或write对文件进行读写，而只需要通过ptr就能够操作文件。但是ptr所指向的是一个逻辑地址，要操作其中的数据，必须通过MMU将逻辑地址转换成物理地址</li>
+<li>如果在拷贝数据时，发现物理内存不够用，则会通过虚拟内存机制（swap）将暂时不用的物理页面交换到硬盘上</li>
+</ul>
+<h4 id="线程通信"><a href="#线程通信" class="headerlink" title="线程通信"></a>线程通信</h4><ul>
+<li>互斥锁（mutex）</li>
+<li>条件变量（condition variable）</li>
+<li>信号量（Semaphore）</li>
+<li>临界区（Critical Section）</li>
+<li>自旋锁（Spinlock）</li>
+<li>读写锁（readers-writer lock）</li>
+<li>屏障（Memory barrier）</li>
+</ul>
+<h3 id="5-进程调度算法"><a href="#5-进程调度算法" class="headerlink" title="5. 进程调度算法"></a>5. 进程调度算法</h3><ol>
+<li><p>FCFS</p>
+</li>
+<li><p>SJF</p>
+</li>
+<li><p>时间片轮转调度算法(Round Robin，RR)</p>
+</li>
+<li><p>多级反馈队列调度算法（MLFQ：Multi-level Feedback Queue）</p>
+<ol>
+<li>应设置多个就绪队列，并为各个队列赋予不同的优先级。第一个队列的优先级最高，第二个队列次之，其余各队列的优先权逐个降低。该算法赋予各个队列中进程执行时间片的大小也各不相同，在优先权愈高的队列中，为每个进程所规定的执行时间片就愈小。例如，第二个队列的时间片要比第一个队列的时间片长一倍，第i+1个队列的时间片要比第i个队列的时间片长一倍。</li>
+<li>当一个新进程进入内存后，首先将它放入第一队列的末尾，按FCFS原则排队等待调度。当轮到该进程执行时，如它能在该时间片内完成，便可准备撤离系统；如果它在一个时间片结束时尚未完成，调度程序便将该进程转入第二队列的末尾，再同样地按FCFS原则等待调度执行；如果它在第二队列中运行一个时间片后仍未完成，再依次将它放入第三队列</li>
+<li>仅当<strong><em>\</em>第一队列空闲时**</strong>，调度程序<strong><em>\</em>才调度第二队列中的进程运行**</strong>；仅当第1～(i-1)队列均空时，才会调度第i队列中的进程运行。</li>
+</ol>
+</li>
+<li><p>优先级调度算法</p>
+<ol>
+<li>非抢占式优先权算法<ol>
+<li>系统一旦把处理机分配给就绪队列中优先权最高的进程后，该进程便<strong><em>\</em>一直执行下去，直至完成**</strong>；或因发生某事件使该进程放弃处理机时，系统方可再将处理机重新分配给另一优先权最高的进程</li>
+</ol>
+</li>
+<li>抢占式优先权调度算法<ol>
+<li>系统同样是把处理机分配给优先权最高的进程，使之执行。但在其执行期间，<strong>*\</strong>*只要又出现了另一个其优先权更高的进程，进程调度程序就立即停止当前进程**(**原优先权最高的进程****)****的执行，重新将处理机分配给新到的优先权最高的进程。**<em>**</em></li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>CFS</p>
+<ol>
+<li><p>vruntime。如果一个进程得以执行，随着时间的增长（即一个个tick的到来），其vruntime将不断增大。没有得到执行的进程vruntime不变。<br>  调度器总是选择vruntime值最低的进程执行。这就是所谓的“完全公平”。对于不同进程，优先级高的进程vruntime增长慢，以至于它能得到更多的运行时间。</p>
+</li>
+<li><p>nice 值 静态优先级</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PRI是比较好理解的，即进程的优先级，或者通俗点说就是程序被CPU执行的先后顺序，此值越小进程的优先级别越高。那NI呢？就是我们所要说的nice值了，其表示进程可被执行的优先级的修正数值。如前面所说，PRI值越小越快被执行，那么加入nice值后，将会使得PRI变为：PRI(new)=PRI(old)+nice。由此看出，PR是根据NICE排序的，规则是NICE越小PR越前（小，优先权更大），即其优先级会变高，则其越快被执行。如果NICE相同则进程uid是root的优先权更大。</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="6-linux子进程"><a href="#6-linux子进程" class="headerlink" title="6. linux子进程"></a>6. linux子进程</h3><h4 id="父子进程之间的关系"><a href="#父子进程之间的关系" class="headerlink" title="父子进程之间的关系"></a>父子进程之间的关系</h4><p>关于资源：子进程得到的是除了代码段是与父进程共享的意外，其他所有的都是得到父进程的一个副本，子进程的所有资源都继承父进程，得到父进程资源的副本，既然为副本，也就是说，二者并不共享地址空间。，两个是单独的进程，继承了以后二者就没有什么关联了，子进程单独运行。（采用写时复制技术）<br>关于文件描述符：继承父进程的文件描述符时，相当于调用了dup函数，父子进程共享文件表项，即共同操作同一个文件，一个进程修改了文件，另一个进程也知道此文件被修改了。</p>
+<p>fork之后，<strong>操作系统会复制一个与父进程完全相同的子进程，虽说是父子关系，但是在操作系统看来，他们更像兄弟关系，这2个进程共享代码空间，但是数据空间是互相独立的，子进程数据空间中的内容是父进程的完整拷贝，指令指针也完全相同，子进程拥有父进程当前运行到的位置</strong>（两进程的程序计数器pc值相同，也就是说，子进程是从fork返回处开始执行的），但有一点不同，如果fork成功，子进程中fork的返回值是0，父进程中fork的返回值是子进程的进程号，如果fork不成功，父进程会返回错误。</p>
+<p><strong>僵尸进程</strong>：一个子进程在其父进程没有调用wait()或waitpid()的情况下退出。这个子进程就是僵尸进程。如果其父进程还存在而一直不调用wait，则该僵尸进程将无法回收，等到其父进程退出后该进程将被init回收。<br><strong>孤儿进程</strong>：一个父进程退出，而它的一个或多个子进程还在运行，那么那些子进程将成为孤儿进程。孤儿进程将被init进程(进程号为1)所收养，并由init进程对它们完成状态收集工作。</p>
+<h4 id="7-fork-vfork和clone"><a href="#7-fork-vfork和clone" class="headerlink" title="7. fork vfork和clone"></a>7. fork vfork和clone</h4><ol>
+<li>fork创造的子进程是父进程的完整副本，复制了父亲进程的资源，包括内存的内容task_struct内容</li>
+<li>vfork创建的子进程与父进程共享数据段,而且由vfork()创建的子进程将先于父进程运行</li>
+<li>Linux上创建线程一般使用的是pthread库 实际上linux也给我们提供了创建线程的系统调用，就是clone，是创造新的空间。clone可以让你有选择性的继承父进程的资源，你可以选择想vfork一样和父进程共享一个虚存空间，从而使创造的是线程，你也可以不和父进程共享，你甚至可以选择创造出来的进程和父进程不再是父子关系，而是兄弟关系。</li>
+</ol>
+<p>fork 创造的子进程复制了父亲进程的资源（写时复制技术），包括内存的内容task_struct内容（2个进程的pid不同）。这里是资源的复制不是指针的复制。</p>
+<p>copy-on-write</p>
+<p> 我们都知道fork创建进程的时候，并没有真正的copy内存（听着好像矛盾了，资源的赋值为什么有没有真正的赋值呢？），因为我们知道，对于fork来讲，有一个很讨厌的东西叫exec系列的系统调用，它会勾引子进程另起炉灶。如果创建子进程就要内存拷贝的的话，一执行exec，辛辛苦苦拷贝的内存又被完全放弃了。由于fork()后会产生一个和父进程完全相同的子进程，但子进程在此后多会exec系统调用，处于效率考虑，linux中引入了“写时复制技术-Copy-On-Write”。</p>
+<pre><code>换言之，在fork()之后exec之前两个进程用的是相同的物理空间（内存区），先把页表映射关系建立起来，并不真正将内存拷贝。子进程的代码段、数据段、堆栈都是指向父进程的物理空间，也就是说，两者的虚拟空间不同，但其对应的物理空间是同一个。当父进程中有更改相应段的行为发生时，如进程写访问，再为子进程相应的段分配物理空间，如果不是因为exec，内核会给子进程的数据段、堆栈段分配相应的物理空间（至此两者有各自的进程空间，互不影响），而代码段继续共享父进程的物理空间（两者的代码完全相同）。而如果是因为exec，由于两者执行的代码不同，子进程的代码段也会分配单独的物理空间。fork时子进程获得父进程数据空间、堆和栈的复制所以变量的地址（当然是虚拟地址）是一样的。</code></pre><p> vfork是一个过时的应用，vfork也是创建一个子进程，但是子进程共享父进程的空间。在vfork创建子进程之后，父进程阻塞，直到子进程执行了exec()或者exit()。vfork最初是因为fork没有实现COW机制，而很多情况下fork之后会紧接着exec，而exec的执行相当于之前fork复制的空间全部变成了无用功，所以设计了vfork。而现在fork使用了COW机制，唯一的代价仅仅是复制父进程页表的代价，所以vfork不应该出现在新的代码之中。      </p>
+<pre><code>vfork创建出来的不是真正意义上的进程，而是一个线程，因为它缺少经常要素（4），独立的内存资源</code></pre><p> clone是Linux为创建线程设计的（虽然也可以用clone创建进程）。所以可以说clone是fork的升级版本，不仅可以创建进程或者线程，还可以指定创建新的命名空间（namespace）、有选择的继承父进程的内存、甚至可以将创建出来的进程变成父进程的兄弟进程等等。</p>
+<h3 id="阻塞的进程不占用资源"><a href="#阻塞的进程不占用资源" class="headerlink" title="阻塞的进程不占用资源"></a>阻塞的进程不占用资源</h3><p>当进程A执行到创建socket的语句时，操作系统会创建一个由文件系统管理的socket对象（如下图）。这个socket对象包含了发送缓冲区、接收缓冲区、等待队列等成员。等待队列是个非常重要的结构，它指向所有需要等待该socket事件的进程。</p>
+<p>当程序执行到recv时，操作系统会将进程A从工作队列移动到该socket的等待队列中（如下图）。由于工作队列只剩下了进程B和C，依据进程调度，cpu会轮流执行这两个进程的程序，不会执行进程A的程序。所以进程A被阻塞，不会往下执行代码，也不会占用cpu资源。</p>
+<p><strong>唤醒进程</strong></p>
+<p>当socket接收到数据后，操作系统将该socket等待队列上的进程重新放回到工作队列，该进程变成运行状态，继续执行代码。也由于socket的接收缓冲区已经有了数据，recv可以返回接收到的数据。</p>
+<h3 id="8-惊群效应"><a href="#8-惊群效应" class="headerlink" title="8. 惊群效应"></a>8. 惊群效应</h3><p>方法一：要想避免如上线程池设计中的惊群问题，在仍然共用一个线程互斥锁的条件下，给每一个消费者线程创建一个线程条件变量，生产者线程在添加任务时，找到空闲的消费者线程，将任务置入该消费者的任务队列中，同时只通知 (pthread_cond_signal) 该消费者的线程条件变量，消费者线程与生产者线程虽然共用相同的线程互斥锁（因为有全局资源及调用 pthread_cond_wait 所需），但线程条件变量的通知过程却是定向通知的，未被通知的消费者线程不会被唤醒，这样惊群现象也就不会产生了。当然，还有一些设计上的细节需要注意，比如：当没有空闲消费者线程时，需要将任务添加进线程池的全局任务队列中，消费者线程处理完自己的任务后需要查看一下线程池中的全局任务队列中是否还有未处理的任务。</p>
+<p>【大意】：在线程池中，增加一组线程条件变量，对应于每一个线程。增加任务的时候，如果有空闲线程，那么只通知某一个空闲线程，并且将其置忙。忙与闲，可以通过条件变量来表征，用一个链表表示(类似连接池)。</p>
+<p>如果所有线程都忙，那么就将任务加入全局队列，并且通知所有消费者（这时惊群是很小的，除非所有线程都刚好同一时刻完成任务，同一时刻争夺资源，否则只有极少数线程会发生惊群）。</p>
+<h1 id="LRU（页面置换算法）"><a href="#LRU（页面置换算法）" class="headerlink" title="LRU（页面置换算法）"></a>LRU（页面置换算法）</h1><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWM0LnpoaW1nLmNvbS84MC92Mi0wOWYwMzc2MDhiMWIyZGU3MGI1MmQxMzEyZWYzYjMwN19oZC5qcGc?x-oss-process=image/format,png" alt="img"></p>
+<h1 id="linux-细节要点"><a href="#linux-细节要点" class="headerlink" title="linux 细节要点"></a>linux 细节要点</h1><h4 id="删除大于50MB的文件"><a href="#删除大于50MB的文件" class="headerlink" title="删除大于50MB的文件"></a>删除大于50MB的文件</h4><p>显示当前路径下，大于50M的文件。（包含子文件夹内的文件）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find ./ -size +50M</span><br></pre></td></tr></table></figure>
+
+<p>删除当前路径下，大于50M的文件。（包含子文件夹内的文件）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find ./ -size +50M -exec rm &#123;&#125; \;</span><br></pre></td></tr></table></figure>
+
+<h4 id="关闭一个进程"><a href="#关闭一个进程" class="headerlink" title="关闭一个进程"></a>关闭一个进程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep firefox</span><br><span class="line">kill -s 9 1827</span><br><span class="line">ps -ef | grep firefox | grep -v grep | cut -c 9-15 | xargs kill -s 9</span><br><span class="line">kill -s 9 `ps -aux | grep firefox | awk &apos;&#123;print $2&#125;&apos;`</span><br></pre></td></tr></table></figure>
+
+<h4 id="查找一个带有关键字的进程"><a href="#查找一个带有关键字的进程" class="headerlink" title="查找一个带有关键字的进程"></a>查找一个带有关键字的进程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep some_string</span><br><span class="line">输出时，不仅会输出将要查找的进程数据，清空包括grep进程本身的数据，因为查找串包含在grep调用中。过滤grep本身方法有：</span><br><span class="line">ps -ef | grep some_string |grep -v grep</span><br><span class="line"></span><br><span class="line">按内存升序排列：ps aux --sort=rss </span><br><span class="line">按CPU降序排列：ps aux --sort=-%cpu</span><br><span class="line"></span><br><span class="line">top</span><br><span class="line">按内存排序 shift + M</span><br><span class="line">按cpiu排序 shift + P</span><br></pre></td></tr></table></figure>
+
+<h4 id="netstat查询占用端口号"><a href="#netstat查询占用端口号" class="headerlink" title="netstat查询占用端口号"></a>netstat查询占用端口号</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -tulp |grep 端口号</span><br></pre></td></tr></table></figure>
+
+<h4 id="cpu-memory-查询"><a href="#cpu-memory-查询" class="headerlink" title="cpu memory 查询"></a>cpu memory 查询</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CPU占用率查看命令：top</span><br><span class="line">内存占用率：free -m</span><br></pre></td></tr></table></figure>
+
+<h4 id="Linux下-proc目录简介"><a href="#Linux下-proc目录简介" class="headerlink" title="Linux下/proc目录简介"></a>Linux下/proc目录简介</h4><p>Linux 内核提供了一种通过 /proc 文件系统，在运行时访问内核内部数据结构、改变内核设置的机制。proc文件系统是一个伪文件系统，它只存在内存当中，而不占用外存空间。它以文件系统的方式为访问系统内核数据的操作提供接口。</p>
+<p>用户和应用程序可以通过proc得到系统的信息，并可以改变内核的某些参数。由于系统的信息，如进程，是动态改变的，所以用户或应用程序读取proc文件时，proc文件系统是动态从系统内核读出所需信息并提交的。</p>
+<h4 id="sql语句运行时间"><a href="#sql语句运行时间" class="headerlink" title="sql语句运行时间"></a>sql语句运行时间</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set profiling = 1;</span><br><span class="line">select timestampdiff(second,@d,now());</span><br></pre></td></tr></table></figure>
+
+<h1 id="I-O-要点"><a href="#I-O-要点" class="headerlink" title="I/O 要点"></a>I/O 要点</h1><p>由于同步非阻塞方式需要不断主动轮询，轮询占据了很大一部分过程，轮询会消耗大量的CPU时间，而 “后台” 可能有多个任务在同时进行，人们就想到了循环查询多个任务的完成状态，只要有任何一个任务完成，就去处理它。如果轮询不是进程的用户态，而是有人帮忙就好了。<code>那么这就是所谓的 “IO 多路复用”</code>。UNIX/Linux 下的 select、poll、epoll 就是干这个的（epoll 比 poll、select 效率高，做的事情是一样的）。</p>
+<p><code>IO多路复用有两个特别的系统调用select、poll、epoll函数</code>。select调用是内核级别的，select轮询相对非阻塞的轮询的区别在于—<code>前者可以等待多个socket，能实现同时对多个IO端口进行监听</code>，当其中任何一个socket的数据准好了，<code>就能返回进行可读</code>，<code>然后进程再进行recvform系统调用，将数据由内核拷贝到用户进程，当然这个过程是阻塞的</code>。select或poll调用之后，会阻塞进程，与blocking IO阻塞不同在于，<code>此时的select不是等到socket数据全部到达再处理, 而是有了一部分数据就会调用用户进程来处理</code>。如何知道有一部分数据到达了呢？<code>监视的事情交给了内核，内核负责数据到达的处理。也可以理解为&quot;非阻塞&quot;吧</code>。</p>
+<p>对于多路复用，也就是轮询多个socket。<code>多路复用既然可以处理多个IO，也就带来了新的问题，多个IO之间的顺序变得不确定了</code>，当然也可以针对不同的编号。</p>
+<h3 id="select-poll-epoll的区别"><a href="#select-poll-epoll的区别" class="headerlink" title="select poll epoll的区别"></a>select poll epoll的区别</h3><p>实际中，这三个函数对于每一个socket，一般都设置成为non-blocking，但是，整个用户的process其实是一直被block的。`只不过process是被函数block，而不是被socket IO给block。</p>
+<h4 id="select"><a href="#select" class="headerlink" title="select"></a>select</h4><p>select 函数监视的文件描述符分3类，分别是writefds、readfds、和exceptfds。调用后select函数会阻塞，直到有描述副就绪（有数据 可读、可写、或者有except），或者超时（timeout指定等待时间，如果立即返回设为null即可），函数返回。当select函数返回后，可以 通过遍历fdset，来找到就绪的描述符。</p>
+<p>select目前几乎在所有的平台上支持，其良好跨平台支持也是它的一个优点。select的一 个缺点在于单个进程能够监视的文件描述符的数量存在最大限制，在Linux上一般为1024，可以通过修改宏定义甚至重新编译内核的方式提升这一限制，但 是这样也会造成效率的降低。</p>
+<p><strong>（1）每次调用select，都需要把fd集合从用户态拷贝到内核态，这个开销在fd很多时会很大</strong></p>
+<p><strong>（2）同时每次调用select都需要在内核遍历传递进来的所有fd，这个开销在fd很多时也很大</strong></p>
+<p><strong>（3）select支持的文件描述符数量太小了，默认是1024</strong></p>
+<p>（4）如果要在循环中重复调用 <code>select()</code> 的话，我们必须每次都要重新初始化 <code>fd_set</code>。</p>
+<h4 id="poll"><a href="#poll" class="headerlink" title="poll"></a>poll</h4><p>通过一个可变长度的数组解决了select文件描述符受限的问题。数组中元素是结构体，该结构体保存描述符的信息，每增加一个文件描述符就向数组中加入一个结构体，结构体只需要拷贝一次到内核态。poll解决了select重复初始化的问题。轮寻排查的问题未解决。</p>
+<p>poll的实现和select非常相似，只是描述fd集合的方式不同，poll使用pollfd结构而不是select的fd_set结构。而<code>poll()</code>通过独立的两个字段<code>events</code> （针对输入）和 <code>revents</code> （针对输出）来处理，从而避免每次都要重新初始化参数。</p>
+<p>poll返回后，需要轮询pollfd来获取就绪的描述符。</p>
+<h4 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h4><p>相对于select和poll来说，epoll更加灵活，没有描述符限制。epoll使用一个文件描述符管理多个描述符，将用户关系的文件描述符的事件存放到内核的一个事件表中，这样在用户空间和内核空间的copy只需一次。轮寻排查所有文件描述符的效率不高，使服务器并发能力受限。因此，epoll采用只返回状态发生变化的文件描述符，便解决了轮寻的瓶颈。</p>
+<p>红黑树管理文件描述符，用于查找fd是否存在</p>
+<p>用了一个双向链表接收内核触发的事件</p>
+<p>优点</p>
+<ol>
+<li><code>没有最大并发连接的限制</code>，能打开的FD的上限远大于1024（1G的内存上能监听约10万个端口）。</li>
+<li><code>效率提升，不是轮询的方式，不会随着FD数目的增加效率下降</code>。只有活跃可用的FD才会调用callback函数；<code>即Epoll最大的优点就在于它只管你“活跃”的连接，而跟连接总数无关</code>，因此在实际的网络环境中，Epoll的效率就会远远高于select和poll。</li>
+<li><code>内存拷贝</code>，利用mmap()文件映射内存加速与内核空间的消息传递；<code>即epoll使用mmap减少复制开销</code>。</li>
+</ol>
+<p>（1）select，poll实现需要自己不断轮询所有fd集合，直到设备就绪，期间可能要睡眠和唤醒多次交替。而epoll其实也需要调用epoll_wait不断轮询就绪链表，期间也可能多次睡眠和唤醒交替，但是它是设备就绪时，调用回调函数，把就绪fd放入就绪链表中，并唤醒在epoll_wait中进入睡眠的进程。虽然都要睡眠和交替，但是select和poll在“醒着”的时候要遍历整个fd集合，而epoll在“醒着”的时候只要判断一下就绪链表是否为空就行了，这节省了大量的CPU时间。这就是回调机制带来的性能提升。</p>
+<p>（2）select，poll每次调用都要把fd集合从用户态往内核态拷贝一次，并且要把current往设备等待队列中挂一次，而epoll只要一次拷贝，而且把current往等待队列上挂也只挂一次（在epoll_wait的开始，注意这里的等待队列并不是设备等待队列，只是一个epoll内部定义的等待队列）。这也能节省不少的开销。</p>
+<p>epoll对文件描述符的操作有两种模式：<strong>LT（level trigger）</strong>和<strong>ET（edge trigger）</strong>。LT模式是默认模式，LT模式与ET模式的区别如下：<br>　　<strong>LT模式</strong>：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，<code>应用程序可以不立即处理该事件</code>。下次调用epoll_wait时，会再次响应应用程序并通知此事件。只要有数据没有被获取，内核就不断通知你，因此不用担心事件丢失的情况。<br>　　<strong>ET模式</strong>：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，<code>应用程序必须立即处理该事件</code>。如果不处理，下次调用epoll_wait时，不会再次响应应用程序并通知此事件。但是对编程要求高，需要细致的处理每个请求，否则容易发生丢失事件的情况。</p>
+<p>从本质上来讲，ET相对LT是通过减少系统调用来提高并行效率的。</p>
+<ul>
+<li><strong>LT 模式</strong></li>
+</ul>
+<p>LT(level triggered)是缺省的工作方式，并且同时支持block和no-block socket.在这种做法中，内核告诉你一个文件描述符是否就绪了，然后你可以对这个就绪的fd进行IO操作。如果你不作任何操作，内核还是会继续通知你的。</p>
+<ul>
+<li><strong>ET模式</strong></li>
+</ul>
+<p>ET(edge-triggered)是高速工作方式，只支持no-block socket。在这种模式下，当描述符从未就绪变为就绪时，内核通过epoll告诉你。然后它会假设你知道文件描述符已经就绪，并且不会再为那个文件描述符发送更多的就绪通知，直到你做了某些操作导致那个文件描述符不再为就绪状态了(比如，你在发送，接收或者接收请求，或者发送接收的数据少于一定量时导致了一个EWOULDBLOCK 错误）。但是请注意，如果一直不对这个fd作IO操作(从而导致它再次变成未就绪)，内核不会发送更多的通知(only once)</p>
+<p>ET模式在很大程度上减少了epoll事件被重复触发的次数，因此效率要比LT模式高。epoll工作在ET模式的时候，必须使用非阻塞套接口，以避免由于一个文件句柄的阻塞读/阻塞写操作把处理多个文件描述符的任务饿死。</p>
+<h6 id="编程注意事项"><a href="#编程注意事项" class="headerlink" title="编程注意事项"></a>编程注意事项</h6><p>在ET模式下，读取套接字必须要读干净。</p>
+<ul>
+<li>在LT模式下，当socket可写时，会不停的触发socket可写的事件，如何处理？</li>
+</ul>
+<p>第一种最普遍的方式：<br>需要向socket写数据的时候才把socket加入epoll，等待可写事件。接受到可写事件后，调用write或者send发送数据。当所有数据都写完后，把socket移出epoll。</p>
+<p>这种方式的缺点是，即使发送很少的数据，也要把socket加入epoll，写完后在移出epoll，有一定操作代价。</p>
+<p>第二种</p>
+<p>开始不把socket加入epoll，需要向socket写数据的时候，直接调用write或者send发送数据。如果返回EAGAIN，把socket加入epoll，在epoll的驱动下写数据，全部数据发送完毕后，再移出epoll。</p>
+<p>Linux环境下开发经常会碰到很多错误(设置errno)，其中EAGAIN是其中比较常见的一个错误(比如用在非阻塞操作中)。从字面上来看，是提示再试一次。这个错误经常出现在当应用程序进行一些非阻塞(non-blocking)操作(对文件或socket)的时候。</p>
+<p>这种方式的优点是：数据不多的时候可以避免epoll的事件处理，提高效率。</p>
+<ul>
+<li><strong>ET模式的线程饥饿问题</strong></li>
+</ul>
+<p>如果某个socket源源不断地收到非常多的数据，在试图读取完所有数据的过程中，有可能会造成其他的socket得不到处理，从而造成饥饿问题。</p>
+<p>解决办法：为每个已经准备好的描述符维护一个队列，这样程序就可以知道哪些描述符已经准备好了但是并没有被读取完，然后程序定时或定量的读取，如果读完则移除，直到队列为空，这样就保证了每个fd都被读到并且不会丢失数据，流程如图:</p>
+<ul>
+<li><strong>EPOLLONESHOT设置</strong></li>
+</ul>
+<p>A线程读完某socket上数据后开始处理这些数据，此时该socket上又有新数据可读，B线程被唤醒读新的数据，造成2个线程同时操作一个socket的局面 ，EPOLLONESHOT保证一个socket连接在任一时刻只被一个线程处理。</p>
+<ul>
+<li><strong>两种模式的选择</strong></li>
+</ul>
+<p>通过前面的对比可以看到LT模式比较安全并且代码编写也更清晰，但是ET模式属于高速模式，在处理大高并发场景使用得当效果更好，具体选择什么根据自己实际需要和团队代码能力来选择，如果并发很高且团队水平较高可以选择ET模式，否则建议LT模式。</p>
+<p><strong>6.epoll的惊群问题</strong></p>
+<p>在2.6.18内核中accept的惊群问题已经被解决了，但是在epoll中仍然存在惊群问题，表现起来就是当多个进程/线程调用epoll_wait时会阻塞等待，当内核触发可读写事件，所有进程/线程都会进行响应，但是实际上只有一个进程/线程真实处理这些事件。<br>在epoll官方没有正式修复这个问题之前，Nginx作为知名使用者采用全局锁来限制每次可监听fd的进程数量，每次只有1个可监听的进程，后来在Linux 3.9内核中增加了SO_REUSEPORT选项实现了内核级的负载均衡，Nginx1.9.1版本支持了reuseport这个新特性，从而解决惊群问题。EPOLLEXCLUSIVE是在2016年Linux 4.5内核新添加的一个 epoll 的标识，Ngnix 在 1.11.3 之后添加了NGX_EXCLUSIVE_EVENT选项对该特性进行支持。EPOLLEXCLUSIVE标识会保证一个事件发生时候只有一个线程会被唤醒，以避免多侦听下的惊群问题。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OS/" rel="tag"># OS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/12/distributed-system/" rel="next" title="distributed system">
+                <i class="fa fa-chevron-left"></i> distributed system
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/24/network-simple/" rel="prev" title="【面试准备简明版】- 操作系统">
+                【面试准备简明版】- 操作系统 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ReStartercc</p>
+              <p class="site-description motion-element" itemprop="description">Contact restartercc@gmail.com</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#内存-寻址要点"><span class="nav-number">1.</span> <span class="nav-text">内存/寻址要点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-物理地址-逻辑地址-和-虚拟地址"><span class="nav-number">1.0.1.</span> <span class="nav-text">1. 物理地址 逻辑地址 和 虚拟地址</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么需要虚拟内存"><span class="nav-number">1.0.1.1.</span> <span class="nav-text">为什么需要虚拟内存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-内存管理（分页与分段）"><span class="nav-number">1.0.2.</span> <span class="nav-text">2. 内存管理（分页与分段）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Slab和伙伴算法"><span class="nav-number">1.0.3.</span> <span class="nav-text">3. Slab和伙伴算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#伙伴算法"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">伙伴算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux的slab层-amp-VAM"><span class="nav-number">1.0.3.2.</span> <span class="nav-text">Linux的slab层 &amp; VAM</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-高端内存"><span class="nav-number">1.0.4.</span> <span class="nav-text">4. 高端内存</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#进程-线程-协程要点"><span class="nav-number">2.</span> <span class="nav-text">进程/线程/协程要点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-进程和线程的区别"><span class="nav-number">2.0.1.</span> <span class="nav-text">1. 进程和线程的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-进程切换的开销和线程切换的开销"><span class="nav-number">2.0.2.</span> <span class="nav-text">2. 进程切换的开销和线程切换的开销</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-协程切换的开销为什么小"><span class="nav-number">2.0.3.</span> <span class="nav-text">3. 协程切换的开销为什么小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-进程和线程的通信"><span class="nav-number">2.0.4.</span> <span class="nav-text">4. 进程和线程的通信</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#进程通信"><span class="nav-number">2.0.4.1.</span> <span class="nav-text">进程通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程通信"><span class="nav-number">2.0.4.2.</span> <span class="nav-text">线程通信</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-进程调度算法"><span class="nav-number">2.0.5.</span> <span class="nav-text">5. 进程调度算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-linux子进程"><span class="nav-number">2.0.6.</span> <span class="nav-text">6. linux子进程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#父子进程之间的关系"><span class="nav-number">2.0.6.1.</span> <span class="nav-text">父子进程之间的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-fork-vfork和clone"><span class="nav-number">2.0.6.2.</span> <span class="nav-text">7. fork vfork和clone</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#阻塞的进程不占用资源"><span class="nav-number">2.0.7.</span> <span class="nav-text">阻塞的进程不占用资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-惊群效应"><span class="nav-number">2.0.8.</span> <span class="nav-text">8. 惊群效应</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LRU（页面置换算法）"><span class="nav-number">3.</span> <span class="nav-text">LRU（页面置换算法）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#linux-细节要点"><span class="nav-number">4.</span> <span class="nav-text">linux 细节要点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#删除大于50MB的文件"><span class="nav-number">4.0.0.1.</span> <span class="nav-text">删除大于50MB的文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关闭一个进程"><span class="nav-number">4.0.0.2.</span> <span class="nav-text">关闭一个进程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查找一个带有关键字的进程"><span class="nav-number">4.0.0.3.</span> <span class="nav-text">查找一个带有关键字的进程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#netstat查询占用端口号"><span class="nav-number">4.0.0.4.</span> <span class="nav-text">netstat查询占用端口号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cpu-memory-查询"><span class="nav-number">4.0.0.5.</span> <span class="nav-text">cpu memory 查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux下-proc目录简介"><span class="nav-number">4.0.0.6.</span> <span class="nav-text">Linux下/proc目录简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sql语句运行时间"><span class="nav-number">4.0.0.7.</span> <span class="nav-text">sql语句运行时间</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#I-O-要点"><span class="nav-number">5.</span> <span class="nav-text">I/O 要点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#select-poll-epoll的区别"><span class="nav-number">5.0.1.</span> <span class="nav-text">select poll epoll的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#select"><span class="nav-number">5.0.1.1.</span> <span class="nav-text">select</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#poll"><span class="nav-number">5.0.1.2.</span> <span class="nav-text">poll</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#epoll"><span class="nav-number">5.0.1.3.</span> <span class="nav-text">epoll</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#编程注意事项"><span class="nav-number">5.0.1.3.0.1.</span> <span class="nav-text">编程注意事项</span></a></li></ol></li></ol></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ReStartercc</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

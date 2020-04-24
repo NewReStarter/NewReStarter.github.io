@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="database,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="[toc] 数据库引擎1. 数据库引擎类型 INNODB：  支持事务，行级锁和表级锁，默认为行级锁，支持外键。 ACID事务支持 支持B+树索引、全文索引、哈希索引（InnoDB用户无法手动创建哈希索引，InnoDB自己会建立相关哈希索引） InnoDB 存储引擎采用“聚集索引”的数据存储方式实现B+Tree索引 主键索引 既存储索引值,又在叶子中存储行的数据。聚簇索引的文件存放在主键索引的叶子">
+<meta name="keywords" content="database">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【面试准备简明版】- 数据库">
+<meta property="og:url" content="NewReStarter.github.io/2020/03/24/database-simple/index.html">
+<meta property="og:site_name" content="Restartercc">
+<meta property="og:description" content="[toc] 数据库引擎1. 数据库引擎类型 INNODB：  支持事务，行级锁和表级锁，默认为行级锁，支持外键。 ACID事务支持 支持B+树索引、全文索引、哈希索引（InnoDB用户无法手动创建哈希索引，InnoDB自己会建立相关哈希索引） InnoDB 存储引擎采用“聚集索引”的数据存储方式实现B+Tree索引 主键索引 既存储索引值,又在叶子中存储行的数据。聚簇索引的文件存放在主键索引的叶子">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-04-24T05:46:55.877Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【面试准备简明版】- 数据库">
+<meta name="twitter:description" content="[toc] 数据库引擎1. 数据库引擎类型 INNODB：  支持事务，行级锁和表级锁，默认为行级锁，支持外键。 ACID事务支持 支持B+树索引、全文索引、哈希索引（InnoDB用户无法手动创建哈希索引，InnoDB自己会建立相关哈希索引） InnoDB 存储引擎采用“聚集索引”的数据存储方式实现B+Tree索引 主键索引 既存储索引值,又在叶子中存储行的数据。聚簇索引的文件存放在主键索引的叶子">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="NewReStarter.github.io/2020/03/24/database-simple/">
+
+
+
+
+
+  <title>【面试准备简明版】- 数据库 | Restartercc</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Restartercc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">学习计算机科学和数学，尝试了解这个世界</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="NewReStarter.github.io/2020/03/24/database-simple/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ReStartercc">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Restartercc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【面试准备简明版】- 数据库</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-24T13:45:49+08:00">
+                2020-03-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试准备/" itemprop="url" rel="index">
+                    <span itemprop="name">面试准备</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[toc]</p>
+<h1 id="数据库引擎"><a href="#数据库引擎" class="headerlink" title="数据库引擎"></a>数据库引擎</h1><h3 id="1-数据库引擎类型"><a href="#1-数据库引擎类型" class="headerlink" title="1. 数据库引擎类型"></a>1. 数据库引擎类型</h3><ol>
+<li><p>INNODB：</p>
+<ol>
+<li>支持事务，行级锁和表级锁，默认为行级锁，支持外键。</li>
+<li>ACID事务支持</li>
+<li>支持B+树索引、全文索引、哈希索引（<strong>InnoDB用户无法手动创建哈希索引</strong>，<strong>InnoDB自己会建立相关哈希索引</strong>）</li>
+<li>InnoDB 存储引擎采用“聚集索引”的数据存储方式实现B+Tree索引 主键索引 既存储索引值,又在叶子中存储行的数据。聚簇索引的文件存放在主键索引的叶子节点上。</li>
+<li>而对于辅助索引，InnoDB采用的方式是在叶子页中保存主键值，通过这个主键值来回表（上图）查询到一条完整记录，因此按辅助索引检索实际上进行了二次查询，效率肯定是没有按照主键检索高的。</li>
+<li>因为InnoDB数据文件本身是一颗B+Tree，非单调的主键会造成在插入新记录时数据文件为了维持B+Tree的特性而频繁的分裂调整，十分低效，而使用自增字段作为主键则是一个很好的选择。</li>
+</ol>
+</li>
+<li><p>MyISAM</p>
+<ol>
+<li><p>通常是MySQL的默认引擎，不支持外键</p>
+</li>
+<li><p>非事务安全型，采用表级锁，并发支持差</p>
+</li>
+<li><p>提供高速存储和检索，以及全文搜索能力</p>
+</li>
+<li><p>MyISAM索引文件和数据文件是分离的，索引文件仅保存记录所在页的指针（物理位置），通过这些地址来读取页，进而读取被索引的行。</p>
+</li>
+<li><p>myisam的主键索引的叶子节点只存放数据在物理磁盘上的指针，其他次索引也是一样的；<br>innodb的主键索引的叶子节点下面直接存放数据，其他次索引的叶子节点指向主键id；</p>
+</li>
+<li><p>支持RTree 索引 和 Fulltext索引</p>
+</li>
+</ol>
+</li>
+</ol>
+<ol start="3">
+<li><p>Memory</p>
+<ol>
+<li>将所有数据保存在RAM中，在需要快速查找引用和其他类似数据的环境下，可提供极快的访问。</li>
+<li>数据部分以<strong>数组</strong>的方式单独存放，主键索引（采用<strong>哈希索引</strong>）存的是<strong>数据位置</strong></li>
+<li>Memory表也支持B-Tree索引</li>
+<li>不支持行锁，<strong>只支持表锁</strong>（并不是MDL锁），<strong>对并发访问的支持不够好</strong></li>
+<li>支持哈希和b-tree索引</li>
+</ol>
+</li>
+</ol>
+<h3 id="MyISAM-为什么读比-InnoDB块"><a href="#MyISAM-为什么读比-InnoDB块" class="headerlink" title="MyISAM 为什么读比 InnoDB块"></a>MyISAM 为什么读比 InnoDB块</h3><ol>
+<li>INNODB要缓存数据块，MyISAM只缓存索引块，换进换出少</li>
+<li>innodb寻址映射到数据块，再到行，MyISAM直接记录文件的OFFSET，定位更快</li>
+<li></li>
+</ol>
+<h1 id="数据库数据存在哪里"><a href="#数据库数据存在哪里" class="headerlink" title="数据库数据存在哪里"></a>数据库数据存在哪里</h1><ul>
+<li>索引加快数据查询速度，提高数据库查询性能。</li>
+</ul>
+<ol>
+<li><h5 id="弊："><a href="#弊：" class="headerlink" title="弊："></a>弊：</h5></li>
+</ol>
+<ul>
+<li>数据库中索引是以文件的方式存储的，需要用的时候读取到内存中，因此索引的I/O操作会影响数据库的性能；</li>
+<li>此外插入和更新操作会更改索引，因此会影响数据库插入和更新的性能，并且索引会占用一定的磁盘空间，使数据库变大。</li>
+</ul>
+<h1 id="数据库语法"><a href="#数据库语法" class="headerlink" title="数据库语法"></a>数据库语法</h1><h2 id="Join"><a href="#Join" class="headerlink" title="Join"></a>Join</h2><h3 id="自然连接"><a href="#自然连接" class="headerlink" title="自然连接"></a>自然连接</h3><p>自然连接(Natural join)是一种特殊的等值连接，要求两个关系表中进行比较的属性组必须是名称相同的属性组，并且在结果中把重复的属性列去掉（即：留下名称相同的属性组中的其中一组）</p>
+<p>自然连接将两个关系组中在相同名称的属性上具有相同的值的行记录进行匹配（表A和表B中的Bid属性相等的行记录），并且重复的属性列去掉，这样新的一行将出现在查询结果中，而那些没被匹配的行不出现在结果中（结合A、B表和查询的结果可以看出来）。因此自然连接的结果会有数据丢失，这些丢失的数据就是那些没有匹配的数据。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">from</span> A <span class="keyword">natural</span> <span class="keyword">join</span> B</span><br></pre></td></tr></table></figure>
+
+<h3 id="内连接"><a href="#内连接" class="headerlink" title="内连接"></a>内连接</h3><p>内连接查询操作列出与连接条件匹配的数据行，它使用比较运算符比较被连接列的列值。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> book <span class="keyword">as</span> a,stu <span class="keyword">as</span> b <span class="keyword">where</span> a.sutid = b.stuid</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> book <span class="keyword">as</span> a <span class="keyword">inner</span> <span class="keyword">join</span> stu <span class="keyword">as</span> b <span class="keyword">on</span> a.sutid = b.stuid</span><br></pre></td></tr></table></figure>
+
+<h3 id="外连接"><a href="#外连接" class="headerlink" title="外连接"></a>外连接</h3><h4 id="左连接"><a href="#左连接" class="headerlink" title="左连接"></a>左连接</h4><p>以左表为基准，将a.stuid = b.stuid的数据进行连接，然后将左表没有的对应项显示，右表的列为NULL</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> book <span class="keyword">as</span> a <span class="keyword">left</span> <span class="keyword">join</span> stu <span class="keyword">as</span> b <span class="keyword">on</span> a.sutid = b.stuid</span><br></pre></td></tr></table></figure>
+
+<h4 id="右连接"><a href="#右连接" class="headerlink" title="右连接"></a>右连接</h4><p>是以右表为基准，将a.stuid = b.stuid的数据进行连接，然以将右表没有的对应项显示，左表的列为NULL</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> book <span class="keyword">as</span> a <span class="keyword">right</span> <span class="keyword">join</span> stu <span class="keyword">as</span> b <span class="keyword">on</span> a.sutid = b.stuid</span><br></pre></td></tr></table></figure>
+
+<h4 id="全连接"><a href="#全连接" class="headerlink" title="全连接"></a>全连接</h4><p>完整外部联接返回左表和右表中的所有行。当某行在另一个表中没有匹配行时，则另一个表的选择列表列包含空值。如果表之间有匹配行，则整个结果集行包含基表的数据值。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> book <span class="keyword">as</span> a <span class="keyword">full</span> <span class="keyword">outer</span> <span class="keyword">join</span> stu <span class="keyword">as</span> b <span class="keyword">on</span> a.sutid = b.stuid</span><br></pre></td></tr></table></figure>
+
+<h3 id="交叉连接（笛卡尔积）"><a href="#交叉连接（笛卡尔积）" class="headerlink" title="交叉连接（笛卡尔积）"></a>交叉连接（笛卡尔积）</h3><p>交叉联接返回左表中的所有行，左表中的每一行与右表中的所有行组合。交叉联接也称作笛卡尔积。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from book as a cross join stu as b order by a.id</span><br></pre></td></tr></table></figure>
+
+<h3 id="on-和-where-的区别"><a href="#on-和-where-的区别" class="headerlink" title="on 和 where 的区别"></a>on 和 where 的区别</h3><p>inner join中on和where没区别，</p>
+<p>使用left join时on后面的条件只对右表有效</p>
+<p>right join 时后面的条件只对左表有效</p>
+<h1 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h1><p>所以数据库引入事务的主要目的是事务会把数据库会从一种一致状态转换到另一种一致状态，数据库提交工作时可以确保要么所有修改都保存，要么所有修改都不保存。</p>
+<h4 id="原子性（atomicity）"><a href="#原子性（atomicity）" class="headerlink" title="原子性（atomicity）"></a>原子性（atomicity）</h4><p>一个事务必须被视为一个不可分割的最小工作单元，整个事务中的所有操作要么全部提交成功，要么全部失败回滚，对于一个事务来说，不可能只执行其中的一部分操作，这就是事务的原子性。</p>
+<h4 id="一致性（consistency）"><a href="#一致性（consistency）" class="headerlink" title="一致性（consistency）"></a>一致性（consistency）</h4><p> 数据库总是从一个一致性的状态转换到另一个一致性的状态。在前面的例子中，一致性确保了，即使在执行第三、四条语句之间时系统崩溃，前面执行的语句也不会生效。因为事务最终没有提交，所以事务中所做的修改也不会保存到数据库中。</p>
+<h4 id="隔离性（isolation）"><a href="#隔离性（isolation）" class="headerlink" title="隔离性（isolation）"></a>隔离性（isolation）</h4><p> 通常来说，一个事务所做的修改在最终提交以前，对其他事务是不可见的。当执行完第三条语句、第四条语句还未开始时，此时有另外一个程序开始运行，则看不到第三条语句做出的改变。</p>
+<h4 id="持久性（durability）"><a href="#持久性（durability）" class="headerlink" title="持久性（durability）"></a>持久性（durability）</h4><p>一旦事务提交，则其所做的修改就会永久保存到数据库中。此时即使系统崩溃，修改的数据也不会丢失。持久性是个有点模糊的概念，因为实际上持久性也分很多不同的级别。有些持久性策略能够提供非常强的安全保障，而有些则未必。而且不可能有能做到100%的持久性保证策略。</p>
+<h4 id="undo-log-保证原子性"><a href="#undo-log-保证原子性" class="headerlink" title="undo log 保证原子性"></a>undo log 保证原子性</h4><p>undo log主要为事务的回滚服务。在事务执行的过程中，除了记录redo log，还会记录一定量的undo log。undo log记录了数据在每个操作前的状态，如果事务执行过程中需要回滚，就可以根据undo log进行回滚操作。单个事务的回滚，只会回滚当前事务做的操作，并不会影响到其他的事务做的操作。</p>
+<h4 id="redo-log保证持久性和一致性"><a href="#redo-log保证持久性和一致性" class="headerlink" title="redo log保证持久性和一致性"></a>redo log保证持久性和一致性</h4><p>在innoDB的存储引擎中，事务日志通过重做(redo)日志和innoDB存储引擎的日志缓冲(InnoDB Log Buffer)实现。事务开启时，事务中的操作，都会先写入存储引擎的日志缓冲中，在事务提交之前，这些缓冲的日志都需要提前刷新到磁盘上持久化，这就是DBA们口中常说的“日志先行”(Write-Ahead Logging)。当事务提交之后，在Buffer Pool中映射的数据文件才会慢慢刷新到磁盘。此时如果数据库崩溃或者宕机，那么当系统重启进行恢复时，就可以根据redo log中记录的日志，把数据库恢复到崩溃前的一个状态。未完成的事务，可以继续提交，也可以选择回滚，这基于恢复的策略而定。</p>
+<p>在系统启动的时候，就已经为redo log分配了一块连续的存储空间,以顺序追加的方式记录Redo Log,通过顺序IO来改善性能。所有的事务共享redo log的存储空间，它们的Redo Log按语句的执行顺序，依次交替的记录在一起。</p>
+<h1 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h1><h3 id="四个隔离级别"><a href="#四个隔离级别" class="headerlink" title="四个隔离级别"></a>四个隔离级别</h3><h4 id="读未提交-Read-uncommitted"><a href="#读未提交-Read-uncommitted" class="headerlink" title="读未提交  Read uncommitted"></a>读未提交  Read uncommitted</h4><p>其隔离级别最低，允许脏读。换句话说就是，如果一个事务正在处理某一数据，并对其进行了更新，但是同时没有提交事务，允许另一个事务也可以访问</p>
+<p>事务在读数据的时候并未对数据加锁。</p>
+<p>事务在修改数据的时候只对数据增加行级共享锁。</p>
+<p>该级别引发的问题是——脏读(Dirty Read)：读取到了未提交的数据</p>
+<h4 id="读已提交-Read-committed"><a href="#读已提交-Read-committed" class="headerlink" title="读已提交  Read committed"></a>读已提交  Read committed</h4><p>和读未提交的区别就是。读未提交可以读取到别人没有提交的数据，但是读已提交只能读取到别人提交后的值，事务进行的中间值不会读取到</p>
+<p>事务对当前被读取的数据加 行级共享锁（当读到时才加锁），一旦读完该行，立即释放该行级共享锁；</p>
+<p>事务在更新某数据的瞬间（就是发生更新的瞬间），必须先对其加 行级排他锁，直到事务结束才释放。</p>
+<p>这种隔离级别出现的问题是——不可重复读(Nonrepeatable Read)：不可重复读意味着我们在同一个事务中执行完全相同的select语句时可能看到不一样的结果。导致这种情况的原因可能有：</p>
+<ul>
+<li><p>有一个交叉的事务有新的commit，导致了数据的改变;</p>
+</li>
+<li><p>一个数据库被多个实例操作时,同一事务的其他实例在该实例处理其间可能会有新的commit</p>
+</li>
+</ul>
+<h4 id="可重复读-Repeatable-read"><a href="#可重复读-Repeatable-read" class="headerlink" title="可重复读  Repeatable read"></a>可重复读  Repeatable read</h4><p>简单来说就是事务处理过程中多次读取同一个数据的时候，这个值不会发生改变，其值都和第一次查询到的数据是一致的，它满足了隔离的简单定义：一个事务只能看见已经提交事务所做的改变。</p>
+<p>它确保同一事务的多个实例在并发读取数据时，会看到同样的数据行</p>
+<p>事务在读取某数据的瞬间（就是开始读取的瞬间），必须先对其加 行级共享锁，直到事务结束才释放；</p>
+<p>事务在更新某数据的瞬间（就是发生更新的瞬间），必须先对其加 行级排他锁，直到事务结束才释放。</p>
+<p>此级别可能出现的问题——幻读(Phantom Read)：当用户读取某一范围的数据行时，另一个事务又在该范围内插入了新行，当用户再读取该范围的数据行时，会发现有新的“幻影” </p>
+<p>InnoDB和Falcon存储引擎通过多版本并发控制(MVCC，Multiversion Concurrency Control)机制解决幻读问题；InnoDB还通过间隙锁解决幻读问题。</p>
+<h4 id="可串行化-Serializable"><a href="#可串行化-Serializable" class="headerlink" title="可串行化  Serializable"></a>可串行化  Serializable</h4><p>是最严格的隔离级别，他要求所有的事务都被串行执行，既事务只能一个接一个的进行处理，不能并发执行</p>
+<p>事务在读取数据时，必须先对其加 表级共享锁 ，直到事务结束才释放；</p>
+<p>事务在更新数据时，必须先对其加 表级排他锁 ，直到事务结束才释放。</p>
+<h3 id="MVCC-和-间歇锁"><a href="#MVCC-和-间歇锁" class="headerlink" title="MVCC 和 间歇锁"></a>MVCC 和 间歇锁</h3><p>MVCC（在2 3 级运行）的实现是通过保存数据在某一个时间点快照来实现的。也就是说不管实现时间多长，每个事物看到的数据都是一致的。</p>
+<p>InnoDB的MVCC是通过在每行记录后面保存两个隐藏的列来实现。这两个列一个保存了行的创建时间，一个保存行的过期时间（删除时间）。当然存储的并不是真实的时间而是系统版本号（system version number）。每开始一个新的事务，系统版本号都会自动新增。事务开始时刻的系统版本号会作为事务的版本号，用来查询到每行记录的版本号进行比较。</p>
+<ul>
+<li>SELECT</li>
+</ul>
+<p>InnoDB会根据以下条件检查每一行记录：</p>
+<ol>
+<li>InnoDB只查找版本早于当前事务版本的数据行，这样可以确保事务读取的行要么是在开始事务之前已经存在要么是事务自身插入或者修改过的</li>
+<li>行的删除版本号要么未定义，要么大于当前事务版本号，这样可以确保事务读取到的行在事务开始之前未被删除</li>
+</ol>
+<p>保存这两个版本号，使大多数操作都不用加锁。使数据操作简单，性能很好，并且能保证只会读取到复合要求的行。不足之处是每行记录都需要额外的存储空间，需要做更多的行检查工作和一些额外的维护工作。</p>
+<p>MVCC只在COMMITTED READ（读提交）和REPEATABLE READ（可重复读）两种隔离级别下工作。</p>
+<p>可以认为MVCC是行级锁一个变种，但是他很多情况下避免了加锁操作，开销更低。虽然不同数据库的实现机制有所不同，但大都实现了非阻塞的读操作（读不用加锁，且能避免出现不可重复读和幻读），写操作也只锁定必要的行（写必须加锁，否则不同事务并发写会导致数据不一致）。</p>
+<p> Repeatable Read隔离级别： 采用Next-key Lock(间隙锁) </p>
+<p>间隙锁（Gap Lock）:锁定索引记录间隙，确保索引记录的间隙不变。间隙锁是针对事务隔离级别为可重复读或以上级别而已的。</p>
+<p> Next-Key Lock ：行锁和间隙锁组合起来就叫Next-Key Lock。 </p>
+<h3 id="默认隔离级别"><a href="#默认隔离级别" class="headerlink" title="默认隔离级别"></a>默认隔离级别</h3><p>MySQL的默认隔离级别是可重复读。</p>
+<p>Oracle 是 读已调教 </p>
+<p>Sqllite3是 可串行化</p>
+<h3 id="什么时候使用乐观锁？"><a href="#什么时候使用乐观锁？" class="headerlink" title="什么时候使用乐观锁？"></a>什么时候使用乐观锁？</h3><p>资源提交冲突，其他使用方需要重新读取资源，会增加读的次数，但是可以面对高并发场景，前提是如果出现提交失败，用户是可以接受的。因此一般乐观锁只用在高并发、多读少写的场景。<br> 其中：GIT,SVN,CVS等代码版本控制管理器，就是一个乐观锁使用很好的场景，例如：A、B程序员，同时从SVN服务器上下载了code.html文件，当A完成提交后，此时B再提交，那么会报版本冲突，此时需要B进行版本处理合并后，再提交到服务器。这其实就是乐观锁的实现全过程。如果此时使用的是悲观锁，那么意味者所有程序员都必须一个一个等待操作提交完，才能访问文件，这是难以接受的。</p>
+<h3 id="什么时候使用悲观锁？"><a href="#什么时候使用悲观锁？" class="headerlink" title="什么时候使用悲观锁？"></a>什么时候使用悲观锁？</h3><p>一旦通过悲观锁锁定一个资源，那么其他需要操作该资源的使用方，只能等待直到锁被释放，好处在于可以减少并发，但是当并发量非常大的时候，由于锁消耗资源，并且可能锁定时间过长，容易导致系统性能下降，资源消耗严重。因此一般我们可以在并发量不是很大，并且出现并发情况导致的异常用户和系统都很难以接受的情况下，会选择悲观锁进行。</p>
+<h1 id="数据库索引"><a href="#数据库索引" class="headerlink" title="数据库索引"></a>数据库索引</h1><h3 id="索引的类型"><a href="#索引的类型" class="headerlink" title="索引的类型"></a>索引的类型</h3><ol>
+<li><p>唯一索引/非唯一索引</p>
+<ol>
+<li>唯一索引是在表上一个或者多个字段组合建立的索引，这个或者这些字段的值组合起来在表中不可以重复。</li>
+<li>非唯一索引是在表上一个或者多个字段组合建立的索引，这个或者这些字段的值组合起来在表中可以重复，不要求唯一。</li>
+</ol>
+</li>
+<li><p>主键索引（主索引）</p>
+<ol>
+<li>主键索引（主索引）是唯一索引的特定类型。表中创建主键时自动创建的索引 。一个表只能建立一个主索引。</li>
+</ol>
+</li>
+<li><p>聚集索引/非聚集索引</p>
+<ol>
+<li><p>聚集索引（聚簇索引），表中记录的物理顺序与键值的索引顺序相同。一个表只能有一个聚集索引。当你在表中创建了一个PRIMARY KEY时，InnoDB就将该索引作为了聚集索引，因此最好为任何一个你创建的表添加PRIMARY KEY。</p>
+</li>
+<li><p>优点是查询速度快，因为一旦具有第一个索引值的记录被找到，具有连续索引值的记录也一定物理的紧跟其后。</p>
+<p>缺点是对表进行修改速度较慢，这是为了保持表中的记录的物理顺序与索引的顺序一致，而把记录插入到数据页的相应位置，必须在数据页中进行数据重排，降低了执行速度。在插入新记录时数据文件为了维持 B+Tree 的特性而频繁的分裂调整，十分低效。</p>
+</li>
+<li><p>聚集索引和非聚集索引都采用了 B+树的结构，但非聚集索引的叶子层并不与实际的数据页相重叠，而采用叶子层包含一个指向表中的记录在数据页中的指针的方式。聚集索引的叶节点就是数据节点，而非聚集索引的叶节点仍然是索引节点。</p>
+</li>
+<li><p>非聚集索引添加记录时，不会引起数据顺序的重组。</p>
+</li>
+</ol>
+</li>
+<li><p>组合索引</p>
+<ol>
+<li>基于多个字段而创建的索引就称为组合索引。</li>
+<li>目的 <ol>
+<li><strong>减少开销</strong>，建一个联合索引(col1,col2,col3)，实际相当于建了(col1),(col1,col2),(col1,col2,col3)三个索引。每多一个索引，都会增加写操作的开销和磁盘空间的开销。对于大量数据的表，使用联合索引会大大的减少开销！</li>
+<li><strong>覆盖索引</strong>。对联合索引(col1,col2,col3)，如果有如下的sql: select col1,col2,col3 from test where col1=1 and col2=2。那么MySQL可以直接通过遍历索引取得数据，而无需回表，这减少了很多的随机io操作。减少io操作，特别的随机io其实是dba主要的优化策略。所以，在真正的实际应用中，覆盖索引是主要的提升性能的优化手段之一。</li>
+<li><strong>效率高</strong>。索引列越多，通过索引筛选出的数据越少。有1000W条数据的表，有如下sql:select <em>from table where col1=1 and col2=2 and col3=3,假设假设每个条件可以筛选出10%的数据，如果只有单值索引，那么通过该索引能筛选出1000W<em>10%=100w条数据，然后再回表从100w条数据中找到符合col2=2 and col3= 3的数据，然后再排序，再分页；如果是联合索引，通过索引筛选出1000w</em>10%</em> 10% *10%=1w，效率提升可想而知！</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="最左前缀原则"><a href="#最左前缀原则" class="headerlink" title="最左前缀原则"></a>最左前缀原则</h3><p>index(a,b,c)<br>where a=3    只使用了a<br>where a=3 and b=5    使用了a,b<br>where a=3 and b=5 and c=4    使用了a,b,c<br>where b=3 or where c=4    没有使用索引<br>where a=3 and c=4    仅使用了a<br>where a=3 and b&gt;10 and c=7    使用了a,b<br>where a=3 and b like ‘xx%’ and c=7    使用了a,b</p>
+<h1 id="MySQL-主从同步"><a href="#MySQL-主从同步" class="headerlink" title="MySQL 主从同步"></a>MySQL 主从同步</h1><p>其中Master负责写操作的负载，也就是说一切写的操作都在Master上进行，而读的操作则分摊到Slave上进行。这样一来的可以大大提高读取的效率。在一般的互联网应用中，经过一些数据调查得出结论，读/写的比例大概在 10：1左右 ，也就是说大量的数据操作是集中在读的操作，这也就是为什么我们会有多个Slave的原因。但是为什么要分离读和写呢？熟悉DB的研发人员都知道，写操作涉及到锁的问题，不管是行锁还是表锁还是块锁，都是比较降低系统执行效率的事情。我们这样的分离是把写操作集中在一个节点上，而读操作其其他的N个节点上进行，从另一个方面有效的提高了读的效率，保证了系统的高可用性。</p>
+<p>(2) 基本过程<br>1)、Mysql的主从同步就是当master（主库）发生数据变化的时候，会实时同步到slave（从库）。<br>2)、主从复制可以水平扩展数据库的负载能力，容错，高可用，数据备份。</p>
+<p>3)、不管是delete、update、insert，还是创建函数、存储过程，都是在master上，当master有操作的时候，slave会快速的接受到这些操作，从而做同步。</p>
+<p>1.业务的持久化层的实现采用分库架构，mysql服务可平行扩展，分散压力。</p>
+<p>2.单个库读写分离，一主多从，主写从读，分散压力。这样从库压力比主库高，保护主库。</p>
+<p>3.服务的基础架构在业务和mysql之间加入memcache或者redis的cache层。降低mysql的读压力。</p>
+<p>4.不同业务的mysql物理上放在不同机器，分散压力。</p>
+<p>5.使用比主库更好的硬件设备作为slave总结，mysql压力小，延迟自然会变小。</p>
+<p><strong>binlog是记录所有数据库表结构变更（例如CREATE、ALTER TABLE…）以及表数据修改（INSERT、UPDATE、DELETE…）的二进制日志。</strong></p>
+<p>1、Master将数据改变记录到二进制日志(binary log)中，也就是配置文件log-bin指定的文件，这些记录叫做二进制日志事件(binary log events)<br> 2、Slave通过I/O线程读取Master中的binary log events并写入到它的中继日志(relay log)<br> 3、Slave重做中继日志中的事件，把中继日志中的事件信息一条一条的在本地执行一次，完成数据在本地的存储，从而实现将改变反映到它自己的数据(数据重放)</p>
+<p><strong>异步复制（Asynchronous replication）</strong></p>
+<p>MySQL默认的复制即是异步的，主库在执行完客户端提交的事务后会立即将结果返给给客户端，并不关心从库是否已经接收并处理，这样就会有一个问题，主如果crash掉了，此时主上已经提交的事务可能并没有传到从上，如果此时，强行将从提升为主，可能导致新主上的数据不完整。</p>
+<p><strong>全同步复制（Fully synchronous replication）</strong></p>
+<p>指当主库执行完一个事务，所有的从库都执行了该事务才返回给客户端。因为需要等待所有从库执行完该事务才能返回，所以全同步复制的性能必然会收到严重的影响。</p>
+<p><strong>半同步复制（Semisynchronous replication）</strong></p>
+<p>介于异步复制和全同步复制之间，主库在执行完客户端提交的事务后不是立刻返回给客户端，而是等待至少一个从库接收到并写到relay log中才返回给客户端。相对于异步复制，半同步复制提高了数据的安全性，同时它也造成了一定程度的延迟，这个延迟最少是一个TCP/IP往返的时间。所以，半同步复制最好在低延时的网络中使用。</p>
+<h1 id="数据库分页分表"><a href="#数据库分页分表" class="headerlink" title="数据库分页分表"></a>数据库分页分表</h1><h2 id="分表"><a href="#分表" class="headerlink" title="分表"></a>分表</h2><h4 id="水平分割"><a href="#水平分割" class="headerlink" title="水平分割"></a>水平分割</h4><p>假设QQ的用户有100亿，如果只有一张表，每个用户登录的时候数据库都要从这100亿中查找，会很慢很慢。如果将这一张表分成100份，每张表有1亿条，就小了很多，比如qq0,qq1,qq1…qq99表。</p>
+<p>用户登录的时候，可以将用户的id%100，那么会得到0-99的数，查询表的时候，将表名qq跟取模的数连接起来，就构建了表名。比如123456789用户，取模的89，那么就到qq89表查询，查询的时间将会大大缩短。</p>
+<p>水平拆分的优点：</p>
+<p>◆表关联基本能够在数据库端全部完成；</p>
+<p>◆不会存在某些超大型数据量和高负载的表遇到瓶颈的问题；</p>
+<p>◆应用程序端整体<strong><a href="https://link.zhihu.com/?target=http%3A//lib.csdn.net/base/architecture" target="_blank" rel="noopener">架构</a></strong>改动相对较少；</p>
+<p>◆事务处理相对简单；</p>
+<p>◆只要切分规则能够定义好，基本上较难遇到扩展性限制；</p>
+<p>水平切分的缺点：</p>
+<p>◆切分规则相对更为复杂，很难抽象出一个能够满足整个数据库的切分规则；</p>
+<p>◆后期数据的维护难度有所增加，人为手工定位数据更困难；</p>
+<p>◆应用系统各模块耦合度较高，可能会对后面数据的迁移拆分造成一定的困难。</p>
+<h4 id="垂直分割"><a href="#垂直分割" class="headerlink" title="垂直分割"></a>垂直分割</h4><p>如果一张表某个字段，信息量大，但是我们很少查询，则可以考虑把这些字段，单独的放入到一张表中，这种方式称为垂直分割.</p>
+<p>作文字段的内容较多，可能影响查询的速率，单独抽出来放在一张表中，和主表之间保持关系</p>
+<p>垂直切分的优点</p>
+<p>◆ 数据库的拆分简单明了，拆分规则明确；</p>
+<p>◆ 应用程序模块清晰明确，整合容易；</p>
+<p>◆ 数据维护方便易行，容易定位；</p>
+<p>垂直切分的缺点</p>
+<p>◆ 对于访问极其频繁且数据量超大的表仍然存在性能平静，不一定能满足要求；</p>
+<p>◆ 事务处理相对更为复杂；</p>
+<p>◆ 切分达到一定程度之后，扩展性会遇到限制；</p>
+<p>◆ 过读切分可能会带来系统过渡复杂而难以维护。</p>
+<h2 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h2><h4 id="一般的分页查询"><a href="#一般的分页查询" class="headerlink" title="一般的分页查询"></a>一般的分页查询</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM table LIMIT [offset,] rows | rows OFFSET offset</span><br></pre></td></tr></table></figure>
+
+<p>IMIT 子句可以被用于指定 SELECT 语句返回的记录数。需注意以下几点：</p>
+<ul>
+<li>第一个参数指定第一个返回记录行的偏移量</li>
+<li>第二个参数指定返回记录行的最大数目</li>
+<li>如果只给定一个参数：它表示返回最大的记录行数目</li>
+<li>第二个参数为 -1 表示检索从某一个偏移量到记录集的结束所有的记录行</li>
+<li>初始记录行的偏移量是 0(而不是 1)</li>
+</ul>
+<p>下面是一个应用实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from orders_history where type=8 limit 1000,10;</span><br></pre></td></tr></table></figure>
+
+<p>该条语句将会从表 orders_history 中查询第1000条数据之后的10条数据，也就是第1001条到第1010条数据。</p>
+<h1 id="查询优化"><a href="#查询优化" class="headerlink" title="查询优化"></a>查询优化</h1><p>1、应尽量避免在 where 子句中使用!=或&lt;&gt;操作符，否则将引擎放弃使用索引而进行全表扫描。</p>
+<p>2、对查询进行优化，应尽量避免全表扫描，首先应考虑在 where 及 order by 涉及的列上建立索引。</p>
+<p>3、应尽量避免在 where 子句中对字段进行 null 值判断，否则将导致引擎放弃使用索引而进行全表扫描。如：</p>
+<p>select id from t where num is null</p>
+<p>可以在num上设置默认值0，确保表中num列没有null值，然后这样查询：</p>
+<p>select id from t where num=0</p>
+<p>4、尽量避免在 where 子句中使用 or 来连接条件，否则将导致引擎放弃使用索引而进行全表扫描，如：</p>
+<p>select id from t where num=10 or num=20</p>
+<p>可以这样查询：</p>
+<p>select id from t where num=10</p>
+<p>union all</p>
+<p>select id from t where num=20</p>
+<p>5、下面的查询也将导致全表扫描：(不能前置百分号)</p>
+<p>select id from t where name like ‘%c%’</p>
+<p>下面走索引</p>
+<p>select id from t where name like ‘c%’</p>
+<p>若要提高效率，可以考虑全文检索。</p>
+<p>6、in 和 not in 也要慎用，否则会导致全表扫描，如：</p>
+<p>select id from t where num in(1,2,3)</p>
+<p>对于连续的数值，能用 between 就不要用 in 了：</p>
+<p>select id from t where num between 1 and 3</p>
+<p>7、如果在 where 子句中使用参数，也会导致全表扫描。因为SQL只有在运行时才会解析局部变量，但优化程序不能将访问计划的选择推迟到运行时；它必须在编译时进行选择。然 而，如果在编译时建立访问计划，变量的值还是未知的，因而无法作为索引选择的输入项。如下面语句将进行全表扫描：</p>
+<p>select id from t where num=@num</p>
+<p>可以改为强制查询使用索引：</p>
+<p>select id from t with(index(索引名)) where num=@num</p>
+<p>8、应尽量避免在 where 子句中对字段进行表达式操作，这将导致引擎放弃使用索引而进行全表扫描。如：</p>
+<p>select id from t where num/2=100</p>
+<p>应改为:</p>
+<p>select id from t where num=100*2</p>
+<p>9、应尽量避免在where子句中对字段进行函数操作，这将导致引擎放弃使用索引而进行全表扫描。如：</p>
+<p>select id from t where substring(name,1,3)=’abc’ –name以abc开头的id</p>
+<p>select id from t where datediff(day,createdate,’2005-11-30′)=0 –’2005-11-30′生成的id</p>
+<p>应改为:</p>
+<p>select id from t where name like ‘abc%’</p>
+<p>select id from t where createdate&gt;=’2005-11-30′ and createdate&lt;’2005-12-1′</p>
+<p>10、不要在 where 子句中的“=”左边进行函数、算术运算或其他表达式运算，否则系统将可能无法正确使用索引。</p>
+<p>11、在使用索引字段作为条件时，如果该索引是复合索引，那么必须使用到该索引中的第一个字段作为条件时才能保证系统使用该索引，否则该索引将不会被使 用，并且应尽可能的让字段顺序与索引顺序相一致。</p>
+<p>12、不要写一些没有意义的查询，如需要生成一个空表结构：</p>
+<p>select col1,col2 into #t from t where 1=0</p>
+<p>这类代码不会返回任何结果集，但是会消耗系统资源的，应改成这样：</p>
+<p>create table #t(…)</p>
+<p>13、很多时候用 exists 代替 in 是一个好的选择：</p>
+<p>select num from a where num in(select num from b)</p>
+<p>用下面的语句替换：</p>
+<p>select num from a where exists(select 1 from b where num=a.num)</p>
+<p>14、并不是所有索引对查询都有效，SQL是根据表中数据来进行查询优化的，当索引列有大量数据重复时，SQL查询可能不会去利用索引，如一表中有字段 sex，male、female几乎各一半，那么即使在sex上建了索引也对查询效率起不了作用。</p>
+<p>15、索引并不是越多越好，索引固然可以提高相应的 select 的效率，但同时也降低了 insert 及 update 的效率，因为 insert 或 update 时有可能会重建索引，所以怎样建索引需要慎重考虑，视具体情况而定。一个表的索引数较好不要超过6个，若太多则应考虑一些不常使用到的列上建的索引是否有 必要。</p>
+<p>16.应尽可能的避免更新 clustered 索引数据列，因为 clustered 索引数据列的顺序就是表记录的物理存储顺序，一旦该列值改变将导致整个表记录的顺序的调整，会耗费相当大的资源。若应用系统需要频繁更新 clustered 索引数据列，那么需要考虑是否应将该索引建为 clustered 索引。</p>
+<p>17、尽量使用数字型字段，若只含数值信息的字段尽量不要设计为字符型，这会降低查询和连接的性能，并会增加存储开销。这是因为引擎在处理查询和连接时会 逐个比较字符串中每一个字符，而对于数字型而言只需要比较一次就够了。</p>
+<p>18、尽可能的使用 varchar/nvarchar 代替 char/nchar ，因为首先变长字段存储空间小，可以节省存储空间，其次对于查询来说，在一个相对较小的字段内搜索效率显然要高些。</p>
+<p>19、任何地方都不要使用 select * from t ，用具体的字段列表代替“*”，不要返回用不到的任何字段。</p>
+<p>20、尽量使用表变量来代替临时表。如果表变量包含大量数据，请注意索引非常有限（只有主键索引）。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/database/" rel="tag"># database</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/24/network-simple/" rel="next" title="【面试准备简明版】- 操作系统">
+                <i class="fa fa-chevron-left"></i> 【面试准备简明版】- 操作系统
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ReStartercc</p>
+              <p class="site-description motion-element" itemprop="description">Contact restartercc@gmail.com</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库引擎"><span class="nav-number">1.</span> <span class="nav-text">数据库引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-数据库引擎类型"><span class="nav-number">1.0.1.</span> <span class="nav-text">1. 数据库引擎类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MyISAM-为什么读比-InnoDB块"><span class="nav-number">1.0.2.</span> <span class="nav-text">MyISAM 为什么读比 InnoDB块</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库数据存在哪里"><span class="nav-number">2.</span> <span class="nav-text">数据库数据存在哪里</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#弊："><span class="nav-number">2.0.0.0.1.</span> <span class="nav-text">弊：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库语法"><span class="nav-number">3.</span> <span class="nav-text">数据库语法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Join"><span class="nav-number">3.1.</span> <span class="nav-text">Join</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自然连接"><span class="nav-number">3.1.1.</span> <span class="nav-text">自然连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内连接"><span class="nav-number">3.1.2.</span> <span class="nav-text">内连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#外连接"><span class="nav-number">3.1.3.</span> <span class="nav-text">外连接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#左连接"><span class="nav-number">3.1.3.1.</span> <span class="nav-text">左连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#右连接"><span class="nav-number">3.1.3.2.</span> <span class="nav-text">右连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#全连接"><span class="nav-number">3.1.3.3.</span> <span class="nav-text">全连接</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉连接（笛卡尔积）"><span class="nav-number">3.1.4.</span> <span class="nav-text">交叉连接（笛卡尔积）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#on-和-where-的区别"><span class="nav-number">3.1.5.</span> <span class="nav-text">on 和 where 的区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#事务"><span class="nav-number">4.</span> <span class="nav-text">事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原子性（atomicity）"><span class="nav-number">4.0.0.1.</span> <span class="nav-text">原子性（atomicity）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一致性（consistency）"><span class="nav-number">4.0.0.2.</span> <span class="nav-text">一致性（consistency）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#隔离性（isolation）"><span class="nav-number">4.0.0.3.</span> <span class="nav-text">隔离性（isolation）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#持久性（durability）"><span class="nav-number">4.0.0.4.</span> <span class="nav-text">持久性（durability）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#undo-log-保证原子性"><span class="nav-number">4.0.0.5.</span> <span class="nav-text">undo log 保证原子性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#redo-log保证持久性和一致性"><span class="nav-number">4.0.0.6.</span> <span class="nav-text">redo log保证持久性和一致性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#隔离级别"><span class="nav-number">5.</span> <span class="nav-text">隔离级别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#四个隔离级别"><span class="nav-number">5.0.1.</span> <span class="nav-text">四个隔离级别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#读未提交-Read-uncommitted"><span class="nav-number">5.0.1.1.</span> <span class="nav-text">读未提交  Read uncommitted</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#读已提交-Read-committed"><span class="nav-number">5.0.1.2.</span> <span class="nav-text">读已提交  Read committed</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可重复读-Repeatable-read"><span class="nav-number">5.0.1.3.</span> <span class="nav-text">可重复读  Repeatable read</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可串行化-Serializable"><span class="nav-number">5.0.1.4.</span> <span class="nav-text">可串行化  Serializable</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MVCC-和-间歇锁"><span class="nav-number">5.0.2.</span> <span class="nav-text">MVCC 和 间歇锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#默认隔离级别"><span class="nav-number">5.0.3.</span> <span class="nav-text">默认隔离级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么时候使用乐观锁？"><span class="nav-number">5.0.4.</span> <span class="nav-text">什么时候使用乐观锁？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么时候使用悲观锁？"><span class="nav-number">5.0.5.</span> <span class="nav-text">什么时候使用悲观锁？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库索引"><span class="nav-number">6.</span> <span class="nav-text">数据库索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#索引的类型"><span class="nav-number">6.0.1.</span> <span class="nav-text">索引的类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最左前缀原则"><span class="nav-number">6.0.2.</span> <span class="nav-text">最左前缀原则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL-主从同步"><span class="nav-number">7.</span> <span class="nav-text">MySQL 主从同步</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库分页分表"><span class="nav-number">8.</span> <span class="nav-text">数据库分页分表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分表"><span class="nav-number">8.1.</span> <span class="nav-text">分表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#水平分割"><span class="nav-number">8.1.0.1.</span> <span class="nav-text">水平分割</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#垂直分割"><span class="nav-number">8.1.0.2.</span> <span class="nav-text">垂直分割</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分页"><span class="nav-number">8.2.</span> <span class="nav-text">分页</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一般的分页查询"><span class="nav-number">8.2.0.1.</span> <span class="nav-text">一般的分页查询</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#查询优化"><span class="nav-number">9.</span> <span class="nav-text">查询优化</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ReStartercc</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

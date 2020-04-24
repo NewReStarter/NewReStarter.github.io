@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="database,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="[toc] 1. SQL Query1.1 SQL分类DDL（Data Definition Languages）语句数据定义语言，这些语句定义了不同的数据段、数据库、表、列、索引等数据库对象的定义。常用的语句关键字主要包括 create、drop、alter等。 DML（Data Manipulation Language）语句数据操纵语句，用于添加、删除、更新和查询数据库记录，并检查数据完整性">
+<meta name="keywords" content="database">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【面试系列】 - 数据库指北">
+<meta property="og:url" content="NewReStarter.github.io/2019/12/22/database/index.html">
+<meta property="og:site_name" content="Restartercc">
+<meta property="og:description" content="[toc] 1. SQL Query1.1 SQL分类DDL（Data Definition Languages）语句数据定义语言，这些语句定义了不同的数据段、数据库、表、列、索引等数据库对象的定义。常用的语句关键字主要包括 create、drop、alter等。 DML（Data Manipulation Language）语句数据操纵语句，用于添加、删除、更新和查询数据库记录，并检查数据完整性">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-04-24T05:37:48.118Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【面试系列】 - 数据库指北">
+<meta name="twitter:description" content="[toc] 1. SQL Query1.1 SQL分类DDL（Data Definition Languages）语句数据定义语言，这些语句定义了不同的数据段、数据库、表、列、索引等数据库对象的定义。常用的语句关键字主要包括 create、drop、alter等。 DML（Data Manipulation Language）语句数据操纵语句，用于添加、删除、更新和查询数据库记录，并检查数据完整性">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="NewReStarter.github.io/2019/12/22/database/">
+
+
+
+
+
+  <title>【面试系列】 - 数据库指北 | Restartercc</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Restartercc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">学习计算机科学和数学，尝试了解这个世界</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="NewReStarter.github.io/2019/12/22/database/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ReStartercc">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Restartercc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【面试系列】 - 数据库指北</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-22T16:55:52+08:00">
+                2019-12-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试准备/" itemprop="url" rel="index">
+                    <span itemprop="name">面试准备</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[toc]</p>
+<h1 id="1-SQL-Query"><a href="#1-SQL-Query" class="headerlink" title="1. SQL Query"></a>1. SQL Query</h1><h1 id="1-1-SQL分类"><a href="#1-1-SQL分类" class="headerlink" title="1.1 SQL分类"></a>1.1 SQL分类</h1><h4 id="DDL（Data-Definition-Languages）语句"><a href="#DDL（Data-Definition-Languages）语句" class="headerlink" title="DDL（Data Definition Languages）语句"></a><strong>DDL（Data Definition Languages）语句</strong></h4><p>数据定义语言，这些语句定义了不同的数据段、数据库、表、列、索引等数据库对象的定义。常用的语句关键字主要包括 create、drop、alter等。</p>
+<h4 id="DML（Data-Manipulation-Language）语句"><a href="#DML（Data-Manipulation-Language）语句" class="headerlink" title="DML（Data Manipulation Language）语句"></a>DML（Data Manipulation Language）语句</h4><p>数据操纵语句，用于添加、删除、更新和查询数据库记录，并检查数据完整性，常用的语句关键字主要包括 insert、delete、udpate 和select 等。(增添改查）</p>
+<h4 id="DCL（Data-Control-Language）语句"><a href="#DCL（Data-Control-Language）语句" class="headerlink" title="DCL（Data Control Language）语句"></a>DCL（Data Control Language）语句</h4><p>数据控制语句，用于控制不同数据段直接的许可和访问级别的语句。这些语句定义了数据库、表、字段、用户的访问权限和安全级别。主要的语句关键字包括 grant、revoke 等。</p>
+<h2 id="1-1-常见关键字"><a href="#1-1-常见关键字" class="headerlink" title="1.1 常见关键字"></a>1.1 常见关键字</h2><h3 id="增删改"><a href="#增删改" class="headerlink" title="增删改"></a>增删改</h3><h4 id="create"><a href="#create" class="headerlink" title="create"></a>create</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create table Student(</span><br><span class="line">ID varchar(20) not null,</span><br><span class="line">name varchar(10) not null, </span><br><span class="line">age int,</span><br><span class="line">class varchar(50),</span><br><span class="line">primary key (ID));</span><br></pre></td></tr></table></figure>
+
+<h4 id="insert-into"><a href="#insert-into" class="headerlink" title="insert into"></a>insert into</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">insert into Student(ID,name,class)</span><br><span class="line">    values(10152510302,&quot;Tom&quot;,&quot;class 1&quot;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="delete-from"><a href="#delete-from" class="headerlink" title="delete from"></a>delete from</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">delete form Student</span><br><span class="line">    where name=&quot;Tom&quot;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="update-…-set-…-where"><a href="#update-…-set-…-where" class="headerlink" title="update … set … where"></a>update … set … where</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">update Student</span><br><span class="line">   set age=18</span><br><span class="line">   where name=&quot;Tom&quot;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="drop-table"><a href="#drop-table" class="headerlink" title="drop table"></a>drop table</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop table Student;</span><br></pre></td></tr></table></figure>
+
+<p>删除Student这张表。</p>
+<h4 id="alter"><a href="#alter" class="headerlink" title="alter"></a>alter</h4><p>向表中添加性别属性，并且将表中以存放的信息的sex值设为null。所有通过这种方式添加的属性都不能被设置为not null类型。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table Student</span><br><span class="line">   add sex varchar(5);</span><br></pre></td></tr></table></figure>
+
+<h4 id="alter-table-…-drop"><a href="#alter-table-…-drop" class="headerlink" title="alter table … drop"></a>alter table … drop</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table Student</span><br><span class="line">   drop class;</span><br></pre></td></tr></table></figure>
+
+<p>从表中将class这一列属性删除。</p>
+<h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><h4 id="distinct"><a href="#distinct" class="headerlink" title="distinct"></a>distinct</h4><p>在select后加入关键字distinct表示将结果去重</p>
+<h4 id="all"><a href="#all" class="headerlink" title="all"></a>all</h4><p>在select后加入关键字all表示不去重（默认）</p>
+<h4 id="lt-gt"><a href="#lt-gt" class="headerlink" title="&lt;&gt;"></a>&lt;&gt;</h4><p>不等于</p>
+<h4 id="order-by"><a href="#order-by" class="headerlink" title="order by"></a>order by</h4><p>让查询结果中的信息按照给定的属性排序（默认升序，上小下大）</p>
+<h4 id="asc-desc"><a href="#asc-desc" class="headerlink" title="asc/desc"></a>asc/desc</h4><p>升序/降序</p>
+<h4 id="having"><a href="#having" class="headerlink" title="having"></a>having</h4><p>对group by产生的分组进行筛选，可以使用聚集函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select class,avg(score) as avg_score</span><br><span class="line">from Student natural join Math</span><br><span class="line">group by class</span><br><span class="line">having avg(score) &lt; 60;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2-连接（Join）"><a href="#1-2-连接（Join）" class="headerlink" title="1.2 连接（Join）"></a>1.2 连接（Join）</h2><h3 id="自然连接"><a href="#自然连接" class="headerlink" title="自然连接"></a>自然连接</h3><p>自然连接(Natural join)是一种特殊的等值连接，要求两个关系表中进行比较的属性组必须是名称相同的属性组，并且在结果中把重复的属性列去掉（即：留下名称相同的属性组中的其中一组）</p>
+<p>自然连接将两个关系组中在相同名称的属性上具有相同的值的行记录进行匹配（表A和表B中的Bid属性相等的行记录），并且重复的属性列去掉，这样新的一行将出现在查询结果中，而那些没被匹配的行不出现在结果中（结合A、B表和查询的结果可以看出来）。因此自然连接的结果会有数据丢失，这些丢失的数据就是那些没有匹配的数据。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">from</span> A <span class="keyword">natural</span> <span class="keyword">join</span> B</span><br></pre></td></tr></table></figure>
+
+<h3 id="内连接"><a href="#内连接" class="headerlink" title="内连接"></a>内连接</h3><p>内连接查询操作列出与连接条件匹配的数据行，它使用比较运算符比较被连接列的列值。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> book <span class="keyword">as</span> a,stu <span class="keyword">as</span> b <span class="keyword">where</span> a.sutid = b.stuid</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> book <span class="keyword">as</span> a <span class="keyword">inner</span> <span class="keyword">join</span> stu <span class="keyword">as</span> b <span class="keyword">on</span> a.sutid = b.stuid</span><br></pre></td></tr></table></figure>
+
+<h3 id="外连接"><a href="#外连接" class="headerlink" title="外连接"></a>外连接</h3><h4 id="左连接"><a href="#左连接" class="headerlink" title="左连接"></a>左连接</h4><p>以左表为基准，将a.stuid = b.stuid的数据进行连接，然后将左表没有的对应项显示，右表的列为NULL</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> book <span class="keyword">as</span> a <span class="keyword">left</span> <span class="keyword">join</span> stu <span class="keyword">as</span> b <span class="keyword">on</span> a.sutid = b.stuid</span><br></pre></td></tr></table></figure>
+
+<h4 id="右连接"><a href="#右连接" class="headerlink" title="右连接"></a>右连接</h4><p>是以右表为基准，将a.stuid = b.stuid的数据进行连接，然以将右表没有的对应项显示，左表的列为NULL</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> book <span class="keyword">as</span> a <span class="keyword">right</span> <span class="keyword">join</span> stu <span class="keyword">as</span> b <span class="keyword">on</span> a.sutid = b.stuid</span><br></pre></td></tr></table></figure>
+
+<h4 id="全连接"><a href="#全连接" class="headerlink" title="全连接"></a>全连接</h4><p>完整外部联接返回左表和右表中的所有行。当某行在另一个表中没有匹配行时，则另一个表的选择列表列包含空值。如果表之间有匹配行，则整个结果集行包含基表的数据值。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> book <span class="keyword">as</span> a <span class="keyword">full</span> <span class="keyword">outer</span> <span class="keyword">join</span> stu <span class="keyword">as</span> b <span class="keyword">on</span> a.sutid = b.stuid</span><br></pre></td></tr></table></figure>
+
+<h3 id="交叉连接（笛卡尔积）"><a href="#交叉连接（笛卡尔积）" class="headerlink" title="交叉连接（笛卡尔积）"></a>交叉连接（笛卡尔积）</h3><p>交叉联接返回左表中的所有行，左表中的每一行与右表中的所有行组合。交叉联接也称作笛卡尔积。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from book as a cross join stu as b order by a.id</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="1-3-SQL-子查询"><a href="#1-3-SQL-子查询" class="headerlink" title="1.3 SQL 子查询"></a>1.3 SQL 子查询</h2><h3 id="单行子查询"><a href="#单行子查询" class="headerlink" title="单行子查询"></a>单行子查询</h3><p>单行子查询是指子查询的返回结果只有一行数据。当主查询语句的条件语句中引用子查询结果时可用单行比较符号（＝, &gt;, &lt;, &gt;=, &lt;=, &lt;&gt;）来进行比较。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select ename, deptno, sal</span><br><span class="line">from emp</span><br><span class="line">where deptno=(select deptno from dept where loc=&apos;NEW YORK&apos;)；</span><br></pre></td></tr></table></figure>
+
+<h3 id="多行子查询"><a href="#多行子查询" class="headerlink" title="多行子查询"></a>多行子查询</h3><p>多行子查询即是子查询的返回结果是多行数据。当主查询语句的条件语句中引用子查询结果时必须用多行比较符号（IN，ALL,ANY）来进行比较。其中，IN的含义是匹配子查询结果中的任一个值即可（”IN” 操作符，能够测试某个值是否在一个列表中），ALL则必须要符合子查询的所有值才可，ANY要符合子查询结果的任何一个值即可。而且须注意ALL 和ANY 操作符不能单独使用，而只能与单行比较符（=、&gt;、&lt; 、&gt;= 、&lt;= 、&lt;&gt;）结合使用。</p>
+<ol>
+<li>多行子查询使用IN操作符号例子：查询选修了老师名叫Rona(假设唯一)的学生名字</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select stName</span><br><span class="line"></span><br><span class="line">from Student</span><br><span class="line"></span><br><span class="line">where stId in(selectdistinct stId from score where teId=(select teId from teacher where teName=&apos;Rona&apos;));</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>查询所有部门编号为A的资料</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT ename,job,sal</span><br><span class="line"></span><br><span class="line">FROM EMP</span><br><span class="line"></span><br><span class="line">WHERE deptno in ( SELECT deptno FROM dept WHERE dname LIKE &apos;A%&apos;)；</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>多行子查询使用ALL操作符号例子：查询有一门以上的成绩高于Kaka的最高成绩的学生的名字:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select stName</span><br><span class="line"></span><br><span class="line">from Student</span><br><span class="line"></span><br><span class="line">where stId in(select distinct stId from score where score &gt;all(select score from score where stId=(select stId from Student where stName= &apos;Kaka&apos;) ));</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>多行子查询使用ANY操作符号例子：查询有一门以上的成绩高于Kaka的任何一门成绩的学生的名字:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select stName</span><br><span class="line"></span><br><span class="line">from Student</span><br><span class="line"></span><br><span class="line">where stId in(select distinct stId from score where score &gt;any(select score from score where stId=(select stId from Student where stName=&apos;Kaka&apos;)));</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-索引-Indexing"><a href="#2-索引-Indexing" class="headerlink" title="2. 索引 Indexing"></a>2. 索引 Indexing</h1><h2 id="2-1-Introduction"><a href="#2-1-Introduction" class="headerlink" title="2.1 Introduction"></a>2.1 Introduction</h2><p><strong>使用索引的全部意义就是通过缩小一张表中需要查询的记录/行的数目来加快搜索的速度</strong>。</p>
+<p>一个索引是存储的表中一个特定列的值数据结构（最常见的是B-Tree）。索引是在表的列上创建。所以，要记住的关键点是索引包含一个表中列的值，并且这些值存储在一个数据结构中。<strong>请记住记住这一点：索引是一种数据结构 。</strong></p>
+<p><strong>B-Tree</strong> 是最常用的用于索引的数据结构。因为它们是时间复杂度低， 查找、删除、插入操作都可以可以在对数时间内完成。另外一个重要原因存储在B-Tree中的数据是<strong>有序的</strong>。数据库管理系统（RDBMS）通常决定索引应该用哪些数据结构。但是，在某些情况下，你在创建索引时可以指定索引要使用的数据结构。</p>
+<h4 id="哈希索引"><a href="#哈希索引" class="headerlink" title="哈希索引"></a>哈希索引</h4><p>哈希表是另外一种你可能看到用作索引的数据结构-这些索引通常被称为哈希索引。使用哈希索引的原因是，在寻找值时哈希表效率极高。所以，如果使用哈希索引，对于比较字符串是否相等的查询能够极快的检索出的值。例如之前我们讨论过的这个查询(SELECT * FROM Employee WHERE Employee_Name = ‘Jesus’) 就可以受益于创建在Employee_Name 列上的哈希索引。哈系索引的工作方式是将列的值作为索引的键值（key），和键值相对应实际的值（value）是指向该表中相应行的指针。因为哈希表基本上可以看作是关联数组，一个典型的数据项就像“Jesus =&gt; 0x28939″，而0x28939是对内存中表中包含Jesus这一行的引用。在哈系索引的中查询一个像“Jesus”这样的值，并得到对应行的在内存中的引用，明显要比扫描全表获得值为“Jesus”的行的方式快很多。</p>
+<h4 id="哈希索引的缺点"><a href="#哈希索引的缺点" class="headerlink" title="哈希索引的缺点"></a>哈希索引的缺点</h4><p>哈希表是无顺的数据结构，对于很多类型的查询语句哈希索引都无能为力。举例来说，假如你想要找出所有小于40岁的员工。你怎么使用使用哈希索引进行查询？这不可行，因为哈希表只适合查询键值对-也就是说查询相等的查询（例：like “WHERE name = ‘Jesus’）。哈希表的键值映射也暗示其键的存储是无序的。这就是为什么哈希索引通常不是数据库索引的默认数据结构-<strong>因为在作为索引的数据结构时，其不像B-Tree那么灵活</strong></p>
+<h4 id="索引是怎么提升性能的"><a href="#索引是怎么提升性能的" class="headerlink" title="索引是怎么提升性能的"></a>索引是怎么提升性能的</h4><p>因为索引基本上是用来存储列值的数据结构，这使查找这些列值更加快速。如果索引使用最常用的数据结构-B-Tree-那么其中的数据是有序的。有序的列值可以极大的提升性能。下面解释原因。</p>
+<p>假设我们在 Employee_Name这一列上创建一个B-Tree索引。这意味着当我们用之前的SQL查找姓名是‘Jesus’的雇员时，不需要再扫描全表。而是用索引查找去查找名字为‘Jesus’的雇员，因为索引已经按照按字母顺序排序。索引<strong>已经排序</strong>意味着查询一个名字会快很多，因为名字少字母为‘J’的员工都是排列在一起的。另外重要的一点是，索引同时存储了表中相应行的指针以获取其他列的数据。</p>
+<h4 id="索引里究竟存的是什么"><a href="#索引里究竟存的是什么" class="headerlink" title="索引里究竟存的是什么"></a>索引里究竟存的是什么</h4><p>你现在已经知道数据库索引是创建在表的某列上的，并且存储了这一列的所有值。但是，需要理解的重点是<strong>数据库索引并不存储这个表中其他列（字段）的值</strong>。举例来说，如果我们在Employee_Name列创建索引，那么列Employee_Age和Employee_Address上的值并不会存储在这个索引当中。如果我们确实把其他所有字段也存储在个这个索引中，那就成了拷贝一整张表做为索引-这样会占用太大的空间而且会十分低效。</p>
+<p><strong>索引存储了指向表中某一行的指针。</strong>如果我们在索引里找到某一条记录作为索引的列的值，如何才能找到这一条记录的其它值呢？这是很简单 - 数据库索引同时存储了指向表中的相应行的指针。指针是指一块内存区域， 该内存区域记录的是对硬盘上记录的相应行的数据的引用。因此，索引中除了存储列的值，还存储着一个指向在行数据的索引。也就是说，索引中的Employee_Name这列的某个值（或者节点）可以描述为 (“Jesus”, 0x82829)， 0x82829 就是包含 “Jesus”那行数据在硬盘上的地址。如果没有这个引用，你就只能访问到一个单独的值（“Jesus”），而这样没有意义，因为你不能获取这一行记录的employee的其他值-例如地址（address）和年龄（age）。</p>
+<h4 id="数据库怎么知道什么时候使用索引？"><a href="#数据库怎么知道什么时候使用索引？" class="headerlink" title="数据库怎么知道什么时候使用索引？"></a>数据库怎么知道什么时候使用索引？</h4><p>当这个SQL （<code>SELECT * FROM Employee WHERE Employee_Name = ‘Jesus’</code> ）运行时，数据库会检查在查询的列上是否有索引。假设Employee_Name列上确实创建了索引，数据库会接着检查使用这个索引做查询是否合理 - 因为有些场景下，使用索引比起全表扫描会更加低效。</p>
+<h4 id="你能强制数据库使用索引吗？"><a href="#你能强制数据库使用索引吗？" class="headerlink" title="你能强制数据库使用索引吗？"></a>你能强制数据库使用索引吗？</h4><p>通常来说， 你不会告诉数据库什么时候使用索引 - 数据库自己决定。然而，值得注意的是在大多数数据库中（像Oracle 和 MYSQL）， 你实际上可以制订你想要使用的索引。</p>
+<h4 id="MyISAM-和-InnoDB-两种索引实现"><a href="#MyISAM-和-InnoDB-两种索引实现" class="headerlink" title="MyISAM 和 InnoDB 两种索引实现"></a>MyISAM 和 InnoDB 两种索引实现</h4><p>MyISAM索引文件和数据文件是分离的，索引文件仅保存数据记录的地 址。而在InnoDB中，表数据文件本身就是按B+Tree组织的一个索引结构，这棵树的叶节点data域保存了完整的数据记录。这个索引的key是数据 表的主键，因此InnoDB表数据文件本身就是主索引。</p>
+<h4 id="如何在使用SQL创建索引"><a href="#如何在使用SQL创建索引" class="headerlink" title="如何在使用SQL创建索引"></a>如何在使用SQL创建索引</h4><p>之前的例子中，在Employee_Name列上创建索引的SQL如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE INDEX name_index</span><br><span class="line">ON Employee (Employee_Name)</span><br></pre></td></tr></table></figure>
+
+<h4 id="如何创建联合索引"><a href="#如何创建联合索引" class="headerlink" title="如何创建联合索引"></a>如何创建联合索引</h4><p>我们可以在雇员表上创建两个列的联合索引，SQL如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE INDEX name_index</span><br><span class="line">ON Employee (Employee_Name, Employee_Age)</span><br></pre></td></tr></table></figure>
+
+<h4 id="把数据库索引类比成什么比较好呢"><a href="#把数据库索引类比成什么比较好呢" class="headerlink" title="把数据库索引类比成什么比较好呢?"></a>把数据库索引类比成什么比较好呢?</h4><p>一个非常好的类比是把数据库索引看作是书的索引。如果你有一本关于狗的书，你想要找关于‘黄金猎犬’的那部分。当你可以通过在书背的索引找到哪几页有关于‘黄金猎犬’信息的时候，你为什么要翻完正本书 - 这相当于数据库中的全表扫描。同样的，就像一本书的索引包含页码一样，数据库的索引包含了指针，指向你在SQL中想要查询的值所在的行。</p>
+<h4 id="使用数据库索引会有什么代价"><a href="#使用数据库索引会有什么代价" class="headerlink" title="使用数据库索引会有什么代价"></a>使用数据库索引会有什么代价</h4><p>那么，使用数据库索引有什么缺点呢？其一，索引会占用空间 - 你的表越大，索引占用的空间越大。其二，性能损失（主要值更新操作），当你在表中添加、删除或者更新行数据的时候， 在索引中也会有相同的操作。<strong>记住：建立在某列（或多列）索引需要保存该列最新的数据</strong>。</p>
+<p><strong>基本原则是只如果表中某列在查询过程中使用的非常频繁，那就在该列上创建索引</strong>。</p>
+<h2 id="2-2-MySQL的索引方法"><a href="#2-2-MySQL的索引方法" class="headerlink" title="2.2 MySQL的索引方法"></a>2.2 MySQL的索引方法</h2><h4 id="full-text索引"><a href="#full-text索引" class="headerlink" title="full-text索引"></a><strong>full-text索引</strong></h4><p>full-text在mysql里仅有myisam支持它，而且支持full-text的字段只有char、varchar、text数据类型。</p>
+<p>full-text主要是用来代替like “%***%”效率低下的问题</p>
+<h4 id="b-tree索引"><a href="#b-tree索引" class="headerlink" title="b-tree索引"></a><strong>b-tree索引</strong></h4><p>b-tree在myisam里的形式和innodb稍有不同</p>
+<p>在 innodb里，有两种形态：一是primary key形态，其leaf node里存放的是数据，而且不仅存放了索引键的数据，还存放了其他字段的数据。二是secondary index，其leaf node和普通的b-tree差不多，只是还存放了指向主键的信息.</p>
+<p>而在myisam里，主键和其他的并没有太大区别。不过和innodb不太一样的地方是在myisam里，leaf node里存放的不是主键的信息，而是指向数据文件里的对应数据行的信息.</p>
+<h4 id="hash索引"><a href="#hash索引" class="headerlink" title="hash索引"></a><strong>hash索引</strong></h4><p>目前我所知道的就只有memory和ndb cluster支持这种索引.</p>
+<p>hash索引由于其结构，所以在每次查询的时候直接一次到位，不像b-tree那样一点点的前进。所以hash索引的效率高于b-tree，但hash也有缺点，主要如下：</p>
+<p>(1)由于存放的是hash值，所以仅支持&lt;=&gt;以及in操作.</p>
+<p>(2)hash索引无法通过操作索引来排序，这是因为存放的时候经过hash计算，但是计算的hash值和存放的不一定相等，所以无法排序.</p>
+<p>(3)在组合所以里，无法对部分使用索引.</p>
+<p>(4)不能避免全表扫描，只是由于在memory表里支持非唯一值hash索引，<a href="http://www.linuxidc.com就是不同的索引键，可能存在相同的hash值" target="_blank" rel="noopener">www.linuxidc.com就是不同的索引键，可能存在相同的hash值</a>.</p>
+<p>(5)当存在大量相同hash值得时候，hash索引的效率会变低.</p>
+<h4 id="r-tree索引"><a href="#r-tree索引" class="headerlink" title="r-tree索引"></a><strong>r-tree索引</strong></h4><p>r-tree在mysql很少使用，仅支持geometry数据类型，支持该类型的存储引擎只有myisam、bdb、innodb、ndb、archive几种。</p>
+<p>相对于b-tree，r-tree的优势在于范围查找.</p>
+<h2 id="2-3-索引的优化"><a href="#2-3-索引的优化" class="headerlink" title="2.3 索引的优化"></a>2.3 索引的优化</h2><ol>
+<li><strong>如果MySQL估计使用索引比全表扫描还慢，则不会使用索引</strong>（explain 估计）<ol>
+<li>返回数据的比例是重要的指标，比例越低越容易命中索引。记住这个范围值——30%，后面所讲的内容都是建立在返回数据的比例在30%以内的基础上。</li>
+</ol>
+</li>
+<li><strong>前导模糊查询查询不能命中索引</strong><ol>
+<li>EXPLAIN SELECT * FROM user WHERE name LIKE ‘%s%’; 不能命中</li>
+<li>优化为 EXPLAIN SELECT * FROM user WHERE name LIKE ‘s%’;</li>
+</ol>
+</li>
+<li><strong>数据类型出现隐式转换的时候不会命中索引，特别是当列类型是字符串，一定要将字符常量值用引号引起来</strong></li>
+<li><strong>复合索引的情况下，查询条件不包含索引列最左边部分（不满足最左原则），不会命中符合索引</strong></li>
+<li><strong>union、in、or 都能够命中索引，建议使用 in。</strong></li>
+<li><strong>用or分割开的条件，如果or前的条件中列有索引，而后面的列中没有索引，那么涉及到的索引都不会被用到</strong></li>
+<li><strong>负向条件查询不能使用索引，可以优化为 in 查询。</strong><ol>
+<li>负向条件有：!=、&lt;&gt;、not in、not exists、not like 等。</li>
+</ol>
+</li>
+<li><strong>范围条件查询可以命中索引</strong><ol>
+<li>范围条件有：&lt;、&lt;=、&gt;、&gt;=、between等</li>
+</ol>
+</li>
+<li><strong>数据库执行计算不会命中索引</strong></li>
+</ol>
+<ol>
+<li><strong>建立索引的列，不允许为 null</strong></li>
+<li><strong>更新十分频繁的字段上不宜建立索引</strong></li>
+<li><strong>区分度不大的字段上不宜建立索引</strong></li>
+<li><strong>业务上具有唯一特性的字段，即使是多个字段的组合，也必须建成唯一索引</strong></li>
+<li><strong>多表关联时，要保证关联字段上一定有索引</strong></li>
+</ol>
+<p>返回数据的比例是重要的指标，比例越低越容易命中索引。记住这个范围值——30%，后面所讲的内容都是建立在返回数据的比例在30%以内的基础上。</p>
+<h2 id="为什么要使用联合索引"><a href="#为什么要使用联合索引" class="headerlink" title="为什么要使用联合索引"></a><strong>为什么要使用联合索引</strong></h2><ul>
+<li><strong>减少开销</strong>。建一个联合索引(col1,col2,col3)，实际相当于建了(col1),(col1,col2),(col1,col2,col3)三个索引。每多一个索引，都会增加写操作的开销和磁盘空间的开销。对于大量数据的表，使用联合索引会大大的减少开销！</li>
+<li><strong>覆盖索引</strong>。对联合索引(col1,col2,col3)，如果有如下的sql: select col1,col2,col3 from test where col1=1 and col2=2。那么MySQL可以直接通过遍历索引取得数据，而无需回表，这减少了很多的随机io操作。减少io操作，特别的随机io其实是dba主要的优化策略。所以，在真正的实际应用中，覆盖索引是主要的提升性能的优化手段之一。</li>
+<li><strong>效率高</strong>。索引列越多，通过索引筛选出的数据越少。有1000W条数据的表，有如下sql:select <em>from table where col1=1 and col2=2 and col3=3,假设假设每个条件可以筛选出10%的数据，如果只有单值索引，那么通过该索引能筛选出1000W<em>10%=100w条数据，然后再回表从100w条数据中找到符合col2=2 and col3= 3的数据，然后再排序，再分页；如果是联合索引，通过索引筛选出1000w</em>10%</em> 10% *10%=1w，效率提升可想而知！</li>
+</ul>
+<h1 id="3-数据库事务-Transaction-和锁"><a href="#3-数据库事务-Transaction-和锁" class="headerlink" title="3. 数据库事务(Transaction)和锁"></a>3. 数据库事务(Transaction)和锁</h1><h2 id="3-1-事务的ACID"><a href="#3-1-事务的ACID" class="headerlink" title="3.1 事务的ACID"></a>3.1 事务的ACID</h2><h4 id="原子性（atomicity）"><a href="#原子性（atomicity）" class="headerlink" title="原子性（atomicity）"></a>原子性（atomicity）</h4><p>一个事务必须被视为一个不可分割的最小工作单元，整个事务中的所有操作要么全部提交成功，要么全部失败回滚，对于一个事务来说，不可能只执行其中的一部分操作，这就是事务的原子性。</p>
+<h4 id="一致性（consistency）"><a href="#一致性（consistency）" class="headerlink" title="一致性（consistency）"></a>一致性（consistency）</h4><p> 数据库总是从一个一致性的状态转换到另一个一致性的状态。在前面的例子中，一致性确保了，即使在执行第三、四条语句之间时系统崩溃，前面执行的语句也不会生效。因为事务最终没有提交，所以事务中所做的修改也不会保存到数据库中。</p>
+<h4 id="隔离性（isolation）"><a href="#隔离性（isolation）" class="headerlink" title="隔离性（isolation）"></a>隔离性（isolation）</h4><p> 通常来说，一个事务所做的修改在最终提交以前，对其他事务是不可见的。当执行完第三条语句、第四条语句还未开始时，此时有另外一个程序开始运行，则看不到第三条语句做出的改变。</p>
+<h4 id="持久性（durability）"><a href="#持久性（durability）" class="headerlink" title="持久性（durability）"></a>持久性（durability）</h4><p>一旦事务提交，则其所做的修改就会永久保存到数据库中。此时即使系统崩溃，修改的数据也不会丢失。持久性是个有点模糊的概念，因为实际上持久性也分很多不同的级别。有些持久性策略能够提供非常强的安全保障，而有些则未必。而且不可能有能做到100%的持久性保证策略。</p>
+<p>作者：是一动不动的friend<br>链接：<a href="https://www.jianshu.com/p/65275368eff2" target="_blank" rel="noopener">https://www.jianshu.com/p/65275368eff2</a><br>来源：简书<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+<h2 id="3-2-事务的四个隔离级别"><a href="#3-2-事务的四个隔离级别" class="headerlink" title="3.2 事务的四个隔离级别"></a>3.2 事务的四个隔离级别</h2><h4 id="读未提交-Read-uncommitted"><a href="#读未提交-Read-uncommitted" class="headerlink" title="读未提交  Read uncommitted"></a>读未提交  Read uncommitted</h4><p>其隔离级别最低，允许脏读。换句话说就是，如果一个事务正在处理某一数据，并对其进行了更新，但是同时没有提交事务，允许另一个事务也可以访问</p>
+<p>事务在读数据的时候并未对数据加锁。</p>
+<p>事务在修改数据的时候只对数据增加行级共享锁。</p>
+<h4 id="读已提交-Read-committed"><a href="#读已提交-Read-committed" class="headerlink" title="读已提交  Read committed"></a>读已提交  Read committed</h4><p>和读未提交的区别就是。读未提交可以读取到别人没有提交的数据，但是读已提交只能读取到别人提交后的值，事务进行的中间值不会读取到</p>
+<p>事务对当前被读取的数据加 行级共享锁（当读到时才加锁），一旦读完该行，立即释放该行级共享锁；</p>
+<p>事务在更新某数据的瞬间（就是发生更新的瞬间），必须先对其加 行级排他锁，直到事务结束才释放。</p>
+<h4 id="可重复读-Repeatable-read"><a href="#可重复读-Repeatable-read" class="headerlink" title="可重复读  Repeatable read"></a>可重复读  Repeatable read</h4><p>简单来说就是事务处理过程中多次读取同一个数据的时候，这个值不会发生改变，其值都和第一次查询到的数据是一致的</p>
+<p>事务在读取某数据的瞬间（就是开始读取的瞬间），必须先对其加 行级共享锁，直到事务结束才释放；</p>
+<p>事务在更新某数据的瞬间（就是发生更新的瞬间），必须先对其加 行级排他锁，直到事务结束才释放。</p>
+<h4 id="可串行化-Serializable"><a href="#可串行化-Serializable" class="headerlink" title="可串行化  Serializable"></a>可串行化  Serializable</h4><p>是最严格的隔离级别，他要求所有的事务都被串行执行，既事务只能一个接一个的进行处理，不能并发执行</p>
+<p>事务在读取数据时，必须先对其加 表级共享锁 ，直到事务结束才释放；</p>
+<p>事务在更新数据时，必须先对其加 表级排他锁 ，直到事务结束才释放。</p>
+<h2 id="3-3-锁"><a href="#3-3-锁" class="headerlink" title="3.3 锁"></a>3.3 锁</h2><h4 id="设立隔离级别"><a href="#设立隔离级别" class="headerlink" title="设立隔离级别"></a>设立隔离级别</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET GLOBAL TRANSACTION ISOLATION LEVEL</span><br></pre></td></tr></table></figure>
+
+<h4 id="共享锁"><a href="#共享锁" class="headerlink" title="共享锁"></a>共享锁</h4><p>共享锁也称为读锁，读锁允许多个连接可以同一时刻并发的读取同一资源,互不干扰；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LOCK IN SHARE MODE(加共享锁)</span><br></pre></td></tr></table></figure>
+
+<h4 id="排他锁"><a href="#排他锁" class="headerlink" title="排他锁"></a>排他锁</h4><p>排他锁也称为写锁，一个写锁会阻塞其他的写锁或读锁，保证同一时刻只有一个连接可以写入数据，同时防止其他用户对这个数据的读写。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FOR UPDATE(加排他锁)</span><br></pre></td></tr></table></figure>
+
+<h4 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h4><p>乐观锁不是数据库自带的，需要我们自己去实现。乐观锁是指操作数据库时(更新操作)，想法很乐观，认为这次的操作不会导致冲突，在操作数据时，并不进行任何其他的特殊处理（也就是不加锁），而在进行更新后，再去判断是否有冲突了。</p>
+<p>通常实现是这样的：在表中的数据进行操作时(更新)，先给数据表加一个版本(version)字段，每操作一次，将那条记录的版本号加1。也就是先查询出那条记录，获取出version字段,如果要对那条记录进行操作(更新),则先判断此刻version的值是否与刚刚查询出来时的version的值相等，如果相等，则说明这段期间，没有其他程序对其进行操作，则可以执行更新，将version字段的值加1；如果更新时发现此刻的version值与刚刚获取出来的version的值不相等，则说明这段期间已经有其他程序对其进行操作了，则不进行更新操作。</p>
+<h4 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h4><p>与乐观锁相对应的就是悲观锁了。悲观锁就是在操作数据时，认为此操作会出现数据冲突，所以在进行每次操作时都要通过获取锁才能进行对相同数据的操作，这点跟java中的synchronized很相似，所以悲观锁需要耗费较多的时间。另外与乐观锁相对应的，悲观锁是由数据库自己实现了的，要用的时候，我们直接调用数据库的相关语句就可以了。</p>
+<p>说到这里，由悲观锁涉及到的另外两个锁概念就出来了，它们就是共享锁与排它锁。共享锁和排它锁是悲观锁的不同的实现，它俩都属于悲观锁的范畴。</p>
+<h1 id="4-查询优化"><a href="#4-查询优化" class="headerlink" title="4. 查询优化"></a>4. 查询优化</h1><p>1、应尽量避免在 where 子句中使用!=或&lt;&gt;操作符，否则将引擎放弃使用索引而进行全表扫描。</p>
+<p>2、对查询进行优化，应尽量避免全表扫描，首先应考虑在 where 及 order by 涉及的列上建立索引。</p>
+<p>3、应尽量避免在 where 子句中对字段进行 null 值判断，否则将导致引擎放弃使用索引而进行全表扫描。如：</p>
+<p>select id from t where num is null</p>
+<p>可以在num上设置默认值0，确保表中num列没有null值，然后这样查询：</p>
+<p>select id from t where num=0</p>
+<p>4、尽量避免在 where 子句中使用 or 来连接条件，否则将导致引擎放弃使用索引而进行全表扫描，如：</p>
+<p>select id from t where num=10 or num=20</p>
+<p>可以这样查询：</p>
+<p>select id from t where num=10</p>
+<p>union all</p>
+<p>select id from t where num=20</p>
+<p>5、下面的查询也将导致全表扫描：(不能前置百分号)</p>
+<p>select id from t where name like ‘%c%’</p>
+<p>下面走索引</p>
+<p>select id from t where name like ‘c%’</p>
+<p>若要提高效率，可以考虑全文检索。</p>
+<p>6、in 和 not in 也要慎用，否则会导致全表扫描，如：</p>
+<p>select id from t where num in(1,2,3)</p>
+<p>对于连续的数值，能用 between 就不要用 in 了：</p>
+<p>select id from t where num between 1 and 3</p>
+<p>7、如果在 where 子句中使用参数，也会导致全表扫描。因为SQL只有在运行时才会解析局部变量，但优化程序不能将访问计划的选择推迟到运行时；它必须在编译时进行选择。然 而，如果在编译时建立访问计划，变量的值还是未知的，因而无法作为索引选择的输入项。如下面语句将进行全表扫描：</p>
+<p>select id from t where num=@num</p>
+<p>可以改为强制查询使用索引：</p>
+<p>select id from t with(index(索引名)) where num=@num</p>
+<p>8、应尽量避免在 where 子句中对字段进行表达式操作，这将导致引擎放弃使用索引而进行全表扫描。如：</p>
+<p>select id from t where num/2=100</p>
+<p>应改为:</p>
+<p>select id from t where num=100*2</p>
+<p>9、应尽量避免在where子句中对字段进行函数操作，这将导致引擎放弃使用索引而进行全表扫描。如：</p>
+<p>select id from t where substring(name,1,3)=’abc’ –name以abc开头的id</p>
+<p>select id from t where datediff(day,createdate,’2005-11-30′)=0 –’2005-11-30′生成的id</p>
+<p>应改为:</p>
+<p>select id from t where name like ‘abc%’</p>
+<p>select id from t where createdate&gt;=’2005-11-30′ and createdate&lt;’2005-12-1′</p>
+<p>10、不要在 where 子句中的“=”左边进行函数、算术运算或其他表达式运算，否则系统将可能无法正确使用索引。</p>
+<p>11、在使用索引字段作为条件时，如果该索引是复合索引，那么必须使用到该索引中的第一个字段作为条件时才能保证系统使用该索引，否则该索引将不会被使 用，并且应尽可能的让字段顺序与索引顺序相一致。</p>
+<p>12、不要写一些没有意义的查询，如需要生成一个空表结构：</p>
+<p>select col1,col2 into #t from t where 1=0</p>
+<p>这类代码不会返回任何结果集，但是会消耗系统资源的，应改成这样：</p>
+<p>create table #t(…)</p>
+<p>13、很多时候用 exists 代替 in 是一个好的选择：</p>
+<p>select num from a where num in(select num from b)</p>
+<p>用下面的语句替换：</p>
+<p>select num from a where exists(select 1 from b where num=a.num)</p>
+<p>14、并不是所有索引对查询都有效，SQL是根据表中数据来进行查询优化的，当索引列有大量数据重复时，SQL查询可能不会去利用索引，如一表中有字段 sex，male、female几乎各一半，那么即使在sex上建了索引也对查询效率起不了作用。</p>
+<p>15、索引并不是越多越好，索引固然可以提高相应的 select 的效率，但同时也降低了 insert 及 update 的效率，因为 insert 或 update 时有可能会重建索引，所以怎样建索引需要慎重考虑，视具体情况而定。一个表的索引数较好不要超过6个，若太多则应考虑一些不常使用到的列上建的索引是否有 必要。</p>
+<p>16.应尽可能的避免更新 clustered 索引数据列，因为 clustered 索引数据列的顺序就是表记录的物理存储顺序，一旦该列值改变将导致整个表记录的顺序的调整，会耗费相当大的资源。若应用系统需要频繁更新 clustered 索引数据列，那么需要考虑是否应将该索引建为 clustered 索引。</p>
+<p>17、尽量使用数字型字段，若只含数值信息的字段尽量不要设计为字符型，这会降低查询和连接的性能，并会增加存储开销。这是因为引擎在处理查询和连接时会 逐个比较字符串中每一个字符，而对于数字型而言只需要比较一次就够了。</p>
+<p>18、尽可能的使用 varchar/nvarchar 代替 char/nchar ，因为首先变长字段存储空间小，可以节省存储空间，其次对于查询来说，在一个相对较小的字段内搜索效率显然要高些。</p>
+<p>19、任何地方都不要使用 select * from t ，用具体的字段列表代替“*”，不要返回用不到的任何字段。</p>
+<p>20、尽量使用表变量来代替临时表。如果表变量包含大量数据，请注意索引非常有限（只有主键索引）。</p>
+<p>21、避免频繁创建和删除临时表，以减少系统表资源的消耗。</p>
+<p>22、临时表并不是不可使用，适当地使用它们可以使某些例程更有效，例如，当需要重复引用大型表或常用表中的某个数据集时。但是，对于一次性事件，较好使 用导出表。</p>
+<p>23、在新建临时表时，如果一次性插入数据量很大，那么可以使用 select into 代替 create table，避免造成大量 log ，以提高速度；如果数据量不大，为了缓和系统表的资源，应先create table，然后insert。</p>
+<p>24、如果使用到了临时表，在存储过程的最后务必将所有的临时表显式删除，先 truncate table ，然后 drop table ，这样可以避免系统表的较长时间锁定。</p>
+<p>25、尽量避免使用游标，因为游标的效率较差，如果游标操作的数据超过1万行，那么就应该考虑改写。</p>
+<p>26、使用基于游标的方法或临时表方法之前，应先寻找基于集的解决方案来解决问题，基于集的方法通常更有效。</p>
+<p>27、与临时表一样，游标并不是不可使用。对小型数据集使用 FAST_FORWARD 游标通常要优于其他逐行处理方法，尤其是在必须引用几个表才能获得所需的数据时。在结果集中包括“合计”的例程通常要比使用游标执行的速度快。如果开发时 间允许，基于游标的方法和基于集的方法都可以尝试一下，看哪一种方法的效果更好。</p>
+<p>28、在所有的存储过程和触发器的开始处设置 SET NOCOUNT ON ，在结束时设置 SET NOCOUNT OFF 。无需在执行存储过程和触发器的每个语句后向客户端发送 DONEINPROC 消息。</p>
+<p>29、尽量避免向客户端返回大数据量，若数据量过大，应该考虑相应需求是否合理。</p>
+<p>30、尽量避免大事务操作，提高系统并发能力。</p>
+<h1 id="5-数据库范式"><a href="#5-数据库范式" class="headerlink" title="5. 数据库范式"></a>5. 数据库范式</h1><h3 id="第一范式（1NF）"><a href="#第一范式（1NF）" class="headerlink" title="第一范式（1NF）"></a>第一范式（1NF）</h3><p>1NF是对属性的<strong><code>原子性</code></strong>，要求属性具有原子性，不可再分解；</p>
+<p>所谓第一范式（1NF）是指数据库表的每一列都是不可分割的基本数据项，同一列中不能有多个值，即实体中的某个属性不能有多个值或者不能有重复的属性。如果出现重复的属性，就可能需要定义一个新的实体，新的实体由重复的属性构成，新实体与原实体之间为一对多关系。在第一范式（1NF）中表的每一行只包含一个实例的信息。简而言之，第一范式就是无重复的列。</p>
+<h3 id="第二范式（2NF）"><a href="#第二范式（2NF）" class="headerlink" title="第二范式（2NF）"></a>第二范式（2NF）</h3><p>2NF是对记录的<strong><code>惟一性</code></strong>，要求记录有惟一标识，即实体的惟一性，即不存在部分依赖；</p>
+<p>第二范式（2NF）是在第一范式（1NF）的基础上建立起来的，即满足第二范式（2NF）必须先满足第一范式（1NF）。第二范式（2NF）要求数据库表中的每个实例或行必须可以被惟一地区分。为实现区分通常需要为表加上一个列，以存储各个实例的惟一标识。这个惟一属性列被称为主关键字或主键、主码。</p>
+<p>简而言之，第二范式（2NF）就是非主属性完全依赖于主关键字。</p>
+<h4 id="第三范式（3NF）"><a href="#第三范式（3NF）" class="headerlink" title="第三范式（3NF）"></a>第三范式（3NF）</h4><p>3NF是对字段的<strong><code>冗余性</code></strong>，要求任何字段不能由其他字段派生出来，它要求字段没有冗余，即不存在传递依赖；</p>
+<p>在第二范式的基础上，数据表中如果不存在非关键字段对任一候选关键字段的传递函数依赖则符合第三范式。简而言之，第三范式就是属性不依赖于其它非主属性。</p>
+<h4 id="BCNF"><a href="#BCNF" class="headerlink" title="BCNF"></a>BCNF</h4><p>在第三范式的基础上，数据库表中如果不存在任何字段对任一候选关键字段的传递函数依赖则符合鲍依斯-科得范式。</p>
+<h1 id="6-数据库分页分表"><a href="#6-数据库分页分表" class="headerlink" title="6. 数据库分页分表"></a>6. 数据库分页分表</h1><h2 id="分表"><a href="#分表" class="headerlink" title="分表"></a>分表</h2><h4 id="水平分割"><a href="#水平分割" class="headerlink" title="水平分割"></a>水平分割</h4><p>假设QQ的用户有100亿，如果只有一张表，每个用户登录的时候数据库都要从这100亿中查找，会很慢很慢。如果将这一张表分成100份，每张表有1亿条，就小了很多，比如qq0,qq1,qq1…qq99表。</p>
+<p>用户登录的时候，可以将用户的id%100，那么会得到0-99的数，查询表的时候，将表名qq跟取模的数连接起来，就构建了表名。比如123456789用户，取模的89，那么就到qq89表查询，查询的时间将会大大缩短。</p>
+<p>水平拆分的优点：</p>
+<p>◆表关联基本能够在数据库端全部完成；</p>
+<p>◆不会存在某些超大型数据量和高负载的表遇到瓶颈的问题；</p>
+<p>◆应用程序端整体<strong><a href="https://link.zhihu.com/?target=http%3A//lib.csdn.net/base/architecture" target="_blank" rel="noopener">架构</a></strong>改动相对较少；</p>
+<p>◆事务处理相对简单；</p>
+<p>◆只要切分规则能够定义好，基本上较难遇到扩展性限制；</p>
+<p>水平切分的缺点：</p>
+<p>◆切分规则相对更为复杂，很难抽象出一个能够满足整个数据库的切分规则；</p>
+<p>◆后期数据的维护难度有所增加，人为手工定位数据更困难；</p>
+<p>◆应用系统各模块耦合度较高，可能会对后面数据的迁移拆分造成一定的困难。</p>
+<h4 id="垂直分割"><a href="#垂直分割" class="headerlink" title="垂直分割"></a>垂直分割</h4><p>如果一张表某个字段，信息量大，但是我们很少查询，则可以考虑把这些字段，单独的放入到一张表中，这种方式称为垂直分割.</p>
+<p>作文字段的内容较多，可能影响查询的速率，单独抽出来放在一张表中，和主表之间保持关系</p>
+<p>垂直切分的优点</p>
+<p>◆ 数据库的拆分简单明了，拆分规则明确；</p>
+<p>◆ 应用程序模块清晰明确，整合容易；</p>
+<p>◆ 数据维护方便易行，容易定位；</p>
+<p>垂直切分的缺点</p>
+<p>◆ 对于访问极其频繁且数据量超大的表仍然存在性能平静，不一定能满足要求；</p>
+<p>◆ 事务处理相对更为复杂；</p>
+<p>◆ 切分达到一定程度之后，扩展性会遇到限制；</p>
+<p>◆ 过读切分可能会带来系统过渡复杂而难以维护。</p>
+<h2 id="读写分离"><a href="#读写分离" class="headerlink" title="读写分离"></a>读写分离</h2><p>一般来说都是通过 主从复制（Master-Slave）的方式来同步数据，再通过读写分离（MySQL-Proxy）来提升数据库的并发负载能力</p>
+<p><strong><a href="https://link.zhihu.com/?target=http%3A//lib.csdn.net/base/14" target="_blank" rel="noopener">MySQL</a></strong> Proxy最强大的一项功能是实现“读写分离(Read/Write Splitting)”。基本的原理是让主数据库处理事务性查询，而从数据库处理SELECT查询。</p>
+<h2 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h2><h4 id="一般的分页查询"><a href="#一般的分页查询" class="headerlink" title="一般的分页查询"></a>一般的分页查询</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM table LIMIT [offset,] rows | rows OFFSET offset</span><br></pre></td></tr></table></figure>
+
+<p>IMIT 子句可以被用于指定 SELECT 语句返回的记录数。需注意以下几点：</p>
+<ul>
+<li>第一个参数指定第一个返回记录行的偏移量</li>
+<li>第二个参数指定返回记录行的最大数目</li>
+<li>如果只给定一个参数：它表示返回最大的记录行数目</li>
+<li>第二个参数为 -1 表示检索从某一个偏移量到记录集的结束所有的记录行</li>
+<li>初始记录行的偏移量是 0(而不是 1)</li>
+</ul>
+<p>下面是一个应用实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from orders_history where type=8 limit 1000,10;</span><br></pre></td></tr></table></figure>
+
+<p>该条语句将会从表 orders_history 中查询第1000条数据之后的10条数据，也就是第1001条到第1010条数据。</p>
+<h4 id="子查询优化"><a href="#子查询优化" class="headerlink" title="子查询优化"></a>子查询优化</h4><p>这种方式先定位偏移位置的 id，然后往后查询，这种方式适用于 id 递增的情况。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select * from orders_history where type=8 limit 100000,1;</span><br><span class="line">select id from orders_history where type=8 limit 100000,1;</span><br><span class="line">select * from orders_history where type=8 and </span><br><span class="line">id&gt;=(select id from orders_history where type=8 limit 100000,1) </span><br><span class="line">limit 100;</span><br><span class="line">select * from orders_history where type=8 limit 100000,100;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用id限定优化"><a href="#使用id限定优化" class="headerlink" title="使用id限定优化"></a>使用id限定优化</h4><p>这种方式假设数据表的id是连续递增的，则我们根据查询的页数和查询的记录数可以算出查询的id的范围，可以使用 id between and 来查询：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from orders_history where type=2 </span><br><span class="line">and id between 1000000 and 1000100 limit 100;</span><br></pre></td></tr></table></figure>
+
+<h1 id="8-No-SQL"><a href="#8-No-SQL" class="headerlink" title="8.  No-SQL"></a>8.  No-SQL</h1><h2 id="RDBMS-的瓶颈"><a href="#RDBMS-的瓶颈" class="headerlink" title="RDBMS 的瓶颈"></a>RDBMS 的瓶颈</h2><h4 id="行存储结构"><a href="#行存储结构" class="headerlink" title="行存储结构"></a>行存储结构</h4><p>如<strong>关系型数据库是行存储结构</strong>，所以当你只想拿一行里面的几列时，从硬盘读取到内存中的数据也会是整行的数据，当数据量很大的时候，IO就吃不消了。当然是可以通过垂直分表来解决这种情况，但是垂直分表也会带来复杂性</p>
+<p>还有例如头条的关注列表，如果放在关系型数据库中，那肯定就是你的id,你关注的人的id,这样一行数据保存着，然后关注的人有10个就会有10条这样的记录，然后你查看你关注的列表的时候，就需要从数据库里面查10行记录，然后组装起来返回给前端展示。</p>
+<h4 id="强结构"><a href="#强结构" class="headerlink" title="强结构"></a>强结构</h4><p>强结构的意思就是<strong>关系型数据库的表结构有很强的约束，必须按照这么个格式存储，就不够灵活</strong>。所以当有新需求需要加字段的时候就需要修改表的结构，如果表的数据很多的话<strong>修改表的结构可能会长时间锁表</strong>，而导致表的不可用。</p>
+<h4 id="没内存型数据库快"><a href="#没内存型数据库快" class="headerlink" title="没内存型数据库快"></a>没内存型数据库快</h4><p>例如redis,人家在内存里，咱们关系型数据库比不上它的速度。</p>
+<h4 id="全文检索能力弱"><a href="#全文检索能力弱" class="headerlink" title="全文检索能力弱"></a>全文检索能力弱</h4><p>如果提供全文检索，一般关系型数据库只能like全表扫描，性能很差，虽然像mysql也有全文索引。但是我觉得术业有专攻。因为数据库的这些厂商想扩张一下他们软件的广度，他们当然想自己软件支持所有的需求，然后让大家都来用它。如果效果真的这么好的话，像elasticsearch还活的下去嘛。例如mongodb4要支持acid事务等等这类。</p>
+<p>一个软件基础的设计就决定了它在一方面是优的，一方面是欠缺的。<strong>一般而言想实现本来就不属于它的领域的东西，要么会牺牲性能，要么会牺牲灵活性。</strong>所以我如下讲的是针对每个类型NoSQL的优势点，也就是它们的最强点。</p>
+<h4 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h4><p>简而言之，sql不支持分布式且且有性能瓶颈且不支持分布式，不同NoSQL适合不同的场景。</p>
+<h4 id="MySQL的扩展性瓶颈"><a href="#MySQL的扩展性瓶颈" class="headerlink" title="MySQL的扩展性瓶颈"></a>MySQL的扩展性瓶颈</h4><p>MySQL数据库也经常存储一些大文本字段，导致数据库表非常的大，在做数据库恢复的时候就导致非常的慢，不容易快速恢复数据库。比如1000万4KB大小的文本就接近40GB的大小，如果能把这些数据从MySQL省去，MySQL将变得非常的小。关系数据库很强大，但是它并不能很好的应付所有的应用场景。MySQL的扩展性差（需要复杂的技术来实现），大数据下IO压力大，表结构更改困难，正是当前使用MySQL的开发人员面临的问题。</p>
+<h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><ol>
+<li>k-v 数据库，适用于内容缓存，主要用于处理大量数据的高访问负载等； </li>
+<li>bson：文档数据库，MongoDB 是一个基于分布式文件存储的数据库，C++编写的。皆在为web应用提供可扩展的高性能数据存储解决方案。它介于关系型数据库与非关系型数据库之间的产品，是非关系型中功能最丰富的，且最像关系型数据库的； </li>
+<li>列存储数据库：分布式文件系统</li>
+<li>图关系型数据库 ：它不是放图的，放的是 关系：如朋友圈社交网络等。专注于关系图谱。GraphDB</li>
+</ol>
+<h4 id="K-V-数据库"><a href="#K-V-数据库" class="headerlink" title="K-V 数据库"></a>K-V 数据库</h4><p>全称Key-Value，这应该是我们都熟悉就像Map一样。代表数据库就是redis,redis的value还分了很多结构，例如:list、set、sorted set、hash、string等。</p>
+<p><strong>它是存储在内存中的，所以速度快常用来作为缓存服务器</strong>。 而且因为<strong>它的结构导致有些操作比关系型数据库简单</strong>。</p>
+<p>举个例子例如List的[LPUSHX key value]操作，将一个值插入到已存在的列表头部，列表是有序的，如果在关系型数据库中得怎么办，插入一条数据，并且将控制位置的那个字段例如叫index，设为1。那是不是还得修改本来的那些数据，把后面所有行的index值都加一，这样才能控制有序，之后删除哪条数据，还得维护修改index。操作是比较麻烦的。</p>
+<p>但是它ACID事务只支持I和C也就是隔离性和一致性，<strong>不支持原子性和持久性</strong>。所以在一些对事务要求的情况下就不适合了。</p>
+<h4 id="BSON"><a href="#BSON" class="headerlink" title="BSON"></a>BSON</h4><p>这个类型它的结构没有约束，可以存储任意结构,因为是文档嘛。啥意思呢，就是例如关系型数据库中规定这个表字段就两个，一个id,一个name。如果你想存个sex字段你就得修改表结构。那文档型不用，因为<strong>文档型存储的数据格式一般都是Json,Json里面的字段我任意填，无拘无束。</strong></p>
+<h4 id="列式存储型"><a href="#列式存储型" class="headerlink" title="列式存储型"></a>列式存储型</h4><p>也就是按列来存储数据，关系型是按行存储。 按行存储的好处是业务可以简单的获取一行也就是多个列的数据，因为按行存储数据都是连续的，所以磁盘一次操作就读取所有列的数据。</p>
+<p>但是<strong>按列的话，因为列的存储是不连续的，所以磁盘读取效率比行低</strong></p>
+<p>按行存储写如果操作也是一行一起的，保证的所有列的数据要么都成功写入，要么的失败 。 如果是<strong>按列的话就有可能有些列成功，有些列失败</strong>。</p>
+<p>但是在大数据统计的时候，一般就统计某一列或者某几列的数据。如果这时候是按行存储的话，那么每次从磁盘读取到内存时都会读取整行数据导致IO过大和资源的浪费。</p>
+<p>所以<strong>节省I/O就采用按列存储</strong>，这样每次只需要拿想要的列进行统计。</p>
+<p>代表的数据库是HBase,<strong>多用于离线的大数据分析和统计</strong>。为啥离线？上面说了写的操作可能会有问题，并且整行读的效率低，所以一般都是线上数据拷过来弄成列数据库，专门用户数据分析。</p>
+<h4 id="全文检索型"><a href="#全文检索型" class="headerlink" title="全文检索型"></a>全文检索型</h4><p>这种型的数据库<strong>主要是用在传统关系型数据库在全文检索无力的情况下</strong>。因为搜索的条件很多，例如找对象在网站搜，女+170+杭州+爱吃辣+爱健身+爱旅游+28岁。来想想关系型数据库得怎么建这个索引。。。就是搜索条件的排列组合太多了。所以关系型数据库吃不消。这时候记得引入全文检索型数据库。</p>
+<p><strong>全文检索引擎采用倒排索引，也就是每个单词都是索引，建立单词到文档的索引</strong>，这样满足你搜索条件的当此的结果都会快速的显示出来。</p>
+<p>代表的有Elasticsearch，分布式文档存储方式。使用方式就是我们从关系数据库中导出数据，转换成Json格式然后将其输入Elasticsearch中建立索引然后使用。</p>
+<p>具体Elasticsearch的东西这里不做深入分析，不然就跑题了。有需自己查找相关资料。还有虽然Elasticsearch也是面向文档的，但是人家的重点在于全文检索</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/database/" rel="tag"># database</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/22/network-interview/" rel="next" title="【面试系列】 - 计算机网络">
+                <i class="fa fa-chevron-left"></i> 【面试系列】 - 计算机网络
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/22/os-interview/" rel="prev" title="【面试系列】- 操作系统">
+                【面试系列】- 操作系统 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ReStartercc</p>
+              <p class="site-description motion-element" itemprop="description">Contact restartercc@gmail.com</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-SQL-Query"><span class="nav-number">1.</span> <span class="nav-text">1. SQL Query</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-SQL分类"><span class="nav-number">2.</span> <span class="nav-text">1.1 SQL分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DDL（Data-Definition-Languages）语句"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">DDL（Data Definition Languages）语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DML（Data-Manipulation-Language）语句"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">DML（Data Manipulation Language）语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DCL（Data-Control-Language）语句"><span class="nav-number">2.0.0.3.</span> <span class="nav-text">DCL（Data Control Language）语句</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-常见关键字"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 常见关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#增删改"><span class="nav-number">2.1.1.</span> <span class="nav-text">增删改</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#create"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">create</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#insert-into"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">insert into</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#delete-from"><span class="nav-number">2.1.1.3.</span> <span class="nav-text">delete from</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#update-…-set-…-where"><span class="nav-number">2.1.1.4.</span> <span class="nav-text">update … set … where</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#drop-table"><span class="nav-number">2.1.1.5.</span> <span class="nav-text">drop table</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#alter"><span class="nav-number">2.1.1.6.</span> <span class="nav-text">alter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#alter-table-…-drop"><span class="nav-number">2.1.1.7.</span> <span class="nav-text">alter table … drop</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询"><span class="nav-number">2.1.2.</span> <span class="nav-text">查询</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#distinct"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">distinct</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#all"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">all</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lt-gt"><span class="nav-number">2.1.2.3.</span> <span class="nav-text">&lt;&gt;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#order-by"><span class="nav-number">2.1.2.4.</span> <span class="nav-text">order by</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#asc-desc"><span class="nav-number">2.1.2.5.</span> <span class="nav-text">asc/desc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#having"><span class="nav-number">2.1.2.6.</span> <span class="nav-text">having</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-连接（Join）"><span class="nav-number">2.2.</span> <span class="nav-text">1.2 连接（Join）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自然连接"><span class="nav-number">2.2.1.</span> <span class="nav-text">自然连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内连接"><span class="nav-number">2.2.2.</span> <span class="nav-text">内连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#外连接"><span class="nav-number">2.2.3.</span> <span class="nav-text">外连接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#左连接"><span class="nav-number">2.2.3.1.</span> <span class="nav-text">左连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#右连接"><span class="nav-number">2.2.3.2.</span> <span class="nav-text">右连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#全连接"><span class="nav-number">2.2.3.3.</span> <span class="nav-text">全连接</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉连接（笛卡尔积）"><span class="nav-number">2.2.4.</span> <span class="nav-text">交叉连接（笛卡尔积）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-SQL-子查询"><span class="nav-number">2.3.</span> <span class="nav-text">1.3 SQL 子查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单行子查询"><span class="nav-number">2.3.1.</span> <span class="nav-text">单行子查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多行子查询"><span class="nav-number">2.3.2.</span> <span class="nav-text">多行子查询</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-索引-Indexing"><span class="nav-number">3.</span> <span class="nav-text">2. 索引 Indexing</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Introduction"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#哈希索引"><span class="nav-number">3.1.0.1.</span> <span class="nav-text">哈希索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#哈希索引的缺点"><span class="nav-number">3.1.0.2.</span> <span class="nav-text">哈希索引的缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#索引是怎么提升性能的"><span class="nav-number">3.1.0.3.</span> <span class="nav-text">索引是怎么提升性能的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#索引里究竟存的是什么"><span class="nav-number">3.1.0.4.</span> <span class="nav-text">索引里究竟存的是什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据库怎么知道什么时候使用索引？"><span class="nav-number">3.1.0.5.</span> <span class="nav-text">数据库怎么知道什么时候使用索引？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#你能强制数据库使用索引吗？"><span class="nav-number">3.1.0.6.</span> <span class="nav-text">你能强制数据库使用索引吗？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MyISAM-和-InnoDB-两种索引实现"><span class="nav-number">3.1.0.7.</span> <span class="nav-text">MyISAM 和 InnoDB 两种索引实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何在使用SQL创建索引"><span class="nav-number">3.1.0.8.</span> <span class="nav-text">如何在使用SQL创建索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何创建联合索引"><span class="nav-number">3.1.0.9.</span> <span class="nav-text">如何创建联合索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#把数据库索引类比成什么比较好呢"><span class="nav-number">3.1.0.10.</span> <span class="nav-text">把数据库索引类比成什么比较好呢?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用数据库索引会有什么代价"><span class="nav-number">3.1.0.11.</span> <span class="nav-text">使用数据库索引会有什么代价</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-MySQL的索引方法"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 MySQL的索引方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#full-text索引"><span class="nav-number">3.2.0.1.</span> <span class="nav-text">full-text索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#b-tree索引"><span class="nav-number">3.2.0.2.</span> <span class="nav-text">b-tree索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hash索引"><span class="nav-number">3.2.0.3.</span> <span class="nav-text">hash索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#r-tree索引"><span class="nav-number">3.2.0.4.</span> <span class="nav-text">r-tree索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-索引的优化"><span class="nav-number">3.3.</span> <span class="nav-text">2.3 索引的优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要使用联合索引"><span class="nav-number">3.4.</span> <span class="nav-text">为什么要使用联合索引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-数据库事务-Transaction-和锁"><span class="nav-number">4.</span> <span class="nav-text">3. 数据库事务(Transaction)和锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-事务的ACID"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 事务的ACID</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原子性（atomicity）"><span class="nav-number">4.1.0.1.</span> <span class="nav-text">原子性（atomicity）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一致性（consistency）"><span class="nav-number">4.1.0.2.</span> <span class="nav-text">一致性（consistency）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#隔离性（isolation）"><span class="nav-number">4.1.0.3.</span> <span class="nav-text">隔离性（isolation）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#持久性（durability）"><span class="nav-number">4.1.0.4.</span> <span class="nav-text">持久性（durability）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-事务的四个隔离级别"><span class="nav-number">4.2.</span> <span class="nav-text">3.2 事务的四个隔离级别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#读未提交-Read-uncommitted"><span class="nav-number">4.2.0.1.</span> <span class="nav-text">读未提交  Read uncommitted</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#读已提交-Read-committed"><span class="nav-number">4.2.0.2.</span> <span class="nav-text">读已提交  Read committed</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可重复读-Repeatable-read"><span class="nav-number">4.2.0.3.</span> <span class="nav-text">可重复读  Repeatable read</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可串行化-Serializable"><span class="nav-number">4.2.0.4.</span> <span class="nav-text">可串行化  Serializable</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-锁"><span class="nav-number">4.3.</span> <span class="nav-text">3.3 锁</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#设立隔离级别"><span class="nav-number">4.3.0.1.</span> <span class="nav-text">设立隔离级别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#共享锁"><span class="nav-number">4.3.0.2.</span> <span class="nav-text">共享锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#排他锁"><span class="nav-number">4.3.0.3.</span> <span class="nav-text">排他锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#乐观锁"><span class="nav-number">4.3.0.4.</span> <span class="nav-text">乐观锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#悲观锁"><span class="nav-number">4.3.0.5.</span> <span class="nav-text">悲观锁</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-查询优化"><span class="nav-number">5.</span> <span class="nav-text">4. 查询优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-数据库范式"><span class="nav-number">6.</span> <span class="nav-text">5. 数据库范式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一范式（1NF）"><span class="nav-number">6.0.1.</span> <span class="nav-text">第一范式（1NF）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二范式（2NF）"><span class="nav-number">6.0.2.</span> <span class="nav-text">第二范式（2NF）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第三范式（3NF）"><span class="nav-number">6.0.2.1.</span> <span class="nav-text">第三范式（3NF）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BCNF"><span class="nav-number">6.0.2.2.</span> <span class="nav-text">BCNF</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-数据库分页分表"><span class="nav-number">7.</span> <span class="nav-text">6. 数据库分页分表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分表"><span class="nav-number">7.1.</span> <span class="nav-text">分表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#水平分割"><span class="nav-number">7.1.0.1.</span> <span class="nav-text">水平分割</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#垂直分割"><span class="nav-number">7.1.0.2.</span> <span class="nav-text">垂直分割</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读写分离"><span class="nav-number">7.2.</span> <span class="nav-text">读写分离</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分页"><span class="nav-number">7.3.</span> <span class="nav-text">分页</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一般的分页查询"><span class="nav-number">7.3.0.1.</span> <span class="nav-text">一般的分页查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#子查询优化"><span class="nav-number">7.3.0.2.</span> <span class="nav-text">子查询优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用id限定优化"><span class="nav-number">7.3.0.3.</span> <span class="nav-text">使用id限定优化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-No-SQL"><span class="nav-number">8.</span> <span class="nav-text">8.  No-SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RDBMS-的瓶颈"><span class="nav-number">8.1.</span> <span class="nav-text">RDBMS 的瓶颈</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#行存储结构"><span class="nav-number">8.1.0.1.</span> <span class="nav-text">行存储结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#强结构"><span class="nav-number">8.1.0.2.</span> <span class="nav-text">强结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#没内存型数据库快"><span class="nav-number">8.1.0.3.</span> <span class="nav-text">没内存型数据库快</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#全文检索能力弱"><span class="nav-number">8.1.0.4.</span> <span class="nav-text">全文检索能力弱</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Motivation"><span class="nav-number">8.1.0.5.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL的扩展性瓶颈"><span class="nav-number">8.1.0.6.</span> <span class="nav-text">MySQL的扩展性瓶颈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分类"><span class="nav-number">8.1.0.7.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#K-V-数据库"><span class="nav-number">8.1.0.8.</span> <span class="nav-text">K-V 数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BSON"><span class="nav-number">8.1.0.9.</span> <span class="nav-text">BSON</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#列式存储型"><span class="nav-number">8.1.0.10.</span> <span class="nav-text">列式存储型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#全文检索型"><span class="nav-number">8.1.0.11.</span> <span class="nav-text">全文检索型</span></a></li></ol></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ReStartercc</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

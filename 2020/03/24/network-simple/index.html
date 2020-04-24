@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="network,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="[toc] 分层要点1. OSI七层模型 TCP/IP 四五层 应用层 表示层 会话层 前三层合并起来为 TCP/IP  的第一层 统称应用层   传输层 网络层 数据链路层 物理层 后两层合并起来为 四层协议的最底层 称为网络接口层    2. 各层功能A bottom up approach物理层（比特流 bit）物理传输、硬件、物理特性。中间的物理链接可以是光缆、电缆、双绞线、无线电波。中间">
+<meta name="keywords" content="network">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【面试准备简明版】- 操作系统">
+<meta property="og:url" content="NewReStarter.github.io/2020/03/24/network-simple/index.html">
+<meta property="og:site_name" content="Restartercc">
+<meta property="og:description" content="[toc] 分层要点1. OSI七层模型 TCP/IP 四五层 应用层 表示层 会话层 前三层合并起来为 TCP/IP  的第一层 统称应用层   传输层 网络层 数据链路层 物理层 后两层合并起来为 四层协议的最底层 称为网络接口层    2. 各层功能A bottom up approach物理层（比特流 bit）物理传输、硬件、物理特性。中间的物理链接可以是光缆、电缆、双绞线、无线电波。中间">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://raw.githubusercontent.com/HIT-Alibaba/interview/master/img/tcp-connection-made-three-way-handshake.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/HIT-Alibaba/interview/master/img/tcp-connection-closed-four-way-handshake.png">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/3/30/169cd8c84c05c552?imageslim">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/3/30/169cd8c84c92d41b?imageslim">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/3/30/169cd8c84caf97fd?imageslim">
+<meta property="og:image" content="https://img-blog.csdn.net/20160909153411895?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="https://img-blog.csdn.net/20160909153222894?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="https://img-blog.csdn.net/20160213204452771">
+<meta property="og:updated_time" content="2020-04-24T05:45:14.845Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【面试准备简明版】- 操作系统">
+<meta name="twitter:description" content="[toc] 分层要点1. OSI七层模型 TCP/IP 四五层 应用层 表示层 会话层 前三层合并起来为 TCP/IP  的第一层 统称应用层   传输层 网络层 数据链路层 物理层 后两层合并起来为 四层协议的最底层 称为网络接口层    2. 各层功能A bottom up approach物理层（比特流 bit）物理传输、硬件、物理特性。中间的物理链接可以是光缆、电缆、双绞线、无线电波。中间">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/HIT-Alibaba/interview/master/img/tcp-connection-made-three-way-handshake.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="NewReStarter.github.io/2020/03/24/network-simple/">
+
+
+
+
+
+  <title>【面试准备简明版】- 操作系统 | Restartercc</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Restartercc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">学习计算机科学和数学，尝试了解这个世界</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="NewReStarter.github.io/2020/03/24/network-simple/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ReStartercc">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Restartercc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【面试准备简明版】- 操作系统</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-24T13:44:35+08:00">
+                2020-03-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试准备/" itemprop="url" rel="index">
+                    <span itemprop="name">面试准备</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[toc]</p>
+<h1 id="分层要点"><a href="#分层要点" class="headerlink" title="分层要点"></a>分层要点</h1><h2 id="1-OSI七层模型-TCP-IP-四五层"><a href="#1-OSI七层模型-TCP-IP-四五层" class="headerlink" title="1. OSI七层模型 TCP/IP 四五层"></a>1. OSI七层模型 TCP/IP 四五层</h2><ol>
+<li>应用层</li>
+<li>表示层</li>
+<li>会话层<ol>
+<li>前三层合并起来为 TCP/IP  的第一层 统称应用层</li>
+</ol>
+</li>
+<li>传输层</li>
+<li>网络层</li>
+<li>数据链路层</li>
+<li>物理层<ol>
+<li>后两层合并起来为 四层协议的最底层 称为网络接口层</li>
+</ol>
+</li>
+</ol>
+<h2 id="2-各层功能"><a href="#2-各层功能" class="headerlink" title="2. 各层功能"></a>2. 各层功能</h2><h3 id="A-bottom-up-approach"><a href="#A-bottom-up-approach" class="headerlink" title="A bottom up approach"></a><strong>A bottom up approach</strong></h3><h4 id="物理层（比特流-bit）"><a href="#物理层（比特流-bit）" class="headerlink" title="物理层（比特流 bit）"></a>物理层（比特流 bit）</h4><p>物理传输、硬件、物理特性。中间的物理链接可以是<strong>光缆、电缆、双绞线、无线电波</strong>。中间传的是电信号，即010101这样的比特流</p>
+<h4 id="数据链路层（帧-frame）"><a href="#数据链路层（帧-frame）" class="headerlink" title="数据链路层（帧 frame）"></a>数据链路层（帧 frame）</h4><p>怎么使一串二进制的比特流有意义呢？我们需要对比特流（电信号）进行分组，</p>
+<p>早期的时候，<strong>数据链路层就是来对电信号来做分组的</strong>。以前每个公司都有自己的分组方式，非常的乱，后来形成了统一的标准（标准就是协议），即以太网协议Ethernet。</p>
+<p>Ethernet规定</p>
+<p>一组电信号称之为一个数据包，或者叫做一个<strong>“帧”</strong>。每一帧分为报头head和数据data两部分。</p>
+<p>head（固定18个字节）里包含：</p>
+<ul>
+<li>发送者（源地址）6个字节</li>
+<li>接受者（目标地址）6个字节</li>
+<li>数据类型 6个字节</li>
+</ul>
+<p>data包含：</p>
+<ul>
+<li>最短46字节，最长1500字节</li>
+</ul>
+<p>源地址和目标地址指的是<strong>mac地址</strong>。</p>
+<p>为什么要mac地址呢，因为Ethernet规定接入Internet的设备都必须具备网卡，发送端的和接收端的地址便是指网卡的地址，即Mac地址。每块网卡出厂时都被烧录上一个实际上唯一的Mac地址，长度为48位2进制，通常由12位16进制数表示，（前六位是厂商编码，后六位是流水线号）。</p>
+<p>现在有了发送者和接受者，直接局域网内广播。计算机底层，只要在一个局域网内，都是靠广播通信。互联网就是由一个个局域网组成，局域网内的计算机不管是对内还是对外都是靠吼，这就是数据链路层的工作方式—–广播。</p>
+<p>广播出去所有人都能看到，所有人都会拆包，读发送者和接受者是谁，只要接受者不是自己就丢弃掉。</p>
+<p>对于局域网内的通信是靠广播，不同局域网内的计算机靠什么呢？这个时候跨网络交流的需求就出现了，也就有了网络层。</p>
+<h4 id="网络层（数据包-分组-packet）"><a href="#网络层（数据包-分组-packet）" class="headerlink" title="网络层（数据包/分组 packet）"></a>网络层（数据包/分组 packet）</h4><p>你想，我是这个教室的一个学生，我想找隔壁教室一个叫老王的学生，我也不认识老王，那怎么办，我吼？老王在另外一个教室肯定是听不到的。找教室的负责人，这个教室的负责人就负责和隔壁教室的负责人说话，说我们教室的有个学生要找你们教室的老王。往外传的东西交给负责人就可以了，内部的话上面已经提到，通过广播的方式，对外的东西广播失效。<strong>教室的负责人就是网关，网关即网络关口的意思。</strong></p>
+<p><strong>Mac地址</strong>是用来标识你这个教室的某个位置，<strong>IP地址</strong>是用来标识你在哪个教室（哪个局域网）。你要跨网络发包你是不是要知道对方的IP地址，比如你要访问百度，你肯定得知道百度服务器的IP地址。计算机在发包前，会判断你在哪个教室，对方在哪个教室，如果在一个教室，基于mac地址的广播发包就OK了；如果不在一个教室，即跨网络发包，那么就会把你的包交给教室负责人（网关）来转发。Mac地址及IP地址唯一标识了你在互联网中的位置。</p>
+<p>数据链路层中会把网络层的数据包封装到数数据链路层的数据位置，然后再添加上自己的包头，再发给物理层，物理层发给网关，网关再发给对方教室的网关，对方教室的网关收到后在那个教室做广播。</p>
+<p>IP head一般长20字节，除非有选项字段，包含：</p>
+<ul>
+<li>版本IPV4 IPV6</li>
+<li>head长度，总长度</li>
+<li>生存时间TTL</li>
+<li>checksum</li>
+<li>源地址</li>
+<li>目标地址</li>
+</ul>
+<p>在吼之前怎么知道对方的Mac地址？这就得靠ARP协议。你的机器必须先发一个ARP包出去，ARP也是靠广播的方式发，目标mac写为FF:FF:FF:FF:FF:FF，源ip目标ip均已知。目标ip改为目标的网关地址，网关在目标局域网（子网段）里面广播，所有人解包，只有对应者回应。这样网关就会把它自己的Mac地址返回给你，然后正常发包。</p>
+<p>所以在最终发送的数据报里，</p>
+<p>目标mac是自己网关的mac，而非目标的mac，但目标ip是目标自己的ip</p>
+<p>网关帮你去找飞哥，但对用户来说，我们根本就感觉不到网关的存在。</p>
+<p>代理ARP由网络中的网关设备来执行，包括路由器、多层交换机、无线路由器、防火墙等设备。并且，网关即便有代理ARP功能，也未必一定执行，还必须满足两个条件：<strong>①网关已经开启代理ARP功能；②网关有目标的路由信息。</strong></p>
+<p><strong>网关（Gateway）、下一跳（Next-hop）、路由器（Router）都指的是离发送方最近的三层（或多层）设备，具备三层和路由转发功能。</strong>举例：我们通过WiFi上网时，网关就是无线路由器，它帮忙将电脑和手机的数据转发到互联网；<strong>所以，我们访问互联网时（无论访问谁），电脑和手机采用的目的MAC，都是无线路由器的MAC</strong></p>
+<h4 id="传输层-Segment-Datagram"><a href="#传输层-Segment-Datagram" class="headerlink" title="传输层(Segment / Datagram)"></a>传输层(Segment / Datagram)</h4><p>输层的由来：网络层的ip帮我们区分子网，以太网层的mac帮我们找到主机，然后大家使用的都是应用程序，你的电脑上可能同时开启qq，暴风影音，等多个应用程序，</p>
+<p>那么我们通过ip和mac找到了一台特定的主机，如何标识这台主机上的应用程序，答案就是端口，端口即应用程序与网卡关联的编号。</p>
+<p>传输层功能：建立端口到端口的通信，端口范围0-65535，0-1023为系统占用端口。（因为TCP UDP head有16位用来标记源端口号和目标端口号，所以端口个数是2^16-1=65535个。</p>
+<p>TCP对应 Segment 叫数据段:</p>
+<p>TCP首部长20字节 + 4N 字节作为选项</p>
+<p>包含source port, dest port, SeqNum, AckNum, 报头长度, 保留用以后开发，编码位(六种bit)，窗口（自己一方的接受窗口，即明确指明对方允许发送的数据量），checksum，紧急指针（本报文段的紧急数据字节数） 选项（最长40字节）</p>
+<p>可靠传输，TCP数据包没有长度限制，理论上可以无限长，但是为了保证网络的效率，通常TCP数据包的长度不会超过IP数据包的长度，以确保单个TCP数据包不必再分割。</p>
+<p>UDP对应 datagram 叫数据报：</p>
+<p>UDP首部8个字节，source port，dest port，长度，checksum</p>
+<p>不可靠传输，”报头”部分一共只有8个字节，总长度不超过65,535字节，正好放进一个IP数据包。</p>
+<h4 id="应用层-message-消息"><a href="#应用层-message-消息" class="headerlink" title="应用层(message 消息)"></a>应用层(message 消息)</h4><p>户使用的都是应用程序，均工作于应用层，互联网是开发的，大家都可以开发自己的应用程序，数据多种多样，必须规定好数据的组织形式 。</p>
+<p>应用层功能：规定应用程序的数据格式。比如HTTP FTP etc</p>
+<p>TCP协议可以为各种各样的程序传递数据，比如Email、WWW、FTP等等。那么，必须有不同协议规定电子邮件、网页、FTP数据的格式，这些应用程序协议就构成了”应用层”。</p>
+<p>总的来说网络传输信息都是在传输信息的时候每一层提供自己的封装，在解读信息的时候层层解封。</p>
+<p>以HTTP为例的信息的传输为例</p>
+<p>HTTP在应用层为数据包装上了HTTP head，目的是目标服务器能解读这个HTTP Request。在传输层TCP为数据又加包了TCP头，形成了segment，目的是信息能传往正确的端口，被正确的应用程序接收。这个时候时候为了在子网段间通信，在网络层加上了ip head，数据被封装成packet。packet再次通过被加上以太网头，在数据链路层，被封装成帧。最后帧被转化成比特流在物理层传输。</p>
+<h1 id="TCP要点"><a href="#TCP要点" class="headerlink" title="TCP要点"></a>TCP要点</h1><h2 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h2><ol>
+<li>TCP 提供一种<strong>面向连接的、可靠的</strong>字节流服务</li>
+<li>在一个 TCP 连接中，仅有两方进行彼此通信。广播和多播不能用于 TCP</li>
+<li>TCP 使用校验和，确认和重传机制来保证可靠传输</li>
+<li>TCP 给数据分节进行排序，并使用累积确认保证数据的顺序不变和非重复</li>
+<li>TCP 使用滑动窗口机制来实现流量控制，通过动态改变窗口的大小进行拥塞控制</li>
+<li>TCP包最大1500-20（IP head）-20（TCP head） = 1460 bytes</li>
+</ol>
+<p><strong>注意</strong>：TCP 并不能保证数据一定会被对方接收到，因为这是不可能的。TCP 能够做到的是，如果有可能，就把数据递送到接收方，否则就（通过放弃重传并且中断连接这一手段）通知用户。因此准确说 TCP 也不是 100% 可靠的协议，它所能提供的是数据的可靠递送或故障的可靠通知。</p>
+<h2 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h2><h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p>所谓三次握手(Three-way Handshake)，是指建立一个 TCP 连接时，需要客户端和服务器总共发送3个包。</p>
+<p>三次握手的目的是连接服务器指定端口，建立 TCP 连接，并同步连接双方的序列号和确认号，交换 TCP 窗口大小信息。在 socket 编程中，客户端执行 <code>connect()</code> 时。将触发三次握手。</p>
+<ul>
+<li><p>第一次握手(SYNbit=1, seq=x)</p>
+<ul>
+<li>客户端执行<code>connect()</code>发送一个 TCP 的 SYN 标志位置1的包，指明客户端打算连接的服务器的端口，以及初始序号 X,保存在包头的序列号(Sequence Number)字段里。</li>
+<li>发送完毕后，客户端进入 <code>SYN_SEND</code> 状态。</li>
+</ul>
+</li>
+<li><p>第二次握手(SYNbit=1, ACKbit=1, seq=y, ACKNum=x+1):</p>
+<ul>
+<li>服务器执行<code>listen()</code>发回确认包(ACK)应答。即 SYN 标志位和 ACK 标志位均为1。服务器端选择自己 ISN 序列号，放到 Seq 域里，同时将确认序号(Acknowledgement Number)设置为客户的 ISN 加1，即X+1。 发送完毕后，服务器端进入 <code>SYN_RCVD</code> 状态。</li>
+</ul>
+</li>
+<li><p>第三次握手(SYNbit = 0, ACKbit=1，ACKnum=y+1)</p>
+<ul>
+<li>客户端再次发送确认包(ACK)，SYN 标志位为0，ACK 标志位为1，并且把服务器发来 ACK 的序号字段+1，放在确定字段中发送给对方，并且在数据段放写ISN的+1</li>
+<li>发送完毕后，客户端进入 <code>ESTABLISHED</code> 状态，当服务器端接收到这个包时，也进入 <code>ESTABLISHED</code> 状态，TCP 握手结束。</li>
+</ul>
+</li>
+</ul>
+<p>三次握手的过程的示意图如下：</p>
+<p><img src="https://raw.githubusercontent.com/HIT-Alibaba/interview/master/img/tcp-connection-made-three-way-handshake.png" alt="three-way-handshake"></p>
+<h3 id="为什么一定要是三次"><a href="#为什么一定要是三次" class="headerlink" title="为什么一定要是三次"></a>为什么一定要是三次</h3><h4 id="为什么不是两次：B不知道A是否收到同步信号"><a href="#为什么不是两次：B不知道A是否收到同步信号" class="headerlink" title="为什么不是两次：B不知道A是否收到同步信号"></a>为什么不是两次：B不知道A是否收到同步信号</h4><ol>
+<li>A 发送同步信号<strong>SYN</strong> + Seq Number</li>
+<li>B 发送同步信号SYN + Seq Number + ACK + ACKnum</li>
+</ol>
+<p>这里有一个问题，A与B就A的初始序列号达成了一致，这里是1000。<strong>但是</strong>B无法知道A是否已经接收到自己的同步信号，如果这个同步信号丢失了，<strong>A和B就B的初始序列号将无法达成一致。</strong></p>
+<p>有童鞋会说，如果A发给B的确认丢了，该如何？A会超时重传这个ACK吗？不会！<strong>TCP不会为没有数据的ACK超时重传</strong>。</p>
+<p>那该如何是好？<strong>B如果没有收到A的ACK，会超时重传自己的SYN同步信号，一直到收到A的ACK为止。</strong></p>
+<h4 id="为什么不是四次：记录A的ISN达成一致和发送B的ISN可以合并"><a href="#为什么不是四次：记录A的ISN达成一致和发送B的ISN可以合并" class="headerlink" title="为什么不是四次：记录A的ISN达成一致和发送B的ISN可以合并"></a>为什么不是四次：记录A的ISN达成一致和发送B的ISN可以合并</h4><ol>
+<li>A 发送同步信号<strong>SYN</strong> + <strong>A’sInitial sequence number</strong></li>
+<li>B 确认收到A的同步信号，并记录A’s ISN 到本地，命名 B’s ACK sequence number</li>
+<li>B发送同步信号<strong>SYN</strong> + <strong>B’s Initial sequence number</strong> </li>
+<li>A确认收到B的同步信号，并记录B’s ISN 到本地，命名 <strong>A’s ACK sequence number</strong></li>
+</ol>
+<p>很显然1.2和1.3 这两个步骤可以合并，<strong>只需要三次握手，</strong>可以提高连接的速度与效率。</p>
+<h3 id="故障处理"><a href="#故障处理" class="headerlink" title="故障处理"></a>故障处理</h3><ul>
+<li><strong>A发给B的SYN 中途被丢，没有到达B</strong><ul>
+<li>A会周期性超时重传，直到收到B的确认</li>
+</ul>
+</li>
+<li><strong>即B发给A的SYN +ACK 中途被丢，没有到达A</strong><ul>
+<li>B会周期性超时重传，直到收到A的确认</li>
+</ul>
+</li>
+<li><strong>即A发给B的ACK 中途被丢，没有到达B</strong><ul>
+<li>A发完ACK，单方面认为TCP为 Established状态，而B显然认为TCP为Active状态。A不会超时重传，因为ATCP不会为没有数据的ACK超时重传。</li>
+<li>假定此时双方都没有数据发送，B会周期性超时重传，直到收到A的确认，收到之后B的TCP 连接也为 Established状态，双向可以发包</li>
+<li>假定此时A有数据发送，B收到A的 Data + ACK，自然会切换为established 状态，并接受A的Data</li>
+<li>假定B有数据发送，数据发送不了，会一直周期性超时重传SYN + ACK，直到收到A的确认才可以发送数据。</li>
+</ul>
+</li>
+</ul>
+<h2 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h2><h3 id="流程-1"><a href="#流程-1" class="headerlink" title="流程"></a>流程</h3><ul>
+<li><p>第一次挥手(FIN=1，seq=x)</p>
+<ul>
+<li><p>假设客户端想要关闭连接，客户端发送一个 FIN 标志位置为1的包，表示自己已经没有数据可以发送了，但是仍然可以接受数据。</p>
+<p>发送完毕后，客户端进入 <code>FIN_WAIT_1</code> 状态。</p>
+</li>
+</ul>
+</li>
+<li><p>第二次挥手(ACK=1，ACKnum=x+1)</p>
+<ul>
+<li><p>服务器端确认客户端的 FIN 包，发送一个确认包，表明自己接受到了客户端关闭连接的请求，但还没有准备好关闭连接。</p>
+<p>发送完毕后，服务器端进入 <code>CLOSE_WAIT</code> 状态，客户端接收到这个确认包之后，进入 <code>FIN_WAIT_2</code> 状态，等待服务器端关闭连接。</p>
+<p>TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个状态还要持续一段时间，也就是整个CLOSE-WAIT状态持续的时间。</p>
+</li>
+</ul>
+</li>
+<li><p>第三次挥手(FIN=1，seq=y)</p>
+<ul>
+<li>服务器端准备好关闭连接时，向客户端发送结束连接请求，FIN 置为1。</li>
+<li>发送完毕后，服务器端进入 <code>LAST_ACK</code> 状态，等待来自客户端的最后一个ACK。</li>
+</ul>
+</li>
+<li><p>第四次挥手(ACK=1，ACKnum=y+1)</p>
+<ul>
+<li><p>客户端接收到来自服务器端的关闭请求，发送一个确认包，并进入 <code>TIME_WAIT</code>状态，等待可能出现的要求重传的 ACK 包。</p>
+<p>服务器端接收到这个确认包之后，关闭连接，进入 <code>CLOSED</code> 状态。</p>
+<p>客户端等待了某个固定时间（两个最大段生命周期，2MSL，2 Maximum Segment Lifetime）之后，没有收到服务器端的 ACK ，认为服务器端已经正常关闭连接，于是自己也关闭连接，进入 <code>CLOSED</code> 状态。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/HIT-Alibaba/interview/master/img/tcp-connection-closed-four-way-handshake.png" alt="four-way-handshake"></p>
+<h3 id="为什么一定要四次"><a href="#为什么一定要四次" class="headerlink" title="为什么一定要四次"></a>为什么一定要四次</h3><p>确保数据能够完成传输。</p>
+<p>但关闭连接时，当收到对方的<em>FIN</em>报文通知时，它仅仅表示对方没有数据发送给你了；但未必你所有的数据都全部发送给对方了，所以你可以未必会马上会关闭<em>SOCKET,</em>也即你可能还需要发送一些数据给对方之后，再发送<em>FIN</em>报文给对方来表示你同意现在可以关闭连接了，所以它这里的<em>ACK</em>报文和<em>FIN</em>报文多数情况下都是分开发送的。</p>
+<p>因为TCP是全双工通信的，即两向均可发送 接受数据</p>
+<p>   （1）第一次挥手</p>
+<pre><code> 因此当主动方发送断开连接的请求（即FIN报文）给被动方时，仅仅代表主动方不会再发送数据报文了，但主动方仍可以接收数据报文。
+
+（2）第二次挥手
+
+ 被动方此时有可能还有相应的数据报文需要发送，因此需要先发送ACK报文，告知主动方“我知道你想断开连接的请求了”。这样主动方便不会因为没有收到应答而继续发送断开连接的请求（即FIN报文）。</code></pre><p>   （3）第三次挥手</p>
+<pre><code>被动方在处理完数据报文后，便发送给主动方FIN报文；这样可以保证数据通信正常可靠地完成。发送完FIN报文后，被动方进入LAST_ACK阶段（超时等待）。</code></pre><p>   （4）第四挥手</p>
+<pre><code>如果主动方及时发送ACK报文进行连接中断的确认，这时被动方就直接释放连接，进入可用状态。</code></pre><p>如果双方都没有数据要发送 那三次挥手也是可以的。</p>
+<h3 id="为什么建立是三次断开就是四次"><a href="#为什么建立是三次断开就是四次" class="headerlink" title="为什么建立是三次断开就是四次"></a>为什么建立是三次断开就是四次</h3><p>建立连接的时候， 服务器在LISTEN状态下，收到建立连接请求的SYN报文后，把ACK和SYN放在一个报文里发送给客户端。<br>而关闭连接时，服务器收到对方的FIN报文时，仅仅表示对方不再发送数据了但是还能接收数据，而自己也未必全部数据都发送给对方了，所以己方可以立即关闭，也可以发送一些数据给对方后，再发送FIN报文给对方来表示同意现在关闭连接，因此，己方ACK和FIN一般都会分开发送，从而导致多了一次。</p>
+<h3 id="为什么要等2MSL"><a href="#为什么要等2MSL" class="headerlink" title="为什么要等2MSL"></a>为什么要等2MSL</h3><p>MSL（Maximum Segment Lifetime），TCP允许不同的实现可以设置不同的MSL值。</p>
+<p>第一，保证客户端发送的最后一个ACK报文能够到达服务器，因为这个ACK报文可能丢失，站在服务器的角度看来，我已经发送了FIN+ACK报文请求断开了，客户端还没有给我回应，应该是我发送的请求断开报文它没有收到，于是服务器又会重新发送一次，而客户端就能在这个2MSL时间段内收到这个重传的报文，接着给出回应报文，并且会重启2MSL计时器。</p>
+<p>第二，防止类似与“三次握手”中提到了的“已经失效的连接请求报文段”出现在本连接中。客户端发送完最后一个确认报文后，在这个2MSL时间中，就可以使本连接持续的时间内所产生的所有报文段都从网络中消失。这样新的连接中不会出现旧连接的请求报文。</p>
+<h3 id="故障处理-1"><a href="#故障处理-1" class="headerlink" title="故障处理"></a>故障处理</h3><h4 id="如果已经建立了连接，但是客户端突然出现故障了怎么办？"><a href="#如果已经建立了连接，但是客户端突然出现故障了怎么办？" class="headerlink" title="如果已经建立了连接，但是客户端突然出现故障了怎么办？"></a>如果已经建立了连接，但是客户端突然出现故障了怎么办？</h4><p>TCP还设有一个保活计时器，显然，客户端如果出现故障，服务器不能一直等下去，白白浪费资源。服务器每收到一次客户端的请求后都会重新复位这个计时器，时间通常是设置为2小时，若两小时还没有收到客户端的任何数据，服务器就会发送一个探测报文段，以后每隔75秒发送一次。若一连发送10个探测报文仍然没反应，服务器就认为客户端出了故障，接着就关闭连接。</p>
+<h2 id="TCP重发"><a href="#TCP重发" class="headerlink" title="TCP重发"></a>TCP重发</h2><h4 id="Acknowledgement-of-delay"><a href="#Acknowledgement-of-delay" class="headerlink" title="Acknowledgement of delay"></a>Acknowledgement of delay</h4><p>通常TCP在收到数据的时候不会立刻发送一个ACK确认，它会延迟发送，可以和对方需要的数据一起发送（数据捎带ACK）或者是等待第二个数据来了直接回复第二个ACK，通常的实现采用的延迟是200ms(就是说它会等待200ms有没有数据一起发送)</p>
+<h4 id="Nagle"><a href="#Nagle" class="headerlink" title="Nagle"></a>Nagle</h4><p>在数据传输过程中，通常会遇到一些小分组的传输（比如 41 bit的数据分组，除去TCP首部和IP首部真正传输的数据只有1 bit），这里的小分组指的是报文长度小于MSS(Max Segment Size)长度的分组，像这种小分组多的话，在网络上传输就加大了造成网络拥塞的可能。为了提传输效率，所以提出了Nagle算法。<br> 这个算法要求一个TCP连接最多只能有一个未被确认的未完成的小分组，在该分组到达之前不能发送其他的小分组。然后，TCP会收集这些小分组，并在确认到来时以一个分组的方式发送出去，这样就可以有效的减少了小分组。 在一些实时性要求比较高的场景下，采用了Nagle算法会让用户感觉到时延，所以我们可以选择关闭Nagle算法，Socket API 可以用 TCP_NODELAY 选项来关闭，nginx上的 tcp_nodely也是采用的这个系统调用。</p>
+<h4 id="Retransmission"><a href="#Retransmission" class="headerlink" title="Retransmission"></a>Retransmission</h4><p>TCP为了保证数据不丢失所采用的重传策略。 TCP超时重传比较严重，它表示已经超时了还没有收到数据确认的回复，所以他会进入到慢启动，而快速重传则不用。<br> TCP超时重传：TCP发送方首先会维护一个TCP的重传定时器(有的也叫超时时间RTO)，这个定时器是根据往返时间（RTT）进行计算，具体算法的实现可以参考 <a href="https://tools.ietf.org/html/rfc6298" target="_blank" rel="noopener">RFC 6298</a>，当RTO到了还没有收到数据的确认，那么TCP就认为数据已经丢失了。TCP会重传数据，接着进入到拥塞控制里的慢启动（关于拥塞控制会在后面讲）。<br> TCP快速重传：<strong>它主要是收到了三个重复的ACK后</strong>（接受方如果收到的数据是乱序的。它会重发自己最近接收到的正确顺序的ACK）进行重传，因为收到重复的ACK代表数据已经发送过去了，其中的一个数据可能因为其他原因（如数据传输中换了比较远的路由，或者是数据干脆直接丢了）造成数据没有收到。所以这个情况不算太严重，它不会进入到慢启动，它会进入到快速恢复。<br> TCP 在收到连续重复ACK后会重传最后顺序确认包的下一个，这样原先已经正确传输的包可能会重复发送，降低了TCP性能。为改善这种情况，发展出SACK（Selective Acknowledgement）技术，使用SACK选项可以告知发包方收到了哪些数据，发包方收到这些信息后就会知道哪些数据丢失，然后立即重传丢失的部分。</p>
+<h2 id="拥堵控制"><a href="#拥堵控制" class="headerlink" title="拥堵控制"></a>拥堵控制</h2><h3 id="滑窗"><a href="#滑窗" class="headerlink" title="滑窗"></a>滑窗</h3><p>我们能不能把第一个和第二个包发过去后，收到第一个确认包就把第三个包发过去呢？而不是去等到第二个包的确认包才去发第三个包。这样就很自然的产生了我们”滑动窗口”的实现。</p>
+<h4 id="正常情况"><a href="#正常情况" class="headerlink" title="正常情况"></a>正常情况</h4><p><img src="https://user-gold-cdn.xitu.io/2019/3/30/169cd8c84c05c552?imageslim" alt="img"></p>
+<p>可以看到4号包对方已经被接收到，所以被涂成了灰色。“窗口”就往右移一格，这里只要保证“窗口”是7格的。 我们就把11号包读进了我们的缓存。进入了“待发送”的状态。8、9号包已经变成了黄色，表示已经发送出去了。接下来的操作就是一样的了，确认包后，窗口往后移继续将未发送的包读进缓存，把“待发送“状态的包变为”已发送“。</p>
+<h4 id="丢包情况"><a href="#丢包情况" class="headerlink" title="丢包情况"></a>丢包情况</h4><p>有可能我们包发过去，对方的Ack丢了。也有可能我们的包并没有发送过去。从发送方角度看就是我们没有收到Ack。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/3/30/169cd8c84c92d41b?imageslim" alt="img"></p>
+<p>发生的情况：一直在等Ack。如果一直等不到的话，我们也会把读进缓存的待发送的包也一起发过去。但是，这个时候我们的窗口已经发满了。所以并不能把12号包读进来，而是始终在等待5号包的Ack。</p>
+<h5 id="超时重发"><a href="#超时重发" class="headerlink" title="超时重发"></a>超时重发</h5><p>这时候我们有个解决方法：<code>超时重传</code> 这里有一点要说明：这个Ack是要按顺序的。必须要等到5的Ack收到，才会把6-11的Ack发送过去。这样就保证了滑动窗口的一个顺序。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/3/30/169cd8c84caf97fd?imageslim" alt="img"></p>
+<h3 id="慢启动和拥塞避免"><a href="#慢启动和拥塞避免" class="headerlink" title="慢启动和拥塞避免"></a>慢启动和拥塞避免</h3><p><strong>慢启动算法的思路</strong>：主机开发发送数据报时，如果立即将大量的数据注入到网络中，可能会出现网络的拥塞。慢启动算法就是在主机刚开始发送数据报的时候先探测一下网络的状况，如果网络状况良好，发送方每发送一次文段都能正确的接受确认报文段。那么就从小到大的增加拥塞窗口的大小，即增加发送窗口的大小。</p>
+<p>timeout + delay of ack 在慢启动第一个包体现得很明显。</p>
+<p>ssthresh最初等于8 MSS 。 拥塞窗口在慢启动期间以指数方式快速上升并在第三次传输时达到ssthresh。 然后，拥塞窗口线性地爬升，直到发生丢失（超时），就在发送7之后。当发生丢失时，拥塞窗口是12 MSS 。 然后将ssthresh设置为6 MSS并且将cwnd设置为1，并且该过程继续。</p>
+<p><img src="https://img-blog.csdn.net/20160909153411895?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="img"></p>
+<h3 id="快速重传和快速恢复-Fast-Re-transmit-Fast-Restore"><a href="#快速重传和快速恢复-Fast-Re-transmit-Fast-Restore" class="headerlink" title="快速重传和快速恢复 Fast Re-transmit / Fast Restore"></a>快速重传和快速恢复 <strong>Fast Re-transmit / Fast Restore</strong></h3><p>快重传算法要求首先接收方收到一个失序的报文段后就立刻发出重复确认，而不要等待自己发送数据时才进行捎带确认。接收方成功的接受了发送方发送来的M1、M2并且分别给发送了ACK，现在接收方没有收到M3，而接收到了M4，显然接收方不能确认M4，因为M4是失序的报文段。如果根据可靠性传输原理接收方什么都不做，但是按照快速重传算法，在收到M4、M5等报文段的时候，不断重复的向发送方发送M2的ACK,如果接收方一连收到三个重复的ACK,那么发送方不必等待重传计时器到期，由于发送方尽早重传未被确认的报文段。</p>
+<p>即受到多个duplicate，立即重传M2</p>
+<p>当发送发连续接收到三个确认时，就执行乘法减小算法，把慢启动开始门限（ssthresh）减半，但是接下来并不执行慢开始算法。</p>
+<p><img src="https://img-blog.csdn.net/20160909153222894?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="img"></p>
+<h2 id="长短连接"><a href="#长短连接" class="headerlink" title="长短连接"></a>长短连接</h2><p>我们模拟一下TCP短连接的情况，client向server发起连接请求，server接到请求，然后双方建立连接。client向server发送消息，server回应client，然后一次读写就完成了，这时候双方任何一个都可以发起close操作，不过一般都是client先发起close操作。为什么呢，一般的server不会回复完client后立即关闭连接的，当然不排除有特殊的情况。从上面的描述看，短连接一般只会在client/server间传递一次读写操作</p>
+<p>短连接的优点是：管理起来比较简单，存在的连接都是有用的连接，不需要额外的控制手段</p>
+<p>接下来我们再模拟一下长连接的情况，client向server发起连接，server接受client连接，双方建立连接。Client与server完成一次读写之后，它们之间的连接并不会主动关闭，后续的读写操作会继续使用这个连接。</p>
+<p>首先说一下TCP/IP详解上讲到的TCP保活功能，保活功能主要为服务器应用提供，服务器应用希望知道客户主机是否崩溃，从而可以代表客户使用资源。如果客户已经消失，使得服务器上保留一个半开放的连接，而服务器又在等待来自客户端的数据，则服务器将应远等待客户端的数据，保活功能就是试图在服务器端检测到这种半开放的连接。</p>
+<p>如果一个给定的连接在两小时内没有任何的动作，则服务器就向客户发一个探测报文段，客户主机必须处于以下4个状态之一：</p>
+<ol>
+<li>客户主机依然正常运行，并从服务器可达。客户的TCP响应正常，而服务器也知道对方是正常的，服务器在两小时后将保活定时器复位。</li>
+<li>客户主机已经崩溃，并且关闭或者正在重新启动。在任何一种情况下，客户的TCP都没有响应。服务端将不能收到对探测的响应，并在75秒后超时。服务器总共发送10个这样的探测 ，每个间隔75秒。如果服务器没有收到一个响应，它就认为客户主机已经关闭并终止连接。</li>
+<li>客户主机崩溃并已经重新启动。服务器将收到一个对其保活探测的响应，这个响应是一个复位，使得服务器终止这个连接。</li>
+<li>客户机正常运行，但是服务器不可达，这种情况与2类似，TCP能发现的就是没有收到探查的响应。</li>
+</ol>
+<p>从上面可以看出，TCP保活功能主要为探测长连接的存活状况，不过这里存在一个问题，存活功能的探测周期太长，还有就是它只是探测TCP连接的存活，属于比较斯文的做法，遇到恶意的连接时，保活功能就不够使了。</p>
+<h1 id="TCP-C-S-模型"><a href="#TCP-C-S-模型" class="headerlink" title="TCP C/S 模型"></a>TCP C/S 模型</h1><h4 id="5-5-1-服务器端"><a href="#5-5-1-服务器端" class="headerlink" title="5.5.1 服务器端"></a>5.5.1 服务器端</h4><h5 id="创建套接字socket"><a href="#创建套接字socket" class="headerlink" title="创建套接字socket()"></a>创建套接字socket()</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">socket</span><span class="params">(<span class="keyword">int</span> family,<span class="keyword">int</span> type,<span class="keyword">int</span> protocol)</span></span>; 　　　</span><br><span class="line"> 　　 　返回：非负描述字－－－成功　　　<span class="number">-1</span>－－－失败</span><br></pre></td></tr></table></figure>
+
+<p>第一个参数指明了协议簇，目前支持5种协议簇，最常用的有AF_INET(IPv4协议)和AF_INET6(IPv6协议)；第二个参数指明套接口类型，有三种类型可选：SOCK_STREAM(字节流套接口)、SOCK_DGRAM(数据报套接口)和SOCK_RAW(原始套接口)；如果套接口类型不是原始套接口，那么第三个参数就为0。</p>
+<h5 id="bind"><a href="#bind" class="headerlink" title="bind()"></a>bind()</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt; 　</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bind</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">const</span> struct sockaddr * server, <span class="keyword">socklen_t</span> addrlen)</span></span>;</span><br><span class="line"> 返回：<span class="number">0</span>－－－成功　　　<span class="number">-1</span>－－－失败</span><br></pre></td></tr></table></figure>
+
+<p>把一个套接字地址（本机IP和端口号）绑定到创建的套接字上。绑定套接字时可以选择指定IP地址和端口，也可以不指定。通配的IP地址用INADDR_ANY表示，通配的端口用0表示，通配的情况下由内核为其指定相应的IP地址和端口号。<br>对于客户端可以绑定套接字，但是一般不需要，因为客户端的端口号只是临时的，由内核来分配更合理。但是对服务器而言，一般要使用知名端口号，如果不进行绑定，客户端不知道目的端口号，连接不能完成。</p>
+<h5 id="监听listen"><a href="#监听listen" class="headerlink" title="监听listen()"></a>监听listen()</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int listen(int sockfd, int backlog);</span><br></pre></td></tr></table></figure>
+
+<h5 id="accept-函数"><a href="#accept-函数" class="headerlink" title="accept()函数"></a>accept()函数</h5><p>accept函数从已完成连接的队列中取走一个套接字，如果该队列为空，则accept函数阻塞。accept函数的返回值称为已连接套接字，已连接的套接字就建立一个完整的TCP连接，源IP地址，源端口号，目的IP地址，目的端口号都是唯一确定了。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt; 　　 　 　 　</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">accept</span><span class="params">(<span class="keyword">int</span> listenfd, struct sockaddr *client, <span class="keyword">socklen_t</span> * addrlen)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h5 id="read-函数用于数据的接收"><a href="#read-函数用于数据的接收" class="headerlink" title="read() 函数用于数据的接收"></a>read() <strong>函数用于数据的接收</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt; 　　 　 　 　</span><br><span class="line"> int read(int sockfd, char *buf, intlen); 　</span><br><span class="line">  回：非负－－－成功　　　-1－－－失败</span><br></pre></td></tr></table></figure>
+
+<h5 id="write-函数用于数据的发送"><a href="#write-函数用于数据的发送" class="headerlink" title="write() 函数用于数据的发送"></a>write() <strong>函数用于数据的发送</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt; 　　 　 　 　</span><br><span class="line"> int write(int sockfd, char *buf, int len);　</span><br><span class="line">  回：非负－－－成功　　　-1－－－失败</span><br></pre></td></tr></table></figure>
+
+<p>send和recv函数：TCP套接字提供了send()和recv()函数，用来发送和接收操作。这两个函数与write()和read()函数很相似，只是多了一个附加的参数。</p>
+<h5 id="send"><a href="#send" class="headerlink" title="send()"></a>send()</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt; sys/socket.h &gt; 　　 　 　 　</span><br><span class="line">ssize_t send(int sockfd, const void *buf, size_t len, int flags);</span><br></pre></td></tr></table></figure>
+
+<h5 id="recv"><a href="#recv" class="headerlink" title="recv()"></a>recv()</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt; sys/socket.h &gt; 　　 　 　 　</span><br><span class="line">ssize_t recv(int sockfd, void *buf, size_t len, int flags);</span><br></pre></td></tr></table></figure>
+
+<h5 id="close"><a href="#close" class="headerlink" title="close()"></a>close()</h5><p>close函数关闭套接字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">int close(int sockfd);</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-5-2-TCP-客户端"><a href="#5-5-2-TCP-客户端" class="headerlink" title="5.5.2 TCP 客户端"></a>5.5.2 TCP 客户端</h4><h5 id="socket"><a href="#socket" class="headerlink" title="socket()"></a>socket()</h5><p>创建套接字</p>
+<h5 id="connect-创建连接"><a href="#connect-创建连接" class="headerlink" title="connect() 创建连接"></a>connect() 创建连接</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/socket.h&gt;　　 　 　</span><br><span class="line">int connect(int sockfd, const struct sockaddr * addr, socklen_t addrlen);</span><br></pre></td></tr></table></figure>
+
+<h5 id="收发数据"><a href="#收发数据" class="headerlink" title="收发数据"></a>收发数据</h5><h5 id="关闭连接"><a href="#关闭连接" class="headerlink" title="关闭连接"></a>关闭连接</h5><h1 id="UDP-要点"><a href="#UDP-要点" class="headerlink" title="UDP 要点"></a>UDP 要点</h1><p>UDP只在IP的数据报服务之上增加了一点的功能，这就是复用和分用的功能以及差错检测的功能，UDP的主要特点是：</p>
+<ul>
+<li>UDP是无连接的，即发送数据之前不需要建立连接，因此减少了开销和发送数据之前的时延。</li>
+<li>UDP使用尽最大努力交付，即不保证可靠交付，因此主机不需要维持复杂的连接状态表</li>
+<li>UDP是面向报文（message）的。发送方的UDP对应程序交下来的报文，在添加首部后就向下交付IP层。UDP对应用层交下来的报文既不合并也不拆分，而是保留这些报文的边界。</li>
+<li>UDP没有拥塞控制</li>
+<li>UDP支持一对一，一对多，多对一和多对多交换通信。</li>
+<li>UDP的首部开销小，只有8个字节，比TCP的20个字节的首部要短</li>
+<li>UDP包最大1500-20-8= 1472 bytes</li>
+</ul>
+<p>即通过UDP实现类似TCP的可靠性</p>
+<p>KCP是一个快速可靠协议，能以比 TCP浪费10%-20%的带宽的代价，换取平均延迟降低 30%-40%，且最大延迟降低三倍的传输效果。纯算法实现，并不负责底层协议（如UDP）的收发，需要使用者自己定义下层数据包的发送方式，以 callback的方式提供给 KCP。 连时钟都需要外部传递进来，内部不会有任何一次系统调用。本文传输协议之考虑UDP的情况。</p>
+<p>比较两者的区别主要应该是说TCP比UDP多了什么？</p>
+<p><strong>面向连接</strong>：TCP接收方与发送方维持了一个状态（建立连接，断开连接），双方知道对方还在。<br><strong>可靠的</strong>：发送出去的数据对方一定能够接收到，而且是按照发送的顺序收到的。<br><strong>流量控制与拥塞控制</strong>：TCP靠谱通过滑动窗口确保，发送的数据接收方来得及收。<strong>TCP无私</strong>，发生数据包丢失的时候认为整个网络比较堵，自己放慢数据发送速度。</p>
+<ul>
+<li>1、添加seq/ack机制，确保数据发送到对端</li>
+<li>2、添加发送和接收缓冲区，主要是用户超时重传。</li>
+<li>3、添加超时重传机制。</li>
+</ul>
+<p>UDP本身是不可靠的，所以需要额外信息来保证传输数据的可靠性。因此，我们需要在传输的数据上增加一个包头。用于确保数据的可靠、有序。</p>
+<p>再加上TCP式的超时重传、流量控制和拥堵控制。</p>
+<p>conv:连接号。UDP是无连接的，conv用于表示来自于哪个客户端。对连接的一种替代<br>cmd:命令字。如，IKCP_CMD_ACK确认命令，IKCP_CMD_WASK接收窗口大小询问命令，IKCP_CMD_WINS接收窗口大小告知命令，<br>frg:分片，用户数据可能会被分成多个KCP包，发送出去<br>wnd:接收窗口大小，发送方的发送窗口不能超过接收方给出的数值<br>ts:时间序列<br>sn:序列号<br>una:下一个可接收的序列号。其实就是确认号，收到sn=10的包，una为11<br>len：数据长度<br>data:用户数据</p>
+<h1 id="UDP-C-S-模型"><a href="#UDP-C-S-模型" class="headerlink" title="UDP C/S 模型"></a>UDP C/S 模型</h1><p><img src="https://img-blog.csdn.net/20160213204452771" alt="这里写图片描述"></p>
+<h1 id="HTTP-要点"><a href="#HTTP-要点" class="headerlink" title="HTTP 要点"></a>HTTP 要点</h1><h3 id="常见状态码"><a href="#常见状态码" class="headerlink" title="常见状态码"></a>常见状态码</h3><p>200：请求被正常处理<br>204：请求被受理但没有资源可以返回<br>206：客户端只是请求资源的一部分，服务器只对请求的部分资源执行GET方法，相应报文中通过Content-Range指定范围的资源。<br>301：永久性重定向<br>302：临时重定向<br>303：与302状态码有相似功能，只是它希望客户端在请求一个URI的时候，能通过GET方法重定向到另一个URI上<br>304：发送附带条件的请求时，条件不满足时返回，与重定向无关<br>307：临时重定向，与302类似，只是强制要求使用POST方法<br>400：请求报文语法有误，服务器无法识别<br>401：请求需要认证<br>403：请求的对应资源禁止被访问<br>404：服务器无法找到对应资源<br>500：服务器内部错误<br>503：服务器正忙</p>
+<h3 id="GET-POST-区别"><a href="#GET-POST-区别" class="headerlink" title="GET/POST 区别"></a>GET/POST 区别</h3><p>区别一：<br>get重点在从服务器上获取资源，post重点在向服务器发送数据；<br>区别二：<br>get传输数据是通过URL请求，以field（字段）= value的形式，置于URL后，并用”?”连接，多个请求数据间用”&amp;”连接，如<a href="http://127.0.0.1/Test/login.action?name=admin&amp;password=admin，这个过程用户是可见的；" target="_blank" rel="noopener">http://127.0.0.1/Test/login.action?name=admin&amp;password=admin，这个过程用户是可见的；</a><br>post传输数据通过Http的post机制，将字段与对应值封存在请求实体中发送给服务器，这个过程对用户是不可见的；<br>区别三：<br>Get传输的数据量小，因为受URL长度限制，但效率较高；<br>Post可以传输大量数据，所以上传文件时只能用Post方式；<br>区别四：<br>GET请求返回的内容可以被浏览器缓存起来。而每次提交的<strong>POST</strong>，浏览器在你按下<strong>F5</strong>的时候会跳出确认框，浏览器不会缓存<strong>POST</strong>请求返回的内容。</p>
+<p>GET 有个安全隐患在于 url 可能被服务器的 access log 记录并保存。在浏览器也能查到历史记录，但是post请求的参数都在body里面，服务器日志记录不到，浏览器历史也记录不到。前端安全上POST可能确实更好。</p>
+<p>但根据RFC官方的定义，GET, HEAD, OPTIONS 和 TRACE 这几个方法是安全的。但这里的意思是GET不会改变服务端的数据，不会有副作用。关键还是在正确的地方使用GET/POST</p>
+<h3 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h3><p>HTTP协议以明文方式发送内容，不提供任何方式的数据加密，如果攻击者截取了Web浏览器和网站服务器之间的传输报文，就可以直接读懂其中的信息，因此，HTTP协议不适合传输一些敏感信息，比如：信用卡号、密码等支付信息。为了解决HTTP协议的这一缺陷，需要使用另一种协议：安全套接字层超文本传输协议HTTPS</p>
+<p>HTTPS相比HTTP，在请求前多了一个「握手」的环节。在握手时，你和你想访问的网站会交换一个密钥；握手完成后，你的请求先用密钥加密才会发出去，网站服务器的响应会先用密钥加密再传给你。由于整条链路上的节点拿到的数据都是加密过的，所以他们即无法分析出源数据的内容，也无法篡改这个加密过的数据（如果一个节点篡改了加密后的数据，你和服务器都没办法用密钥解密出来，会认为数据是无效的）。</p>
+<p>HTTPS：是以安全为目标的HTTP通道，简单讲是HTTP的安全版，即HTTP下加入SSL/TLS层（在传输层），HTTPS的安全基础是SSL，因此加密的详细内容就需要SSL。</p>
+<p>HTTPS协议的主要作用可以分为两种：一种是建立一个信息安全通道，来保证数据传输的安全；另一种就是确认网站的真实性。</p>
+<h5 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h5><ol>
+<li>Client发起一个HTTPS的请求，根据RFC2818的规定，Client知道需要连接Server的443（默认）端口。</li>
+<li>Server把事先配置好的公钥证书（public key certificate）返回给客户端。</li>
+<li>Client验证公钥证书：比如是否在有效期内，证书的用途是不是匹配Client请求的站点，是不是在CRL吊销列表里面，它的上一级证书是否有效，这是一个递归的过程，直到验证到根证书（操作系统内置的Root证书或者Client内置的Root证书）。如果验证通过则继续，不通过则显示警告信息。</li>
+<li>Client使用伪随机数生成器生成加密所使用的对称密钥，然后用证书的公钥加密这个对称密钥，发给Server。</li>
+<li>Server使用自己的私钥（private key）解密这个消息，得到对称密钥。至此，Client和Server双方都持有了相同的对称密钥。</li>
+<li>Server使用对称密钥加密“明文内容A”，发送给Client。</li>
+<li>Client使用对称密钥解密响应的密文，得到“明文内容A”。</li>
+<li>Client再次发起HTTPS的请求，使用对称密钥加密请求的“明文内容B”，然后Server使用对称密钥解密密文，得到“明文内容B”。</li>
+</ol>
+<h5 id="为什么HTTPS-可以防御住中间人攻击"><a href="#为什么HTTPS-可以防御住中间人攻击" class="headerlink" title="为什么HTTPS 可以防御住中间人攻击"></a>为什么HTTPS 可以防御住中间人攻击</h5><p>因为中间人没有私钥，没有办法解密公钥加密的对称密码。</p>
+<h5 id="和HTTP的区别"><a href="#和HTTP的区别" class="headerlink" title="和HTTP的区别"></a>和HTTP的区别</h5><ol>
+<li><p>https协议需要到CA申请证书（包含公钥和私钥，因此是非对称加密），用户证书的发放是基于相关机构的。</p>
+<ol>
+<li><p>公钥加密，私钥解密。</p>
+<p>私钥数字签名，公钥验证。</p>
+</li>
+</ol>
+</li>
+<li><p>http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443</p>
+</li>
+<li><p>http的连接很简单，是无状态的；HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议</p>
+</li>
+<li><p>http是超文本传输协议，信息是明文传输，https则是具有安全性的ssl加密传输协议</p>
+</li>
+</ol>
+<h5 id="客户端解析证书"><a href="#客户端解析证书" class="headerlink" title="客户端解析证书"></a>客户端解析证书</h5><p>这部分工作是有客户端的TLS来完成的，首先会验证公钥是否有效，比如颁发机构，过期时间等等，如果发现异常，则会弹出一个警告框，提示证书存在问题。</p>
+<p>如果证书没有问题，那么就生成一个随机值，然后用证书对该随机值进行加密，就好像上面说的，把随机值用锁头锁起来，这样除非有钥匙，不然看不到被锁住的内容。</p>
+<h1 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h1><h3 id="SQL-注入怎么防御"><a href="#SQL-注入怎么防御" class="headerlink" title="SQL 注入怎么防御"></a>SQL 注入怎么防御</h3><p>不要直接执行plain sql</p>
+<p>加字符串过滤</p>
+<p>使用安全的函数</p>
+<h3 id="DDOS-怎么防御"><a href="#DDOS-怎么防御" class="headerlink" title="DDOS 怎么防御"></a>DDOS 怎么防御</h3><p>按照发起的方式，DDoS可以简单分为三类。</p>
+<ul>
+<li>第一类以力取胜，海量数据包从互联网的各个角落蜂拥而来，堵塞IDC入口，让各种强大的硬件防御系统、快速高效的应急流程无用武之地。这种类型的攻击典型代表是ICMP Flood和UDP Flood，现在已不常见。</li>
+<li>第二类以巧取胜，灵动而难以察觉，每隔几分钟发一个包甚至只需要一个包，就可以让豪华配置的服务器不再响应。这类攻击主要是利用协议或者软件的漏洞发起，例如Slowloris攻击、Hash冲突攻击等，需要特定环境机缘巧合下才能出现。</li>
+<li>第三类是上述两种的混合，轻灵浑厚兼而有之，既利用了协议、系统的缺陷，又具备了海量的流量，例如SYN Flood攻击、DNS Query Flood攻击，是当前的主流攻击方式。</li>
+</ul>
+<ol>
+<li>HTTP拦截 防火墙拦截固定的ip</li>
+<li>用CDN</li>
+<li>SYN cookie</li>
+</ol>
+<h3 id="XSS-防御"><a href="#XSS-防御" class="headerlink" title="XSS 防御"></a>XSS 防御</h3><p>XSS原称为CSS(Cross-Site Scripting)，因为和层叠样式表(Cascading Style Sheets)重名，所以改称为XSS(X一般有未知的含义，还有扩展的含义)。XSS攻击涉及到三方：攻击者，用户，web server。用户是通过浏览器来访问web server上的网页，XSS攻击就是攻击者通过各种办法，在用户访问的网页中插入自己的脚本，让其在用户访问网页时在其浏览器中进行执行。攻击者通过插入的脚本的执行，来获得用户的信息，比如cookie，发送到攻击者自己的网站(跨站了)。所以称为<strong>跨站脚本攻击</strong>。XSS可以分为反射型XSS和持久性XSS，还有DOM Based XSS。(一句话，XSS就是在用户的浏览器中执行攻击者自己定制的脚本。)</p>
+<ol>
+<li><strong>对输入(和URL参数)进行过滤，对输出进行编码</strong></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/network/" rel="tag"># network</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/24/os-simple/" rel="next" title="【面试准备简明版】- 操作系统">
+                <i class="fa fa-chevron-left"></i> 【面试准备简明版】- 操作系统
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/24/database-simple/" rel="prev" title="【面试准备简明版】- 数据库">
+                【面试准备简明版】- 数据库 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ReStartercc</p>
+              <p class="site-description motion-element" itemprop="description">Contact restartercc@gmail.com</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分层要点"><span class="nav-number">1.</span> <span class="nav-text">分层要点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-OSI七层模型-TCP-IP-四五层"><span class="nav-number">1.1.</span> <span class="nav-text">1. OSI七层模型 TCP/IP 四五层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-各层功能"><span class="nav-number">1.2.</span> <span class="nav-text">2. 各层功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#A-bottom-up-approach"><span class="nav-number">1.2.1.</span> <span class="nav-text">A bottom up approach</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#物理层（比特流-bit）"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">物理层（比特流 bit）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据链路层（帧-frame）"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">数据链路层（帧 frame）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#网络层（数据包-分组-packet）"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">网络层（数据包/分组 packet）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#传输层-Segment-Datagram"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">传输层(Segment / Datagram)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#应用层-message-消息"><span class="nav-number">1.2.1.5.</span> <span class="nav-text">应用层(message 消息)</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TCP要点"><span class="nav-number">2.</span> <span class="nav-text">TCP要点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#特征"><span class="nav-number">2.1.</span> <span class="nav-text">特征</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三次握手"><span class="nav-number">2.2.</span> <span class="nav-text">三次握手</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#流程"><span class="nav-number">2.2.1.</span> <span class="nav-text">流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么一定要是三次"><span class="nav-number">2.2.2.</span> <span class="nav-text">为什么一定要是三次</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么不是两次：B不知道A是否收到同步信号"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">为什么不是两次：B不知道A是否收到同步信号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么不是四次：记录A的ISN达成一致和发送B的ISN可以合并"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">为什么不是四次：记录A的ISN达成一致和发送B的ISN可以合并</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#故障处理"><span class="nav-number">2.2.3.</span> <span class="nav-text">故障处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四次挥手"><span class="nav-number">2.3.</span> <span class="nav-text">四次挥手</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#流程-1"><span class="nav-number">2.3.1.</span> <span class="nav-text">流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么一定要四次"><span class="nav-number">2.3.2.</span> <span class="nav-text">为什么一定要四次</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么建立是三次断开就是四次"><span class="nav-number">2.3.3.</span> <span class="nav-text">为什么建立是三次断开就是四次</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么要等2MSL"><span class="nav-number">2.3.4.</span> <span class="nav-text">为什么要等2MSL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#故障处理-1"><span class="nav-number">2.3.5.</span> <span class="nav-text">故障处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#如果已经建立了连接，但是客户端突然出现故障了怎么办？"><span class="nav-number">2.3.5.1.</span> <span class="nav-text">如果已经建立了连接，但是客户端突然出现故障了怎么办？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP重发"><span class="nav-number">2.4.</span> <span class="nav-text">TCP重发</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Acknowledgement-of-delay"><span class="nav-number">2.4.0.1.</span> <span class="nav-text">Acknowledgement of delay</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Nagle"><span class="nav-number">2.4.0.2.</span> <span class="nav-text">Nagle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Retransmission"><span class="nav-number">2.4.0.3.</span> <span class="nav-text">Retransmission</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拥堵控制"><span class="nav-number">2.5.</span> <span class="nav-text">拥堵控制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#滑窗"><span class="nav-number">2.5.1.</span> <span class="nav-text">滑窗</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#正常情况"><span class="nav-number">2.5.1.1.</span> <span class="nav-text">正常情况</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#丢包情况"><span class="nav-number">2.5.1.2.</span> <span class="nav-text">丢包情况</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#超时重发"><span class="nav-number">2.5.1.2.1.</span> <span class="nav-text">超时重发</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#慢启动和拥塞避免"><span class="nav-number">2.5.2.</span> <span class="nav-text">慢启动和拥塞避免</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速重传和快速恢复-Fast-Re-transmit-Fast-Restore"><span class="nav-number">2.5.3.</span> <span class="nav-text">快速重传和快速恢复 Fast Re-transmit / Fast Restore</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#长短连接"><span class="nav-number">2.6.</span> <span class="nav-text">长短连接</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#TCP-C-S-模型"><span class="nav-number">3.</span> <span class="nav-text">TCP C/S 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-5-1-服务器端"><span class="nav-number">3.0.0.1.</span> <span class="nav-text">5.5.1 服务器端</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#创建套接字socket"><span class="nav-number">3.0.0.1.1.</span> <span class="nav-text">创建套接字socket()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#bind"><span class="nav-number">3.0.0.1.2.</span> <span class="nav-text">bind()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#监听listen"><span class="nav-number">3.0.0.1.3.</span> <span class="nav-text">监听listen()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#accept-函数"><span class="nav-number">3.0.0.1.4.</span> <span class="nav-text">accept()函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#read-函数用于数据的接收"><span class="nav-number">3.0.0.1.5.</span> <span class="nav-text">read() 函数用于数据的接收</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#write-函数用于数据的发送"><span class="nav-number">3.0.0.1.6.</span> <span class="nav-text">write() 函数用于数据的发送</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#send"><span class="nav-number">3.0.0.1.7.</span> <span class="nav-text">send()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#recv"><span class="nav-number">3.0.0.1.8.</span> <span class="nav-text">recv()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#close"><span class="nav-number">3.0.0.1.9.</span> <span class="nav-text">close()</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-5-2-TCP-客户端"><span class="nav-number">3.0.0.2.</span> <span class="nav-text">5.5.2 TCP 客户端</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#socket"><span class="nav-number">3.0.0.2.1.</span> <span class="nav-text">socket()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#connect-创建连接"><span class="nav-number">3.0.0.2.2.</span> <span class="nav-text">connect() 创建连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#收发数据"><span class="nav-number">3.0.0.2.3.</span> <span class="nav-text">收发数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#关闭连接"><span class="nav-number">3.0.0.2.4.</span> <span class="nav-text">关闭连接</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UDP-要点"><span class="nav-number">4.</span> <span class="nav-text">UDP 要点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UDP-C-S-模型"><span class="nav-number">5.</span> <span class="nav-text">UDP C/S 模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTP-要点"><span class="nav-number">6.</span> <span class="nav-text">HTTP 要点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常见状态码"><span class="nav-number">6.0.1.</span> <span class="nav-text">常见状态码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GET-POST-区别"><span class="nav-number">6.0.2.</span> <span class="nav-text">GET/POST 区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTPS"><span class="nav-number">6.0.3.</span> <span class="nav-text">HTTPS</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#工作流程"><span class="nav-number">6.0.3.0.1.</span> <span class="nav-text">工作流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么HTTPS-可以防御住中间人攻击"><span class="nav-number">6.0.3.0.2.</span> <span class="nav-text">为什么HTTPS 可以防御住中间人攻击</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#和HTTP的区别"><span class="nav-number">6.0.3.0.3.</span> <span class="nav-text">和HTTP的区别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#客户端解析证书"><span class="nav-number">6.0.3.0.4.</span> <span class="nav-text">客户端解析证书</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安全"><span class="nav-number">7.</span> <span class="nav-text">安全</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL-注入怎么防御"><span class="nav-number">7.0.1.</span> <span class="nav-text">SQL 注入怎么防御</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DDOS-怎么防御"><span class="nav-number">7.0.2.</span> <span class="nav-text">DDOS 怎么防御</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XSS-防御"><span class="nav-number">7.0.3.</span> <span class="nav-text">XSS 防御</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ReStartercc</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="tree,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="[toc] AVL特点 AVL树是一棵二叉搜索树。1  AVL树的左右子节点也是AVL树。  AVL树拥有二叉搜索树的所有基本特点。  每个节点的左右子节点的高度之差的绝对值最多为1，即平衡因子为范围为[-1,1]。  AVL是严格自平衡的二叉树，即所有节点的左右子树高度差不超过1  因为有个旋转比较耗时，所以AVL适合插入和删除次数较少，但查找比较多的情况   旋转LL（右旋） 将失衡节点的左子">
+<meta name="keywords" content="tree">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【面试系列】- 常用树结构">
+<meta property="og:url" content="NewReStarter.github.io/2020/03/11/tree-structure/index.html">
+<meta property="og:site_name" content="Restartercc">
+<meta property="og:description" content="[toc] AVL特点 AVL树是一棵二叉搜索树。1  AVL树的左右子节点也是AVL树。  AVL树拥有二叉搜索树的所有基本特点。  每个节点的左右子节点的高度之差的绝对值最多为1，即平衡因子为范围为[-1,1]。  AVL是严格自平衡的二叉树，即所有节点的左右子树高度差不超过1  因为有个旋转比较耗时，所以AVL适合插入和删除次数较少，但查找比较多的情况   旋转LL（右旋） 将失衡节点的左子">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000015590868?w=1308&h=88">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000015590869?w=1304&h=138">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000015590870?w=1304&h=230">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000015590871?w=1302&h=224">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000015590872?w=1308&h=234">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000012728526?w=1308&h=234">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000012725117?w=1312&h=768">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000012728528?w=1310&h=218">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000012728529?w=1306&h=210">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000012916620?w=1302&h=224">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000012916621?w=1342&h=314">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000015590878?w=1306&h=260">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000015590879?w=1308&h=214">
+<meta property="og:image" content="https://segmentfault.com/img/remote/1460000015590880?w=1308&h=1278">
+<meta property="og:updated_time" content="2020-04-24T05:38:40.498Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【面试系列】- 常用树结构">
+<meta name="twitter:description" content="[toc] AVL特点 AVL树是一棵二叉搜索树。1  AVL树的左右子节点也是AVL树。  AVL树拥有二叉搜索树的所有基本特点。  每个节点的左右子节点的高度之差的绝对值最多为1，即平衡因子为范围为[-1,1]。  AVL是严格自平衡的二叉树，即所有节点的左右子树高度差不超过1  因为有个旋转比较耗时，所以AVL适合插入和删除次数较少，但查找比较多的情况   旋转LL（右旋） 将失衡节点的左子">
+<meta name="twitter:image" content="https://segmentfault.com/img/remote/1460000015590868?w=1308&h=88">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="NewReStarter.github.io/2020/03/11/tree-structure/">
+
+
+
+
+
+  <title>【面试系列】- 常用树结构 | Restartercc</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Restartercc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">学习计算机科学和数学，尝试了解这个世界</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="NewReStarter.github.io/2020/03/11/tree-structure/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ReStartercc">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Restartercc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【面试系列】- 常用树结构</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T17:58:48+08:00">
+                2020-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试准备/" itemprop="url" rel="index">
+                    <span itemprop="name">面试准备</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[toc]</p>
+<h2 id="AVL"><a href="#AVL" class="headerlink" title="AVL"></a>AVL</h2><h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><ul>
+<li><p>AVL树是一棵二叉搜索树。1</p>
+</li>
+<li><p>AVL树的左右子节点也是AVL树。</p>
+</li>
+<li><p>AVL树拥有二叉搜索树的所有基本特点。</p>
+</li>
+<li><p>每个节点的左右子节点的高度之差的绝对值最多为1，即平衡因子为范围为[-1,1]。</p>
+</li>
+<li><p>AVL是严格自平衡的二叉树，即所有节点的左右子树高度差不超过1</p>
+</li>
+<li><p>因为有个旋转比较耗时，所以AVL适合插入和删除次数较少，但查找比较多的情况</p>
+</li>
+</ul>
+<h4 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h4><h5 id="LL（右旋）"><a href="#LL（右旋）" class="headerlink" title="LL（右旋）"></a>LL（右旋）</h5><ol>
+<li>将失衡节点的左子树的右子树 变成 失衡节点的左子树</li>
+<li>失衡节点 变成 失衡节点未发生操作前左子树的右子树</li>
+</ol>
+<h5 id="RR（左旋）"><a href="#RR（左旋）" class="headerlink" title="RR（左旋）"></a>RR（左旋）</h5><ol>
+<li>将失衡节点的右子树的左子树 变成失衡节点的右子树</li>
+<li>失衡节点 变成 失衡节点未发生操作前右子树的左子树</li>
+</ol>
+<h5 id="LR（旋转）"><a href="#LR（旋转）" class="headerlink" title="LR（旋转）"></a>LR（旋转）</h5><ol>
+<li>对失衡节点的左子树进行RR型旋转</li>
+<li>对失衡节点进行LL型旋转</li>
+</ol>
+<h5 id="RL-旋转"><a href="#RL-旋转" class="headerlink" title="RL(旋转)"></a>RL(旋转)</h5><ol>
+<li>对失衡节点的右子树进行LL型旋转</li>
+<li>对失衡节点进行RR型旋转</li>
+</ol>
+<h4 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h4><ol>
+<li>待删除结点至少一棵子树为空，则直接用另一棵子树替代当前结点的位置即可（两侧都为空则置为空）。此种情况下不会引起当前结点处的失衡，其祖先结点的平衡可能受影响。</li>
+<li>待删除结点两棵子树均不为空。此时从高度较大的一棵子树处寻找替代结点（左侧最大或右侧最小）替代当前结点的位置，然后从该子树中删除替代结点（即再调用删除方法。因为替代结点为最大/最小结点，必有一子树为空，所以这个调用会成为第一种情况的删除）。此种情况亦不会引起当前结点处的失衡（因为是从高度大的子树中删除一个结点）。</li>
+</ol>
+<p>故无论如何，删除结点处不会失衡。我们在删除方法中递归寻找待删除的结点，然后回溯处理平衡。<br>删除结点引起的失衡基本可以看成从另一侧子树中插入一个结点的情况，其具有<code>LL</code>, <code>LR</code>, <code>RL</code>, <code>RR</code>四种类型，可以直接用上述已经分析过的旋转处理。不过删除时还会出现<code>LE</code>, <code>RE</code>两种失衡类型，即为当前结点左子树（或右子树）偏高，但是左子树（或右子树）的两棵子树平衡。<br>尝试一下，不难发现，对于<code>LE</code>型失衡，用<code>LL</code>或<code>LR</code>型的处理方法，都能让其恢复平衡，<code>RE</code>同理。所以这里不需要进行特殊讨论处理。</p>
+<h2 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h2><p>一种二叉查找树，但在每个节点增加一个存储位表示节点的颜色，可以是红或黑（非红即黑）。通过对任何一条从根到叶子的路径上各个节点着色的方式的限制，<strong>红黑树确保没有一条路径会比其它路径长出两倍</strong>，因此，红黑树是一种弱平衡二叉树（由于是弱平衡，可以看到，在相同的节点情况下，AVL树的高度低于红黑树），相对于要求严格的AVL树来说，它的旋转次数少，所以对于搜索，插入，删除操作较多的情况下，我们就用红黑树。</p>
+<p>树在经过左旋右旋之后，树的搜索性质保持不变，但树的红黑性质则被破坏了，所以，红黑树插入和删除数据后，需要利用旋转与颜色重涂来重新恢复树的红黑性质。</p>
+<h4 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h4><ol>
+<li>每个节点非红即黑</li>
+<li>根节点是黑的;</li>
+<li>每个叶节点（叶节点即树尾端NULL指针或NULL节点）都是黑的;</li>
+<li>如图所示，如果一个节点是红的，那么它的两儿子都是黑的;</li>
+<li>对于任意节点而言，其到叶子点树NULL指针的每条路径都包含相同数目的黑节点;</li>
+<li>每条路径都包含相同的黑节点;</li>
+<li>当某条路径最短时，这条路径必然都是由黑色节点构成。当某条路径长度最长时，这条路径必然是由红色和黑色节点相间构成</li>
+</ol>
+<h4 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h4><p>红黑树的插入过程和二叉查找树插入过程基本类似，不同的地方在于，红黑树插入新节点后，需要进行调整，以满足红黑树的性质。性质1规定红黑树节点的颜色要么是红色要么是黑色，那么在插入新节点时，这个节点应该是红色还是黑色呢？答案是<strong>红色</strong>，原因也不难理解。如果插入的节点是黑色，那么这个节点所在路径比其他路径多出一个黑色节点，这个调整起来会比较麻烦（参考红黑树的删除操作，就知道为啥多一个或少一个黑色节点时，调整起来这么麻烦了）。如果插入的节点是红色，此时所有路径上的黑色节点数量不变，仅可能会出现两个连续的红色节点的情况。这种情况下，通过变色和旋转进行调整即可，比之前的简单多了。</p>
+<p>接下来，将分析插入红色节点后红黑树的情况。这里假设要插入的节点为 N，N 的父节点为 P，祖父节点为 G，叔叔节点为 U。插入红色节点后，会出现5种情况，分别如下：</p>
+<h5 id="情况一"><a href="#情况一" class="headerlink" title="情况一"></a>情况一</h5><p>插入的新节点 N 是红黑树的根节点，这种情况下，我们把节点 N 的颜色由红色变为黑色，性质2（根是黑色）被满足。同时 N 被染成黑色后，红黑树所有路径上的黑色节点数量增加一个，性质5（从任一节点到其每个叶子的所有简单路径都包含相同数目的黑色节点）仍然被满足。</p>
+<p><img src="https://segmentfault.com/img/remote/1460000015590868?w=1308&h=88" alt="img"></p>
+<h5 id="情况二"><a href="#情况二" class="headerlink" title="情况二"></a>情况二</h5><p>N 的父节点是黑色，这种情况下，性质4（每个红色节点必须有两个黑色的子节点）和性质5没有受到影响，不需要调整。</p>
+<p><img src="https://segmentfault.com/img/remote/1460000015590869?w=1304&h=138" alt="img"></p>
+<h5 id="情况三"><a href="#情况三" class="headerlink" title="情况三"></a>情况三</h5><p>N 的父节点是红色（节点 P 为红色，其父节点必然为黑色），叔叔节点 U 也是红色。由于 P 和 N 均为红色，所有性质4被打破，此时需要进行调整。这种情况下，先将 P 和 U 的颜色染成黑色，再将 G 的颜色染成红色。此时经过 G 的路径上的黑色节点数量不变，性质5仍然满足。但需要注意的是 G 被染成红色后，可能会和它的父节点形成连续的红色节点，此时需要递归向上调整。</p>
+<p><img src="https://segmentfault.com/img/remote/1460000015590870?w=1304&h=230" alt="img"></p>
+<h5 id="情况四"><a href="#情况四" class="headerlink" title="情况四"></a>情况四</h5><p>N 的父节点为红色，叔叔节点为黑色。节点 N 是 P 的右孩子，且节点 P 是 G 的左孩子。此时先对节点 P 进行左旋，调整 N 与 P 的位置。接下来按照情况五进行处理，以恢复性质4。</p>
+<p><img src="https://segmentfault.com/img/remote/1460000015590871?w=1302&h=224" alt="img"></p>
+<p>这里需要特别说明一下，上图中的节点 N 并非是新插入的节点。当 P 为红色时，P 有两个孩子节点，且孩子节点均为黑色，这样从 G 出发到各叶子节点路径上的黑色节点数量才能保持一致。既然 P 已经有两个孩子了，所以 N 不是新插入的节点。情况四是由以 N 为根节点的子树中插入了新节点，经过调整后，导致 N 被变为红色，进而导致了情况四的出现。考虑下面这种情况（PR 节点就是上图的 N 节点）：</p>
+<p><img src="https://segmentfault.com/img/remote/1460000015590872?w=1308&h=234" alt="img"></p>
+<p>如上图，插入节点 N 并按情况三处理。此时 PR 被染成了红色，与 P 节点形成了连续的红色节点，这个时候就需按情况四再次进行调整。</p>
+<h5 id="情况五"><a href="#情况五" class="headerlink" title="情况五"></a>情况五</h5><p>N 的父节点为红色，叔叔节点为黑色。N 是 P 的左孩子，且节点 P 是 G 的左孩子。此时对 G 进行右旋，调整 P 和 G 的位置，并互换颜色。经过这样的调整后，性质4被恢复，同时也未破坏性质5。</p>
+<p><img src="https://segmentfault.com/img/remote/1460000012728526?w=1308&h=234" alt="img"></p>
+<h5 id="插入总结"><a href="#插入总结" class="headerlink" title="插入总结"></a>插入总结</h5><p>上面五种情况中，情况一和情况二比较简单，情况三、四、五稍复杂。但如果细心观察，会发现这三种情况的区别在于叔叔节点的颜色，如果叔叔节点为红色，直接变色即可。如果叔叔节点为黑色，则需要选选择，再交换颜色。当把这三种情况的图画在一起就区别就比较容易观察了，如下图：</p>
+<p><img src="https://segmentfault.com/img/remote/1460000012725117?w=1312&h=768" alt="img"></p>
+<h4 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h4><p>相较于插入操作，红黑树的删除操作则要更为复杂一些。删除操作首先要确定待删除节点有几个孩子，如果有两个孩子，不能直接删除该节点。而是要先找到该节点的前驱（该节点左子树中最大的节点）或者后继（该节点右子树中最小的节点），然后将前驱或者后继的值复制到要删除的节点中，最后再将前驱或后继删除。由于前驱和后继至多只有一个孩子节点，这样我们就把原来要删除的节点有两个孩子的问题转化为只有一个孩子节点的问题，问题被简化了一些。我们并不关心最终被删除的节点是否是我们开始想要删除的那个节点，只要节点里的值最终被删除就行了，至于树结构如何变化，这个并不重要。</p>
+<p>红黑树删除操作的复杂度在于删除节点的颜色，当删除的节点是红色时，直接拿其孩子节点补空位即可。因为删除红色节点，性质5（从任一节点到其每个叶子的所有简单路径都包含相同数目的黑色节点）仍能够被满足。当删除的节点是黑色时，那么所有经过该节点的路径上的黑节点数量少了一个，破坏了性质5。如果该节点的孩子为红色，直接拿孩子节点替换被删除的节点，并将孩子节点染成黑色，即可恢复性质5。但如果孩子节点为黑色，处理起来就要复杂的多。分为6种情况，下面会展开说明。</p>
+<p>在展开说明之前，我们先做一些假设，方便说明。这里假设最终被删除的节点为<code>X</code>（至多只有一个孩子节点），其孩子节点为<code>N</code>，<code>X</code>的兄弟节点为<code>S</code>，<code>S</code>的左节点为 SL，右节点为 SR。接下来讨论是建立在节点 <code>X</code> 被删除，节点 <code>N</code> 替换<code>X</code>的基础上进行的。这里说明把被删除的节点<code>X</code>特地拎出来说一下的原因是防止大家误以为节点<code>N</code>会被删除，不然后面就会看不明白。</p>
+<h5 id="情况一-1"><a href="#情况一-1" class="headerlink" title="情况一"></a>情况一</h5><p>N 是新的根。在这种情形下，我们就做完了。我们从所有路径去除了一个黑色节点，而新根是黑色的，所以性质都保持着。</p>
+<p>要删除的节点 X 是根节点，且左右孩子节点均为空节点，此时将节点 X 用空节点替换完成删除操作。</p>
+<h5 id="情况二-1"><a href="#情况二-1" class="headerlink" title="情况二"></a>情况二</h5><p>S 为红色，其他节点为黑色。这种情况下可以对 N 的父节点进行左旋操作，然后互换 P 与 S 颜色。但这并未结束，经过节点 P 和 N 的路径删除前有3个黑色节点（<code>P -&gt; X -&gt; N</code>），现在只剩两个了（<code>P -&gt; N</code>）。比未经过 N 的路径少一个黑色节点，性质5仍不满足，还需要继续调整。不过此时可以按照情况四、五、六进行调整。</p>
+<p><img src="https://segmentfault.com/img/remote/1460000012728528?w=1310&h=218" alt="img"></p>
+<h5 id="情况三-1"><a href="#情况三-1" class="headerlink" title="情况三"></a>情况三</h5><p>N 的父节点，兄弟节点 S 和 S 的孩子节点均为黑色。这种情况下可以简单的把 S 染成红色，所有经过 S 的路径比之前少了一个黑色节点，这样经过 N 的路径和经过 S 的路径黑色节点数量一致了。但经过 P 的路径比不经过 P 的路径少一个黑色节点，此时需要从情况一开始对 P 进行平衡处理。</p>
+<p><img src="https://segmentfault.com/img/remote/1460000012728529?w=1306&h=210" alt="img"></p>
+<h5 id="情况四-1"><a href="#情况四-1" class="headerlink" title="情况四"></a>情况四</h5><p>N 的父节点是红色，S 和 S 孩子为黑色。这种情况比较简单，我们只需交换 P 和 S 颜色即可。这样所有通过 N 的路径上增加了一个黑色节点，所有通过 S 的节点的路径必然也通过 P 节点，由于 P 与 S 只是互换颜色，并不影响这些路径。</p>
+<p><img src="https://segmentfault.com/img/remote/1460000012916620?w=1302&h=224" alt="img"></p>
+<p>这里需要特别说明一下，上图中的节点 N 并非是新插入的节点。当 P 为红色时，P 有两个孩子节点，且孩子节点均为黑色，这样从 G 出发到各叶子节点路径上的黑色节点数量才能保持一致。既然 P 已经有两个孩子了，所以 N 不是新插入的节点。情况四是由以 N 为根节点的子树中插入了新节点，经过调整后，导致 N 被变为红色，进而导致了情况四的出现。考虑下面这种情况（PR 节点就是上图的 N 节点）：</p>
+<p><img src="https://segmentfault.com/img/remote/1460000012916621?w=1342&h=314" alt="img"></p>
+<h5 id="情况五-1"><a href="#情况五-1" class="headerlink" title="情况五"></a>情况五</h5><p>S 为黑色，S 的左孩子为红色，右孩子为黑色。N 的父节点颜色可红可黑，且 N 是 P 左孩子。这种情况下对 S 进行右旋操作，并互换 S 和 SL 的颜色。此时，所有路径上的黑色数量仍然相等，N 兄弟节点的由 S 变为了 SL，而 SL 的右孩子变为红色。接下来我们到情况六继续分析。</p>
+<p><img src="https://segmentfault.com/img/remote/1460000015590878?w=1306&h=260" alt="img"></p>
+<h5 id="情况六"><a href="#情况六" class="headerlink" title="情况六"></a>情况六</h5><p>S 为黑色，S 的右孩子为红色。N 的父节点颜色可红可黑，且 N 是其父节点左孩子。这种情况下，我们对 P 进行左旋操作，并互换 P 和 S 的颜色，并将 SR 变为黑色。因为 P 变为黑色，所以经过 N 的路径多了一个黑色节点，经过 N 的路径上的黑色节点与删除前的数量一致。对于不经过 N 的路径，则有以下两种情况：</p>
+<ol>
+<li>该路径经过 N 新的兄弟节点 SL ，那它之前必然经过 S 和 P。而 S 和 P 现在只是交换颜色，对于经过 SL 的路径不影响。</li>
+<li>该路径经过 N 新的叔叔节点 SR，那它之前必然经过 P、 S 和 SR，而现在它只经过 S 和 SR。在对 P 进行左旋，并与 S 换色后，经过 SR 的路径少了一个黑色节点，性质5被打破。另外，由于 S 的颜色可红可黑，如果 S 是红色的话，会与 SR 形成连续的红色节点，打破性质4（每个红色节点必须有两个黑色的子节点）。此时仅需将 SR 由红色变为黑色即可同时恢复性质4和性质5（从任一节点到其每个叶子的所有简单路径都包含相同数目的黑色节点。）。</li>
+<li><img src="https://segmentfault.com/img/remote/1460000015590879?w=1308&h=214" alt="img"></li>
+</ol>
+<h5 id="删除总结"><a href="#删除总结" class="headerlink" title="删除总结"></a>删除总结</h5><p>红黑树删除的情况比较多，大家刚开始看的时候可能会比较晕。可能会产生这样的疑问，为啥红黑树会有这种删除情况，为啥又会有另一种情况，它们之间有什么联系和区别？和大家一样，我刚开始看的时候也有这样的困惑，直到我把所有情况对应的图形画在一起时，拨云见日，一切都明了了。此时天空中出现了4个字，原来如此、原来如此、原来如此。所以，请看图吧：</p>
+<p><img src="https://segmentfault.com/img/remote/1460000015590880?w=1308&h=1278" alt="img"></p>
+<p>虽然删除情况较多，但是实际上总的可以分为两种情况，SL,SR全为黑和SL,SR至少有一个为红。</p>
+<p>SL,SR 全为黑，分为三种情况，P红S红不存在，不符合红黑树定义</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1) N黑，P黑，S红，通过处理变为3),4),5)</span><br><span class="line">2) N黑，P黑，S黑，通过将S变为红，将P设置给N，递归向上进行处理</span><br><span class="line">3) N黑，P红，S黑，交换P和S的颜色，满足红黑树，处理完毕</span><br></pre></td></tr></table></figure>
+
+<p>2 SL红，SR黑，此时S必为黑，P无所谓颜色</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">经过处理，以S为中心进行右旋，变为5)</span><br></pre></td></tr></table></figure>
+
+<p>SL无所谓颜色，SR红，此时S必为黑，P无所谓颜色</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P的颜色给S，SR变为黑，然后以P为中心进行左旋，红黑树处理完毕</span><br></pre></td></tr></table></figure>
+
+<h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><ol>
+<li><p>广泛用于C ++的STL中，地图和集都是用红黑树实现的;</p>
+</li>
+<li><p>着名的Linux的的进程调度完全公平调度程序，用红黑树管理进程控制块，进程的虚拟内存区域都存储在一颗红黑树上，每个虚拟地址区域都对应红黑树的一个节点，左指针指向相邻的地址虚拟存储区域，右指针指向相邻的高地址虚拟地址空间;</p>
+</li>
+<li><p>IO多路复用的epoll的的的实现采用红黑树组织管理的的的sockfd，以支持快速的增删改查;</p>
+</li>
+</ol>
+<h2 id="B-树"><a href="#B-树" class="headerlink" title="B 树"></a>B 树</h2><p>B树和平衡二叉树稍有不同的是B树属于多叉树又名平衡多路查找树（查找路径不只两个），数据库索引技术里大量使用者B树和B+树的数据结构</p>
+<p>数据库索引是存储在磁盘上的，当数据量大时，就不能把整个索引全部加载到内存了，只能逐一加载每一个磁盘页（对应索引树的节点）。所以我们要减少IO次数，对于树来说，IO次数就是树的高度，而“矮胖”就是b树的特征之一，它的每个节点最多包含m个孩子，m称为b树的阶，m的大小取决于磁盘页的大小。</p>
+<p>每个节点最多有m-1个<strong>关键字</strong>（可以存有的键值对）。</p>
+<p>根节点最少可以只有1个<strong>关键字</strong>。</p>
+<p>非根节点至少有m/2个<strong>关键字</strong>。</p>
+<p>每个节点中的关键字都按照从小到大的顺序排列，每个关键字的左子树中的所有关键字都小于它，而右子树中的所有关键字都大于它。</p>
+<p>所有叶子节点都位于同一层，或者说根节点到每个叶子节点的长度都相同。</p>
+<p>每个节点都存有索引和数据，也就是对应的key和value。</p>
+<p>所以，根节点的<strong>关键字</strong>数量范围：<code>1 &lt;= k &lt;= m-1</code>，非根节点的<strong>关键字</strong>数量范围：<code>m/2 &lt;= k &lt;= m-1</code>。</p>
+<p>另外，我们需要注意一个概念，描述一颗B树时需要指定它的阶数，阶数表示了一个节点最多有多少个孩子节点，一般用字母m表示阶数。</p>
+<p>我们再举个例子来说明一下上面的概念，比如这里有一个5阶的B树，根节点数量范围：1 &lt;= k &lt;= 4，非根节点数量范围：2 &lt;= k &lt;= 4。</p>
+<p>下面，我们通过一个插入的例子，讲解一下B树的插入过程，接着，再讲解一下删除关键字的过程。</p>
+<h4 id="插入-1"><a href="#插入-1" class="headerlink" title="插入"></a>插入</h4><p>插入的时候，我们需要记住一个规则：<strong>判断当前结点key的个数是否小于等于m-1，如果满足，直接插入即可，如果不满足，将节点的中间的key将这个节点分为左右两部分，中间的节点放到父节点中即可。</strong></p>
+<h4 id="删除-1"><a href="#删除-1" class="headerlink" title="删除"></a>删除</h4><p>删除操作是指，根据key删除记录，如果B树中的记录中不存对应key的记录，则删除失败。</p>
+<p>1）如果当前需要删除的key位于非叶子结点上，则用后继key（这里的后继key均指后继记录的意思）覆盖要删除的key，然后在后继key所在的子支中删除该后继key。此时后继key一定位于叶子结点上，这个过程和二叉搜索树删除结点的方式类似。删除这个记录后执行第2步</p>
+<p>2）该结点key个数大于等于Math.ceil(m/2)-1，结束删除操作，否则执行第3步。</p>
+<p>3）如果兄弟结点key个数大于Math.ceil(m/2)-1，则父结点中的key下移到该结点，兄弟结点中的一个key上移，删除操作结束。</p>
+<p>否则，将父结点中的key下移与当前结点及它的兄弟结点中的key合并，形成一个新的结点。原父结点中的key的两个孩子指针就变成了一个孩子指针，指向这个新结点。然后当前结点的指针指向父结点，重复上第2步。</p>
+<p>有些结点它可能即有左兄弟，又有右兄弟，那么我们任意选择一个兄弟结点进行操作即可。</p>
+<h2 id="B-树-1"><a href="#B-树-1" class="headerlink" title="B+树"></a>B+树</h2><p>关键字个数比孩子结点个数小1，这种方式是和B树基本等价的。上图就是一颗阶数为4的B+树。</p>
+<p>除此之外B+树还有以下的要求。</p>
+<p>1）B+树包含2种类型的结点：内部结点（也称索引结点）和叶子结点。根结点本身即可以是内部结点，也可以是叶子结点。根结点的关键字个数最少可以只有1个。</p>
+<p>2）B+树与B树最大的不同是内部结点不保存数据，只用于索引，所有数据（或者说记录）都保存在叶子结点中。</p>
+<p>3） m阶B+树表示了内部结点最多有m-1个关键字（或者说内部结点最多有m个子树），阶数m同时限制了叶子结点最多存储m-1个记录。</p>
+<p>4）内部结点中的key都按照从小到大的顺序排列，对于内部结点中的一个key，左树中的所有key都<strong>小于</strong>它，右子树中的key都<strong>大于等于</strong>它。叶子结点中的记录也按照key的大小排列。</p>
+<p>5）每个叶子结点都存有相邻叶子结点的指针，叶子结点本身依关键字的大小自小而大顺序链接。</p>
+<h2 id="B树-和-B-树的区别"><a href="#B树-和-B-树的区别" class="headerlink" title="B树 和 B+树的区别"></a>B树 和 B+树的区别</h2><ol>
+<li><p>B+树中只有叶子节点会带有指向记录的指针（ROWID），而B树则所有节点都带有，在内部节点出现的索引项不会再出现在叶子节点中。</p>
+</li>
+<li><p>B+树中所有叶子节点都是通过指针连接在一起，而B树不会。</p>
+</li>
+</ol>
+<p>B+树的优点：</p>
+<ol>
+<li><p>非叶子节点不会带上ROWID，这样，一个块中可以容纳更多的索引项，一是可以降低树的高度。二是一个内部节点可以定位更多的叶子节点。</p>
+</li>
+<li><p>叶子节点之间通过指针来连接，范围扫描将十分简单，而对于B树来说，则需要在叶子节点和内部节点不停的往返移动。</p>
+</li>
+</ol>
+<p>B树的优点：</p>
+<p>对于在内部节点的数据，可直接得到，不必根据叶子节点来定位。</p>
+<h2 id="线段树"><a href="#线段树" class="headerlink" title="线段树"></a>线段树</h2><p>线段树也用来处理数组相应的区间查询（range query）和元素更新（update）操作。与树状数组不同的是，线段树不止可以适用于区间求和的查询，也可以进行区间最大值，区间最小值（Range Minimum/Maximum Query problem）或者区间异或值的查询。</p>
+<p>线段树是用一个<strong>完全二叉树</strong>来存储对应于其每一个区间（segment）的数据。该二叉树的每一个结点中保存着相对应于这一个区间的信息。同时，线段树所使用的这个二叉树是用一个数组保存的，与堆（Heap）的实现方式相同。</p>
+<p><strong>区间快速的修改，查询</strong>，当区间的左端点与右端点相等时，即单点的修改与查询，也适用于线段树。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/tree/" rel="tag"># tree</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/22/design-pattern/" rel="next" title="【面试系列】 - design pattern">
+                <i class="fa fa-chevron-left"></i> 【面试系列】 - design pattern
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/12/distributed-system/" rel="prev" title="distributed system">
+                distributed system <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ReStartercc</p>
+              <p class="site-description motion-element" itemprop="description">Contact restartercc@gmail.com</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AVL"><span class="nav-number">1.</span> <span class="nav-text">AVL</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#特点"><span class="nav-number">1.0.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#旋转"><span class="nav-number">1.0.2.</span> <span class="nav-text">旋转</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#LL（右旋）"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">LL（右旋）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RR（左旋）"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">RR（左旋）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LR（旋转）"><span class="nav-number">1.0.2.3.</span> <span class="nav-text">LR（旋转）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RL-旋转"><span class="nav-number">1.0.2.4.</span> <span class="nav-text">RL(旋转)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除节点"><span class="nav-number">1.0.3.</span> <span class="nav-text">删除节点</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#红黑树"><span class="nav-number">2.</span> <span class="nav-text">红黑树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#特点-1"><span class="nav-number">2.0.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#插入"><span class="nav-number">2.0.2.</span> <span class="nav-text">插入</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#情况一"><span class="nav-number">2.0.2.1.</span> <span class="nav-text">情况一</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#情况二"><span class="nav-number">2.0.2.2.</span> <span class="nav-text">情况二</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#情况三"><span class="nav-number">2.0.2.3.</span> <span class="nav-text">情况三</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#情况四"><span class="nav-number">2.0.2.4.</span> <span class="nav-text">情况四</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#情况五"><span class="nav-number">2.0.2.5.</span> <span class="nav-text">情况五</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#插入总结"><span class="nav-number">2.0.2.6.</span> <span class="nav-text">插入总结</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除"><span class="nav-number">2.0.3.</span> <span class="nav-text">删除</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#情况一-1"><span class="nav-number">2.0.3.1.</span> <span class="nav-text">情况一</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#情况二-1"><span class="nav-number">2.0.3.2.</span> <span class="nav-text">情况二</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#情况三-1"><span class="nav-number">2.0.3.3.</span> <span class="nav-text">情况三</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#情况四-1"><span class="nav-number">2.0.3.4.</span> <span class="nav-text">情况四</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#情况五-1"><span class="nav-number">2.0.3.5.</span> <span class="nav-text">情况五</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#情况六"><span class="nav-number">2.0.3.6.</span> <span class="nav-text">情况六</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#删除总结"><span class="nav-number">2.0.3.7.</span> <span class="nav-text">删除总结</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#应用"><span class="nav-number">2.0.4.</span> <span class="nav-text">应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-树"><span class="nav-number">3.</span> <span class="nav-text">B 树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#插入-1"><span class="nav-number">3.0.1.</span> <span class="nav-text">插入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除-1"><span class="nav-number">3.0.2.</span> <span class="nav-text">删除</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-树-1"><span class="nav-number">4.</span> <span class="nav-text">B+树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B树-和-B-树的区别"><span class="nav-number">5.</span> <span class="nav-text">B树 和 B+树的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线段树"><span class="nav-number">6.</span> <span class="nav-text">线段树</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ReStartercc</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
